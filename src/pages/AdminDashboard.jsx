@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { ref, onValue, set, remove } from "firebase/database";
+import { db } from "../firebase";
 
 const defaultConcerts = [
   {
@@ -8,28 +10,59 @@ const defaultConcerts = [
     artist: "BUS",
     date: "2026-09-12",
     venue: "IMPACT Arena",
-    image: "",
+    price: 1500,
+    description:
+      "A summer night filled with music, energy and unforgettable moments with BUS.",
+    image:
+      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a",
     zones: [
       {
         id: "VIP",
         name: "VIP",
-        price: 2500,
-        rows: 2,
-        seatsPerRow: 8
+        price: 2500
       },
       {
         id: "A",
         name: "Regular A",
-        price: 1800,
-        rows: 3,
-        seatsPerRow: 10
-      },
+        price: 1800
+      }
+    ]
+  },
+  {
+    id: "C002",
+    name: "The Next Concert",
+    artist: "LYKN",
+    date: "2026-10-20",
+    venue: "Thunder Dome",
+    price: 1800,
+    description:
+      "Experience an exciting night of live performances and special moments with LYKN.",
+    image:
+      "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14",
+    zones: [
       {
-        id: "B",
-        name: "Regular B",
-        price: 1200,
-        rows: 3,
-        seatsPerRow: 10
+        id: "A",
+        name: "Regular A",
+        price: 1800
+      }
+    ]
+  },
+  {
+    id: "C003",
+    name: "Live On Stage",
+    artist: "PROXIE",
+    date: "2026-11-05",
+    venue: "Union Hall",
+    price: 1200,
+    description:
+      "A live concert experience featuring powerful performances from PROXIE.",
+    image:
+      "https://images.unsplash.com/photo-1506157786151-b8491531f063",
+    zones: [
+      {
+        id: "A",
+        name: "Regular A",
+        price: 1200
       }
     ]
   }
@@ -37,225 +70,442 @@ const defaultConcerts = [
 
 function AdminDashboard({ user, onLogout }) {
 
-  const [activePage, setActivePage] = useState("concerts");
+  const [activePage, setActivePage] =
+    useState("concerts");
 
-  const [concerts, setConcerts] = useState(() => {
-    const saved = localStorage.getItem("ticketHubConcerts");
+  const [concerts, setConcerts] =
+    useState(defaultConcerts);
 
-    return saved
-      ? JSON.parse(saved)
-      : defaultConcerts;
-  });
+  const [bookings, setBookings] =
+    useState([]);
 
-  const [bookings] = useState(() => {
-    return (
-      JSON.parse(
-        localStorage.getItem("ticketHubBookings")
-      ) || []
-    );
-  });
+  const [reports, setReports] =
+    useState([]);
 
-  const [reports] = useState(() => {
-    return (
-      JSON.parse(
-        localStorage.getItem("ticketHubReports")
-      ) || []
-    );
-  });
-
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] =
+    useState(false);
 
   const [editingConcert, setEditingConcert] =
     useState(null);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] =
+    useState("");
 
-  const csvInputRef = useRef(null);
+  const csvInputRef =
+    useRef(null);
 
 
-  /* =========================
-     SAVE CONCERTS
-  ========================= */
+  // =========================
+  // LOAD CONCERTS FROM FIREBASE
+  // =========================
 
   useEffect(() => {
-    localStorage.setItem(
-      "ticketHubConcerts",
-      JSON.stringify(concerts)
-    );
-  }, [concerts]);
+
+    const concertsRef =
+      ref(db, "concerts");
+
+    const unsubscribe =
+      onValue(
+        concertsRef,
+        (snapshot) => {
+
+          const data =
+            snapshot.val();
+
+          if (!data) {
+
+            setConcerts(
+              defaultConcerts
+            );
+
+            return;
+          }
+
+          const firebaseConcerts =
+            Object.values(data);
+
+          const updatedConcerts =
+            firebaseConcerts.map(
+              (concert) => {
+
+                const defaultConcert =
+                  defaultConcerts.find(
+                    (item) =>
+                      String(item.id) ===
+                      String(concert.id)
+                  );
+
+                return {
+                  ...concert,
+
+                  description:
+                    concert.description ||
+                    defaultConcert?.description ||
+                    "Experience an unforgettable live concert with amazing performances and great music.",
+
+                  zones:
+                    concert.zones ||
+                    defaultConcert?.zones ||
+                    []
+                };
+              }
+            );
+
+          setConcerts(
+            updatedConcerts
+          );
+        },
+        (error) => {
+
+          console.error(
+            "Firebase concerts error:",
+            error
+          );
+
+          setConcerts(
+            defaultConcerts
+          );
+        }
+      );
+
+    return () =>
+      unsubscribe();
+
+  }, []);
 
 
-  /* =========================
-     ADD CONCERT
-  ========================= */
+  // =========================
+  // LOAD BOOKINGS
+  // =========================
+
+  useEffect(() => {
+
+    const saved =
+      localStorage.getItem(
+        "ticketHubBookings"
+      );
+
+    if (saved) {
+
+      try {
+
+        setBookings(
+          JSON.parse(saved)
+        );
+
+      } catch {
+
+        setBookings([]);
+
+      }
+
+    }
+
+  }, []);
+
+
+  // =========================
+  // LOAD REPORTS
+  // =========================
+
+  useEffect(() => {
+
+    const saved =
+      localStorage.getItem(
+        "ticketHubReports"
+      );
+
+    if (saved) {
+
+      try {
+
+        setReports(
+          JSON.parse(saved)
+        );
+
+      } catch {
+
+        setReports([]);
+
+      }
+
+    }
+
+  }, []);
+
+
+  // =========================
+  // ADD CONCERT
+  // =========================
 
   const openAdd = () => {
 
     setEditingConcert({
-      id: `C${String(Date.now()).slice(-5)}`,
+
+      id:
+        `C${String(
+          Date.now()
+        ).slice(-5)}`,
+
       name: "",
+
       artist: "",
+
       date: "",
+
       venue: "",
+
+      price: 1000,
+
+      description: "",
+
       image: "",
+
       zones: [
         {
           id: "A",
           name: "Regular A",
-          price: 1000,
-          rows: 3,
-          seatsPerRow: 10
+          price: 1000
         }
       ]
+
     });
 
     setShowModal(true);
   };
 
 
-  /* =========================
-     EDIT CONCERT
-  ========================= */
+  // =========================
+  // EDIT CONCERT
+  // =========================
 
   const openEdit = (concert) => {
 
     setEditingConcert({
+
       ...concert,
-      zones: concert.zones || []
+
+      zones:
+        concert.zones || []
+
     });
 
     setShowModal(true);
   };
 
 
-  /* =========================
-     DELETE CONCERT
-  ========================= */
+  // =========================
+  // DELETE CONCERT
+  // =========================
 
-  const deleteConcert = (id) => {
+  const deleteConcert = async (id) => {
 
-    const confirmDelete = window.confirm(
-      "ต้องการลบคอนเสิร์ตนี้หรือไม่?"
-    );
+    const confirmDelete =
+      window.confirm(
+        "ต้องการลบคอนเสิร์ตนี้หรือไม่?"
+      );
 
-    if (!confirmDelete) return;
-
-    setConcerts((current) =>
-      current.filter(
-        (concert) => concert.id !== id
-      )
-    );
-  };
-
-
-  /* =========================
-     IMAGE UPLOAD
-  ========================= */
-
-  const handleImageUpload = (event) => {
-
-    const file = event.target.files?.[0];
-
-    if (!file) return;
-
-    if (!file.type.startsWith("image/")) {
-      alert("กรุณาเลือกไฟล์รูปภาพ");
+    if (!confirmDelete)
       return;
-    }
 
-    // จำกัดขนาดรูปประมาณ 5MB
-    if (file.size > 5 * 1024 * 1024) {
-      alert("รูปภาพต้องมีขนาดไม่เกิน 5MB");
-      return;
-    }
+    try {
 
-    const reader = new FileReader();
-
-    reader.onload = () => {
-
-      setEditingConcert((current) => ({
-        ...current,
-        image: reader.result
-      }));
-
-    };
-
-    reader.readAsDataURL(file);
-
-    event.target.value = "";
-  };
-
-
-  /* =========================
-     SAVE CONCERT
-  ========================= */
-
-  const saveConcert = () => {
-
-    if (
-      !editingConcert.name.trim() ||
-      !editingConcert.artist.trim() ||
-      !editingConcert.date ||
-      !editingConcert.venue.trim()
-    ) {
-
-      alert("กรุณากรอกข้อมูลให้ครบ");
-
-      return;
-    }
-
-    const exists = concerts.some(
-      (concert) =>
-        concert.id === editingConcert.id
-    );
-
-    if (exists) {
-
-      setConcerts((current) =>
-        current.map((concert) =>
-          concert.id === editingConcert.id
-            ? editingConcert
-            : concert
+      await remove(
+        ref(
+          db,
+          `concerts/${id}`
         )
       );
 
-    } else {
+    } catch (error) {
 
-      setConcerts((current) => [
-        ...current,
-        editingConcert
-      ]);
+      console.error(
+        "Delete concert error:",
+        error
+      );
+
+      alert(
+        "ไม่สามารถลบคอนเสิร์ตได้"
+      );
 
     }
 
-    setShowModal(false);
-    setEditingConcert(null);
   };
 
 
-  /* =========================
-     ZONE
-  ========================= */
+  // =========================
+  // IMAGE UPLOAD
+  // =========================
+
+  const handleImageUpload = (
+    event
+  ) => {
+
+    const file =
+      event.target.files?.[0];
+
+    if (!file)
+      return;
+
+    if (
+      !file.type.startsWith(
+        "image/"
+      )
+    ) {
+
+      alert(
+        "กรุณาเลือกไฟล์รูปภาพ"
+      );
+
+      return;
+    }
+
+    if (
+      file.size >
+      5 * 1024 * 1024
+    ) {
+
+      alert(
+        "รูปภาพต้องมีขนาดไม่เกิน 5MB"
+      );
+
+      return;
+    }
+
+    const reader =
+      new FileReader();
+
+    reader.onload = () => {
+
+      setEditingConcert(
+        (current) => ({
+          ...current,
+          image:
+            reader.result
+        })
+      );
+
+    };
+
+    reader.readAsDataURL(
+      file
+    );
+
+    event.target.value =
+      "";
+
+  };
+
+
+  // =========================
+  // SAVE CONCERT
+  // =========================
+
+  const saveConcert = async () => {
+
+    if (
+      !editingConcert.name?.trim() ||
+      !editingConcert.artist?.trim() ||
+      !editingConcert.date ||
+      !editingConcert.venue?.trim()
+    ) {
+
+      alert(
+        "กรุณากรอกข้อมูลให้ครบ"
+      );
+
+      return;
+    }
+
+    const concertToSave = {
+
+      ...editingConcert,
+
+      price:
+        Number(
+          editingConcert.price
+        ) || 0,
+
+      zones:
+        (editingConcert.zones || [])
+          .map((zone) => ({
+            ...zone,
+            price:
+              Number(
+                zone.price
+              ) || 0
+          }))
+
+    };
+
+    try {
+
+      await set(
+        ref(
+          db,
+          `concerts/${concertToSave.id}`
+        ),
+        concertToSave
+      );
+
+      setShowModal(false);
+
+      setEditingConcert(null);
+
+    } catch (error) {
+
+      console.error(
+        "Save concert error:",
+        error
+      );
+
+      alert(
+        "ไม่สามารถบันทึกคอนเสิร์ตได้"
+      );
+
+    }
+
+  };
+
+
+  // =========================
+  // ADD ZONE
+  // =========================
 
   const addZone = () => {
 
     const newZone = {
-      id: `ZONE${Date.now()}`,
-      name: "New Zone",
-      price: 1000,
-      rows: 3,
-      seatsPerRow: 10
+
+      id:
+        `ZONE${Date.now()}`,
+
+      name:
+        "New Zone",
+
+      price:
+        1000
+
     };
 
-    setEditingConcert((current) => ({
-      ...current,
-      zones: [
-        ...(current.zones || []),
-        newZone
-      ]
-    }));
+    setEditingConcert(
+      (current) => ({
+
+        ...current,
+
+        zones: [
+          ...(current.zones || []),
+          newZone
+        ]
+
+      })
+    );
+
   };
 
+
+  // =========================
+  // UPDATE ZONE
+  // =========================
 
   const updateZone = (
     index,
@@ -263,185 +513,300 @@ function AdminDashboard({ user, onLogout }) {
     value
   ) => {
 
-    setEditingConcert((current) => {
+    setEditingConcert(
+      (current) => {
 
-      const updatedZones = [
-        ...(current.zones || [])
-      ];
+        const updatedZones = [
+          ...(current.zones || [])
+        ];
 
-      updatedZones[index] = {
-        ...updatedZones[index],
-        [field]:
-          field === "price" ||
-          field === "rows" ||
-          field === "seatsPerRow"
-            ? Number(value)
-            : value
-      };
+        updatedZones[index] = {
 
-      return {
+          ...updatedZones[index],
+
+          [field]:
+            field === "price"
+              ? Number(value)
+              : value
+
+        };
+
+        return {
+
+          ...current,
+
+          zones:
+            updatedZones
+
+        };
+
+      }
+    );
+
+  };
+
+
+  // =========================
+  // DELETE ZONE
+  // =========================
+
+  const deleteZone = (
+    index
+  ) => {
+
+    setEditingConcert(
+      (current) => ({
+
         ...current,
-        zones: updatedZones
-      };
 
-    });
+        zones:
+          (current.zones || [])
+            .filter(
+              (_, i) =>
+                i !== index
+            )
+
+      })
+    );
+
   };
 
 
-  const deleteZone = (index) => {
+  // =========================
+  // CSV IMPORT
+  // =========================
 
-    setEditingConcert((current) => ({
-      ...current,
-      zones: current.zones.filter(
-        (_, i) => i !== index
-      )
-    }));
-  };
+  const importCSV = (
+    event
+  ) => {
 
+    const file =
+      event.target.files?.[0];
 
-  /* =========================
-     CSV IMPORT
-  ========================= */
+    if (!file)
+      return;
 
-  const importCSV = (event) => {
+    if (
+      !file.name
+        .toLowerCase()
+        .endsWith(".csv")
+    ) {
 
-    const file = event.target.files?.[0];
+      alert(
+        "กรุณาเลือกไฟล์ CSV"
+      );
 
-    if (!file) return;
-
-    if (!file.name.toLowerCase().endsWith(".csv")) {
-      alert("กรุณาเลือกไฟล์ CSV");
       return;
     }
 
-    const reader = new FileReader();
+    const reader =
+      new FileReader();
 
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
 
-      const text = e.target.result;
+      const text =
+        e.target.result;
 
-      const lines = text
-        .split(/\r?\n/)
-        .filter((line) => line.trim());
+      const lines =
+        text
+          .split(/\r?\n/)
+          .filter(
+            (line) =>
+              line.trim()
+          );
 
       if (lines.length < 2) {
 
-        alert("CSV ไม่มีข้อมูล");
+        alert(
+          "CSV ไม่มีข้อมูล"
+        );
 
         return;
       }
 
-      const headers = lines[0]
-        .split(",")
-        .map((item) =>
-          item.trim().replace(/^"|"$/g, "")
-        );
+      const headers =
+        lines[0]
+          .split(",")
+          .map(
+            (item) =>
+              item
+                .trim()
+                .replace(
+                  /^"|"$/g,
+                  ""
+                )
+          );
 
-      const imported = lines
-        .slice(1)
-        .map((line, index) => {
+      const imported =
+        lines
+          .slice(1)
+          .map(
+            (line, index) => {
 
-          const values = line
-            .split(",")
-            .map((item) =>
-              item.trim().replace(/^"|"$/g, "")
-            );
+              const values =
+                line
+                  .split(",")
+                  .map(
+                    (item) =>
+                      item
+                        .trim()
+                        .replace(
+                          /^"|"$/g,
+                          ""
+                        )
+                  );
 
-          const data = {};
+              const data =
+                {};
 
-          headers.forEach((header, i) => {
-            data[header] =
-              values[i] || "";
-          });
+              headers.forEach(
+                (
+                  header,
+                  i
+                ) => {
 
-          return {
+                  data[header] =
+                    values[i] ||
+                    "";
 
-            id:
-              data.id ||
-              `CSV${Date.now()}${index}`,
+                }
+              );
 
-            name:
-              data.name ||
-              "Untitled Concert",
+              return {
 
-            artist:
-              data.artist || "",
-
-            date:
-              data.date || "",
-
-            venue:
-              data.venue || "",
-
-            image:
-              data.image || "",
-
-            zones: [
-              {
-                id: "A",
+                id:
+                  data.id ||
+                  `CSV${Date.now()}${index}`,
 
                 name:
-                  data.zone ||
-                  "Regular A",
+                  data.name ||
+                  "Untitled Concert",
+
+                artist:
+                  data.artist ||
+                  "",
+
+                date:
+                  data.date ||
+                  "",
+
+                venue:
+                  data.venue ||
+                  "",
 
                 price:
-                  Number(data.price) ||
-                  1000,
+                  Number(
+                    data.price
+                  ) || 1000,
 
-                rows:
-                  Number(data.rows) ||
-                  3,
+                description:
+                  data.description ||
+                  "",
 
-                seatsPerRow:
-                  Number(data.seatsPerRow) ||
-                  10
-              }
-            ]
+                image:
+                  data.image ||
+                  "",
 
-          };
+                zones: [
+                  {
 
-        });
+                    id: "A",
 
-      setConcerts((current) => [
-        ...current,
-        ...imported
-      ]);
+                    name:
+                      data.zone ||
+                      "Regular A",
 
-      alert(
-        `นำเข้า ${imported.length} รายการสำเร็จ`
-      );
+                    price:
+                      Number(
+                        data.price
+                      ) || 1000
+
+                  }
+
+                ]
+
+              };
+
+            }
+          );
+
+      try {
+
+        for (
+          const concert
+          of imported
+        ) {
+
+          await set(
+            ref(
+              db,
+              `concerts/${concert.id}`
+            ),
+            concert
+          );
+
+        }
+
+        alert(
+          `นำเข้า ${imported.length} รายการสำเร็จ`
+        );
+
+      } catch (error) {
+
+        console.error(
+          "CSV import error:",
+          error
+        );
+
+        alert(
+          "ไม่สามารถนำเข้า CSV ได้"
+        );
+
+      }
+
     };
 
-    reader.readAsText(file);
+    reader.readAsText(
+      file
+    );
 
-    event.target.value = "";
+    event.target.value =
+      "";
+
   };
 
 
-  /* =========================
-     FILTER
-  ========================= */
+  // =========================
+  // FILTER
+  // =========================
 
   const filteredConcerts =
-    concerts.filter((concert) => {
+    concerts.filter(
+      (concert) => {
 
-      const keyword =
-        search.toLowerCase();
+        const keyword =
+          search.toLowerCase();
 
-      return (
-        concert.name
-          ?.toLowerCase()
-          .includes(keyword) ||
+        return (
 
-        concert.artist
-          ?.toLowerCase()
-          .includes(keyword)
-      );
+          concert.name
+            ?.toLowerCase()
+            .includes(keyword)
 
-    });
+          ||
+
+          concert.artist
+            ?.toLowerCase()
+            .includes(keyword)
+
+        );
+
+      }
+    );
 
 
   return (
+
     <div className="admin-layout">
 
       {/* =========================
@@ -469,7 +834,9 @@ function AdminDashboard({ user, onLogout }) {
               : "admin-menu"
           }
           onClick={() =>
-            setActivePage("concerts")
+            setActivePage(
+              "concerts"
+            )
           }
         >
           🎤 Concerts
@@ -483,7 +850,9 @@ function AdminDashboard({ user, onLogout }) {
               : "admin-menu"
           }
           onClick={() =>
-            setActivePage("bookings")
+            setActivePage(
+              "bookings"
+            )
           }
         >
           🎫 Bookings
@@ -497,7 +866,9 @@ function AdminDashboard({ user, onLogout }) {
               : "admin-menu"
           }
           onClick={() =>
-            setActivePage("reports")
+            setActivePage(
+              "reports"
+            )
           }
         >
           ⚠️ Reports
@@ -543,10 +914,16 @@ function AdminDashboard({ user, onLogout }) {
 
             <h1>
 
-              {activePage === "concerts"
+              {activePage ===
+              "concerts"
+
                 ? "Concert Management"
-                : activePage === "bookings"
+
+                : activePage ===
+                  "bookings"
+
                 ? "Booking Management"
+
                 : "Problem Reports"}
 
             </h1>
@@ -556,7 +933,8 @@ function AdminDashboard({ user, onLogout }) {
 
           <div className="admin-user">
 
-            {user?.username || "ADMIN"}
+            {user?.username ||
+              "ADMIN"}
 
           </div>
 
@@ -567,7 +945,8 @@ function AdminDashboard({ user, onLogout }) {
             CONCERTS
         ========================= */}
 
-        {activePage === "concerts" && (
+        {activePage ===
+          "concerts" && (
 
           <section>
 
@@ -578,7 +957,9 @@ function AdminDashboard({ user, onLogout }) {
                 placeholder="Search concerts..."
                 value={search}
                 onChange={(e) =>
-                  setSearch(e.target.value)
+                  setSearch(
+                    e.target.value
+                  )
                 }
               />
 
@@ -600,7 +981,9 @@ function AdminDashboard({ user, onLogout }) {
                   type="file"
                   accept=".csv,text/csv"
                   hidden
-                  onChange={importCSV}
+                  onChange={
+                    importCSV
+                  }
                 />
 
 
@@ -665,7 +1048,8 @@ function AdminDashboard({ user, onLogout }) {
 
             <div className="admin-concert-list">
 
-              {filteredConcerts.length === 0 ? (
+              {filteredConcerts.length ===
+              0 ? (
 
                 <div className="table-empty">
                   No concerts found
@@ -686,8 +1070,12 @@ function AdminDashboard({ user, onLogout }) {
                         {concert.image ? (
 
                           <img
-                            src={concert.image}
-                            alt={concert.name}
+                            src={
+                              concert.image
+                            }
+                            alt={
+                              concert.name
+                            }
                           />
 
                         ) : (
@@ -723,17 +1111,21 @@ function AdminDashboard({ user, onLogout }) {
                         <div className="admin-concert-meta">
 
                           <span>
-                            📅 {concert.date}
+                            📅{" "}
+                            {concert.date}
                           </span>
 
                           <span>
-                            📍 {concert.venue}
+                            📍{" "}
+                            {concert.venue}
                           </span>
 
                           <span>
                             🪑{" "}
-                            {concert.zones?.length || 0}
-                            {" "}zones
+                            {concert.zones
+                              ?.length ||
+                              0}{" "}
+                            zones
                           </span>
 
                         </div>
@@ -744,7 +1136,9 @@ function AdminDashboard({ user, onLogout }) {
                           <button
                             className="secondary-button"
                             onClick={() =>
-                              openEdit(concert)
+                              openEdit(
+                                concert
+                              )
                             }
                           >
                             Edit
@@ -784,7 +1178,8 @@ function AdminDashboard({ user, onLogout }) {
             BOOKINGS
         ========================= */}
 
-        {activePage === "bookings" && (
+        {activePage ===
+          "bookings" && (
 
           <section className="admin-table-section">
 
@@ -792,18 +1187,39 @@ function AdminDashboard({ user, onLogout }) {
 
               <div className="table-header">
 
-                <span>Booking ID</span>
-                <span>User</span>
-                <span>Concert</span>
-                <span>Zone</span>
-                <span>Seats</span>
-                <span>Total</span>
-                <span>Status</span>
+                <span>
+                  Booking ID
+                </span>
+
+                <span>
+                  User
+                </span>
+
+                <span>
+                  Concert
+                </span>
+
+                <span>
+                  Zone
+                </span>
+
+                <span>
+                  Seats
+                </span>
+
+                <span>
+                  Total
+                </span>
+
+                <span>
+                  Status
+                </span>
 
               </div>
 
 
-              {bookings.length === 0 ? (
+              {bookings.length ===
+              0 ? (
 
                 <div className="table-empty">
                   No bookings yet
@@ -814,51 +1230,59 @@ function AdminDashboard({ user, onLogout }) {
                 bookings
                   .slice()
                   .reverse()
-                  .map((booking) => (
+                  .map(
+                    (booking) => (
 
-                    <div
-                      className="table-row"
-                      key={booking.id}
-                    >
+                      <div
+                        className="table-row"
+                        key={
+                          booking.id
+                        }
+                      >
 
-                      <span>
-                        {booking.id}
-                      </span>
+                        <span>
+                          {booking.id}
+                        </span>
 
-                      <span>
-                        {booking.username}
-                      </span>
+                        <span>
+                          {booking.username}
+                        </span>
 
-                      <span>
-                        {booking.concertName}
-                      </span>
+                        <span>
+                          {booking.concertName}
+                        </span>
 
-                      <span>
-                        {booking.zone}
-                      </span>
+                        <span>
+                          {booking.zone}
+                        </span>
 
-                      <span>
-                        {Array.isArray(
-                          booking.seats
-                        )
-                          ? booking.seats.join(", ")
-                          : "-"}
-                      </span>
+                        <span>
+                          {Array.isArray(
+                            booking.seats
+                          )
+                            ? booking.seats.join(
+                                ", "
+                              )
+                            : "-"}
+                        </span>
 
-                      <span>
-                        ฿
-                        {Number(
-                          booking.total || 0
-                        ).toLocaleString()}
-                      </span>
+                        <span>
+                          ฿
+                          {Number(
+                            booking.total ||
+                              0
+                          ).toLocaleString()}
+                        </span>
 
-                      <span className="status-paid">
-                        {booking.status || "Paid"}
-                      </span>
+                        <span className="status-paid">
+                          {booking.status ||
+                            "Paid"}
+                        </span>
 
-                    </div>
+                      </div>
 
-                  ))
+                    )
+                  )
 
               )}
 
@@ -873,7 +1297,8 @@ function AdminDashboard({ user, onLogout }) {
             REPORTS
         ========================= */}
 
-        {activePage === "reports" && (
+        {activePage ===
+          "reports" && (
 
           <section className="admin-table-section">
 
@@ -881,16 +1306,31 @@ function AdminDashboard({ user, onLogout }) {
 
               <div className="table-header report-grid">
 
-                <span>ID</span>
-                <span>User</span>
-                <span>Subject</span>
-                <span>Message</span>
-                <span>Status</span>
+                <span>
+                  ID
+                </span>
+
+                <span>
+                  User
+                </span>
+
+                <span>
+                  Subject
+                </span>
+
+                <span>
+                  Message
+                </span>
+
+                <span>
+                  Status
+                </span>
 
               </div>
 
 
-              {reports.length === 0 ? (
+              {reports.length ===
+              0 ? (
 
                 <div className="table-empty">
                   No reports yet
@@ -901,36 +1341,41 @@ function AdminDashboard({ user, onLogout }) {
                 reports
                   .slice()
                   .reverse()
-                  .map((report) => (
+                  .map(
+                    (report) => (
 
-                    <div
-                      className="table-row report-grid"
-                      key={report.id}
-                    >
+                      <div
+                        className="table-row report-grid"
+                        key={
+                          report.id
+                        }
+                      >
 
-                      <span>
-                        {report.id}
-                      </span>
+                        <span>
+                          {report.id}
+                        </span>
 
-                      <span>
-                        {report.username}
-                      </span>
+                        <span>
+                          {report.username}
+                        </span>
 
-                      <span>
-                        {report.subject}
-                      </span>
+                        <span>
+                          {report.subject}
+                        </span>
 
-                      <span>
-                        {report.message}
-                      </span>
+                        <span>
+                          {report.message}
+                        </span>
 
-                      <span className="status-pending">
-                        {report.status || "Pending"}
-                      </span>
+                        <span className="status-pending">
+                          {report.status ||
+                            "Pending"}
+                        </span>
 
-                    </div>
+                      </div>
 
-                  ))
+                    )
+                  )
 
               )}
 
@@ -984,8 +1429,13 @@ function AdminDashboard({ user, onLogout }) {
                   className="close-button"
                   onClick={() => {
 
-                    setShowModal(false);
-                    setEditingConcert(null);
+                    setShowModal(
+                      false
+                    );
+
+                    setEditingConcert(
+                      null
+                    );
 
                   }}
                 >
@@ -1006,12 +1456,16 @@ function AdminDashboard({ user, onLogout }) {
                   </label>
 
                   <input
-                    value={editingConcert.id}
+                    value={
+                      editingConcert.id
+                    }
                     onChange={(e) =>
-                      setEditingConcert({
-                        ...editingConcert,
-                        id: e.target.value
-                      })
+                      setEditingConcert(
+                        {
+                          ...editingConcert,
+                          id: e.target.value
+                        }
+                      )
                     }
                   />
 
@@ -1025,12 +1479,16 @@ function AdminDashboard({ user, onLogout }) {
                   </label>
 
                   <input
-                    value={editingConcert.name}
+                    value={
+                      editingConcert.name
+                    }
                     onChange={(e) =>
-                      setEditingConcert({
-                        ...editingConcert,
-                        name: e.target.value
-                      })
+                      setEditingConcert(
+                        {
+                          ...editingConcert,
+                          name: e.target.value
+                        }
+                      )
                     }
                   />
 
@@ -1044,12 +1502,17 @@ function AdminDashboard({ user, onLogout }) {
                   </label>
 
                   <input
-                    value={editingConcert.artist}
+                    value={
+                      editingConcert.artist
+                    }
                     onChange={(e) =>
-                      setEditingConcert({
-                        ...editingConcert,
-                        artist: e.target.value
-                      })
+                      setEditingConcert(
+                        {
+                          ...editingConcert,
+                          artist:
+                            e.target.value
+                        }
+                      )
                     }
                   />
 
@@ -1064,12 +1527,17 @@ function AdminDashboard({ user, onLogout }) {
 
                   <input
                     type="date"
-                    value={editingConcert.date}
+                    value={
+                      editingConcert.date
+                    }
                     onChange={(e) =>
-                      setEditingConcert({
-                        ...editingConcert,
-                        date: e.target.value
-                      })
+                      setEditingConcert(
+                        {
+                          ...editingConcert,
+                          date:
+                            e.target.value
+                        }
+                      )
                     }
                   />
 
@@ -1083,13 +1551,47 @@ function AdminDashboard({ user, onLogout }) {
                   </label>
 
                   <input
-                    value={editingConcert.venue}
-                    onChange={(e) =>
-                      setEditingConcert({
-                        ...editingConcert,
-                        venue: e.target.value
-                      })
+                    value={
+                      editingConcert.venue
                     }
+                    onChange={(e) =>
+                      setEditingConcert(
+                        {
+                          ...editingConcert,
+                          venue:
+                            e.target.value
+                        }
+                      )
+                    }
+                  />
+
+                </div>
+
+
+                {/* DESCRIPTION */}
+
+                <div className="form-group full">
+
+                  <label>
+                    Description
+                  </label>
+
+                  <textarea
+                    value={
+                      editingConcert.description ||
+                      ""
+                    }
+                    onChange={(e) =>
+                      setEditingConcert(
+                        {
+                          ...editingConcert,
+                          description:
+                            e.target.value
+                        }
+                      )
+                    }
+                    rows="4"
+                    placeholder="Concert description..."
                   />
 
                 </div>
@@ -1103,13 +1605,14 @@ function AdminDashboard({ user, onLogout }) {
                     Concert Image
                   </label>
 
-
                   <div className="image-upload-box">
 
                     {editingConcert.image ? (
 
                       <img
-                        src={editingConcert.image}
+                        src={
+                          editingConcert.image
+                        }
                         alt="Preview"
                       />
 
@@ -1142,7 +1645,9 @@ function AdminDashboard({ user, onLogout }) {
                       type="file"
                       accept="image/*"
                       hidden
-                      onChange={handleImageUpload}
+                      onChange={
+                        handleImageUpload
+                      }
                     />
 
                   </div>
@@ -1167,7 +1672,7 @@ function AdminDashboard({ user, onLogout }) {
                     </p>
 
                     <h3>
-                      Zones & Seats
+                      Zones
                     </h3>
 
                   </div>
@@ -1176,7 +1681,9 @@ function AdminDashboard({ user, onLogout }) {
                   <button
                     type="button"
                     className="secondary-button"
-                    onClick={addZone}
+                    onClick={
+                      addZone
+                    }
                   >
                     + Add Zone
                   </button>
@@ -1184,20 +1691,31 @@ function AdminDashboard({ user, onLogout }) {
                 </div>
 
 
-                {(editingConcert.zones || []).map(
-                  (zone, index) => (
+                {(editingConcert.zones ||
+                  []).map(
+                  (
+                    zone,
+                    index
+                  ) => (
 
                     <div
                       className="zone-edit-card"
-                      key={zone.id}
+                      key={
+                        zone.id
+                      }
                     >
 
                       <div className="zone-edit-title">
-                        Zone {index + 1}
+
+                        Zone{" "}
+                        {index + 1}
+
                       </div>
 
 
                       <div className="zone-edit-grid">
+
+                        {/* ZONE NAME */}
 
                         <div>
 
@@ -1206,18 +1724,25 @@ function AdminDashboard({ user, onLogout }) {
                           </label>
 
                           <input
-                            value={zone.name}
-                            onChange={(e) =>
+                            value={
+                              zone.name
+                            }
+                            onChange={(
+                              e
+                            ) =>
                               updateZone(
                                 index,
                                 "name",
                                 e.target.value
                               )
                             }
+                            placeholder="เช่น VIP, Regular A"
                           />
 
                         </div>
 
+
+                        {/* PRICE */}
 
                         <div>
 
@@ -1228,60 +1753,19 @@ function AdminDashboard({ user, onLogout }) {
                           <input
                             type="number"
                             min="0"
-                            value={zone.price}
-                            onChange={(e) =>
+                            value={
+                              zone.price
+                            }
+                            onChange={(
+                              e
+                            ) =>
                               updateZone(
                                 index,
                                 "price",
                                 e.target.value
                               )
                             }
-                          />
-
-                        </div>
-
-
-                        <div>
-
-                          <label>
-                            Rows
-                          </label>
-
-                          <input
-                            type="number"
-                            min="1"
-                            value={zone.rows}
-                            onChange={(e) =>
-                              updateZone(
-                                index,
-                                "rows",
-                                e.target.value
-                              )
-                            }
-                          />
-
-                        </div>
-
-
-                        <div>
-
-                          <label>
-                            Seats / Row
-                          </label>
-
-                          <input
-                            type="number"
-                            min="1"
-                            value={
-                              zone.seatsPerRow
-                            }
-                            onChange={(e) =>
-                              updateZone(
-                                index,
-                                "seatsPerRow",
-                                e.target.value
-                              )
-                            }
+                            placeholder="Price per seat"
                           />
 
                         </div>
@@ -1289,11 +1773,15 @@ function AdminDashboard({ user, onLogout }) {
                       </div>
 
 
+                      {/* REMOVE */}
+
                       <button
                         type="button"
                         className="danger-button small"
                         onClick={() =>
-                          deleteZone(index)
+                          deleteZone(
+                            index
+                          )
                         }
                       >
                         Remove Zone
@@ -1316,8 +1804,13 @@ function AdminDashboard({ user, onLogout }) {
                   className="secondary-button"
                   onClick={() => {
 
-                    setShowModal(false);
-                    setEditingConcert(null);
+                    setShowModal(
+                      false
+                    );
+
+                    setEditingConcert(
+                      null
+                    );
 
                   }}
                 >
@@ -1328,7 +1821,9 @@ function AdminDashboard({ user, onLogout }) {
                 <button
                   type="button"
                   className="primary-button"
-                  onClick={saveConcert}
+                  onClick={
+                    saveConcert
+                  }
                 >
                   Save Concert
                 </button>

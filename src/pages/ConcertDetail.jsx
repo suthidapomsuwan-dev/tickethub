@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { ref, onValue } from "firebase/database";
+import { db } from "../firebase";
 
 function ConcertDetail() {
   const { id } = useParams();
@@ -8,32 +10,82 @@ function ConcertDetail() {
   const [concert, setConcert] = useState(null);
   const [selectedZone, setSelectedZone] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // =========================
-  // LOAD CONCERT
+  // LOAD CONCERT FROM FIREBASE
   // =========================
 
   useEffect(() => {
-    const saved = localStorage.getItem("ticketHubConcerts");
+    const concertsRef = ref(db, "concerts");
 
-    if (!saved) {
-      setConcert(null);
-      return;
-    }
+    const unsubscribe = onValue(
+      concertsRef,
+      (snapshot) => {
+        const data = snapshot.val();
 
-    try {
-      const concerts = JSON.parse(saved);
+        if (!data) {
+          setConcert(null);
+          setLoading(false);
+          return;
+        }
 
-      const found = concerts.find(
-        (item) => String(item.id) === String(id)
-      );
+        const concerts = Object.values(data);
 
-      setConcert(found || null);
-    } catch (error) {
-      console.error("Cannot load concerts:", error);
-      setConcert(null);
-    }
+        const found = concerts.find(
+          (item) =>
+            String(item.id) === String(id)
+        );
+
+        setConcert(found || null);
+        setLoading(false);
+      },
+      (error) => {
+        console.error(
+          "Cannot load concerts:",
+          error
+        );
+
+        setConcert(null);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
   }, [id]);
+
+  // =========================
+  // LOAD BOOKINGS FROM FIREBASE
+  // =========================
+
+  useEffect(() => {
+    const bookingsRef = ref(db, "bookings");
+
+    const unsubscribe = onValue(
+      bookingsRef,
+      (snapshot) => {
+        const data = snapshot.val();
+
+        if (!data) {
+          setBookings([]);
+          return;
+        }
+
+        setBookings(Object.values(data));
+      },
+      (error) => {
+        console.error(
+          "Cannot load bookings:",
+          error
+        );
+
+        setBookings([]);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   // =========================
   // SELECT ZONE
@@ -46,23 +98,31 @@ function ConcertDetail() {
 
   // =========================
   // CREATE SEATS
-  // DEFAULT = 3 ROWS × 10 SEATS
   // =========================
 
   const createSeats = () => {
     if (!selectedZone) return [];
 
-    const rows = Number(selectedZone.rows) || 3;
+    const rows =
+      Number(selectedZone.rows) || 3;
+
     const seatsPerRow =
       Number(selectedZone.seatsPerRow) || 10;
 
     const seats = [];
 
     for (let row = 0; row < rows; row++) {
-      const rowLetter = String.fromCharCode(65 + row);
+      const rowLetter =
+        String.fromCharCode(65 + row);
 
-      for (let seat = 1; seat <= seatsPerRow; seat++) {
-        seats.push(`${rowLetter}${seat}`);
+      for (
+        let seat = 1;
+        seat <= seatsPerRow;
+        seat++
+      ) {
+        seats.push(
+          `${rowLetter}${seat}`
+        );
       }
     }
 
@@ -74,38 +134,26 @@ function ConcertDetail() {
   // =========================
 
   const getBookedSeats = () => {
-    try {
-      const bookings =
-        JSON.parse(
-          localStorage.getItem("ticketHubBookings")
-        ) || [];
-
-      if (!concert || !selectedZone) {
-        return [];
-      }
-
-      const booked = [];
-
-      bookings.forEach((booking) => {
-        if (
-          String(booking.concertId) === String(concert.id) &&
-          String(booking.zoneId) === String(selectedZone.id)
-        ) {
-          if (Array.isArray(booking.seats)) {
-            booked.push(...booking.seats);
-          }
-        }
-      });
-
-      return booked;
-    } catch (error) {
-      console.error(
-        "Cannot load booked seats:",
-        error
-      );
-
+    if (!concert || !selectedZone) {
       return [];
     }
+
+    const booked = [];
+
+    bookings.forEach((booking) => {
+      if (
+        String(booking.concertId) ===
+          String(concert.id) &&
+        String(booking.zoneId) ===
+          String(selectedZone.id)
+      ) {
+        if (Array.isArray(booking.seats)) {
+          booked.push(...booking.seats);
+        }
+      }
+    });
+
+    return booked;
   };
 
   // =========================
@@ -113,7 +161,8 @@ function ConcertDetail() {
   // =========================
 
   const toggleSeat = (seat) => {
-    const bookedSeats = getBookedSeats();
+    const bookedSeats =
+      getBookedSeats();
 
     if (bookedSeats.includes(seat)) {
       return;
@@ -141,16 +190,21 @@ function ConcertDetail() {
     }
 
     if (selectedSeats.length === 0) {
-      alert("กรุณาเลือกที่นั่งอย่างน้อย 1 ที่นั่ง");
+      alert(
+        "กรุณาเลือกที่นั่งอย่างน้อย 1 ที่นั่ง"
+      );
       return;
     }
 
-    // ตรวจสอบที่นั่งอีกครั้งก่อนชำระเงิน
-    const bookedSeats = getBookedSeats();
+    // ตรวจสอบที่นั่งล่าสุดจาก Firebase
+    const bookedSeats =
+      getBookedSeats();
 
-    const alreadyBooked = selectedSeats.filter(
-      (seat) => bookedSeats.includes(seat)
-    );
+    const alreadyBooked =
+      selectedSeats.filter(
+        (seat) =>
+          bookedSeats.includes(seat)
+      );
 
     if (alreadyBooked.length > 0) {
       alert(
@@ -161,7 +215,10 @@ function ConcertDetail() {
 
       setSelectedSeats((current) =>
         current.filter(
-          (seat) => !alreadyBooked.includes(seat)
+          (seat) =>
+            !alreadyBooked.includes(
+              seat
+            )
         )
       );
 
@@ -191,17 +248,29 @@ function ConcertDetail() {
         selectedSeats.length * price
     };
 
-    // เก็บข้อมูลการจองปัจจุบัน
+    // เก็บ booking ปัจจุบันไว้สำหรับ Payment
     localStorage.setItem(
       "ticketHubCurrentBooking",
       JSON.stringify(bookingData)
     );
 
-    // ส่งข้อมูลไป Payment ผ่าน state
+    // ส่งข้อมูลไป Payment
     navigate("/payment", {
       state: bookingData
     });
   };
+
+  // =========================
+  // LOADING
+  // =========================
+
+  if (loading) {
+    return (
+      <div className="not-found-page">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
 
   // =========================
   // NOT FOUND
@@ -220,11 +289,30 @@ function ConcertDetail() {
   }
 
   const seats = createSeats();
-  const bookedSeats = getBookedSeats();
+  const bookedSeats =
+    getBookedSeats();
 
   const total =
     selectedSeats.length *
-    Number(selectedZone?.price || 0);
+    Number(
+      selectedZone?.price || 0
+    );
+
+  // =========================
+  // GET USER
+  // =========================
+
+  let currentUser = null;
+
+  try {
+    currentUser = JSON.parse(
+      localStorage.getItem(
+        "ticketHubUser"
+      )
+    );
+  } catch {
+    currentUser = null;
+  }
 
   // =========================
   // PAGE
@@ -266,11 +354,8 @@ function ConcertDetail() {
 
           <span className="username">
             Hi,{" "}
-            {JSON.parse(
-              localStorage.getItem(
-                "ticketHubUser"
-              )
-            )?.username || "User"}
+            {currentUser?.username ||
+              "User"}
           </span>
 
           <Link
@@ -294,14 +379,22 @@ function ConcertDetail() {
         <div className="detail-image">
 
           {concert.image ? (
+
             <img
               src={concert.image}
               alt={concert.name}
+              onError={(e) => {
+                e.currentTarget.style.display =
+                  "none";
+              }}
             />
+
           ) : (
+
             <div className="no-image">
               NO IMAGE
             </div>
+
           )}
 
         </div>
@@ -329,6 +422,12 @@ function ConcertDetail() {
             📍 {concert.venue}
           </p>
 
+          {concert.description && (
+            <p className="concert-description">
+              {concert.description}
+            </p>
+          )}
+
         </div>
 
       </main>
@@ -355,7 +454,8 @@ function ConcertDetail() {
           </div>
 
           <span>
-            Choose your preferred seating area
+            Choose your preferred
+            seating area
           </span>
 
         </div>
@@ -369,7 +469,8 @@ function ConcertDetail() {
               <button
                 type="button"
                 className={
-                  selectedZone?.id === zone.id
+                  selectedZone?.id ===
+                  zone.id
                     ? "zone-card selected"
                     : "zone-card"
                 }
@@ -393,7 +494,8 @@ function ConcertDetail() {
 
                 <small>
                   {zone.rows || 3} rows ×{" "}
-                  {zone.seatsPerRow || 10} seats
+                  {zone.seatsPerRow ||
+                    10} seats
                 </small>
 
               </button>
@@ -512,8 +614,11 @@ function ConcertDetail() {
               </span>
 
               <strong>
-                {selectedSeats.length > 0
-                  ? selectedSeats.join(", ")
+                {selectedSeats.length >
+                0
+                  ? selectedSeats.join(
+                      ", "
+                    )
                   : "None"}
               </strong>
 
@@ -539,7 +644,8 @@ function ConcertDetail() {
               className="primary-button booking-button"
               onClick={handleBooking}
               disabled={
-                selectedSeats.length === 0
+                selectedSeats.length ===
+                0
               }
             >
               Continue to Payment →
@@ -554,5 +660,4 @@ function ConcertDetail() {
     </div>
   );
 }
-
 export default ConcertDetail;

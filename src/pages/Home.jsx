@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ref, onValue } from "firebase/database";
+import { db } from "../firebase";
 
 const defaultConcerts = [
   {
@@ -11,8 +13,7 @@ const defaultConcerts = [
     price: 1500,
     description:
       "A summer night filled with music, energy and unforgettable moments with BUS.",
-    image:
-      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a",
+    image: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a",
     zones: [
       {
         id: "VIP",
@@ -40,8 +41,7 @@ const defaultConcerts = [
     price: 1800,
     description:
       "Experience an exciting night of live performances and special moments with LYKN.",
-    image:
-      "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14",
+    image: "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14",
     zones: [
       {
         id: "A",
@@ -62,8 +62,7 @@ const defaultConcerts = [
     price: 1200,
     description:
       "A live concert experience featuring powerful performances from PROXIE.",
-    image:
-      "https://images.unsplash.com/photo-1506157786151-b8491531f063",
+    image: "https://images.unsplash.com/photo-1506157786151-b8491531f063",
     zones: [
       {
         id: "A",
@@ -96,49 +95,60 @@ function Home({ user, onLogout }) {
   const [selectedDate, setSelectedDate] = useState(null);
 
   // =========================
-  // LOAD CONCERTS
+  // LOAD CONCERTS FROM FIREBASE
   // =========================
 
   useEffect(() => {
-    const saved = localStorage.getItem("ticketHubConcerts");
+    const concertsRef = ref(db, "concerts");
 
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
+    const unsubscribe = onValue(
+      concertsRef,
+      (snapshot) => {
+        const data = snapshot.val();
 
-        // ถ้ามีข้อมูลใน localStorage แต่ไม่มี description
-        // ให้เติมข้อมูลจาก defaultConcerts
-        const updatedConcerts = parsed.map((concert) => {
-          const defaultConcert = defaultConcerts.find(
-            (item) => String(item.id) === String(concert.id)
-          );
+        if (!data) {
+          setConcerts(defaultConcerts);
+          return;
+        }
 
-          return {
-            ...concert,
-            description:
-              concert.description ||
-              defaultConcert?.description ||
-              "Experience an unforgettable live concert with amazing performances and great music."
-          };
-        });
+        const firebaseConcerts = Object.values(data);
+
+        const updatedConcerts = firebaseConcerts.map(
+          (concert) => {
+            const defaultConcert = defaultConcerts.find(
+              (item) =>
+                String(item.id) === String(concert.id)
+            );
+
+            return {
+              ...concert,
+              description:
+                concert.description ||
+                defaultConcert?.description ||
+                "Experience an unforgettable live concert with amazing performances and great music.",
+
+              zones:
+                concert.zones ||
+                defaultConcert?.zones ||
+                []
+            };
+          }
+        );
 
         setConcerts(updatedConcerts);
-      } catch {
-        setConcerts(defaultConcerts);
-
-        localStorage.setItem(
-          "ticketHubConcerts",
-          JSON.stringify(defaultConcerts)
+      },
+      (error) => {
+        console.error(
+          "Firebase concerts error:",
+          error
         );
-      }
-    } else {
-      localStorage.setItem(
-        "ticketHubConcerts",
-        JSON.stringify(defaultConcerts)
-      );
 
-      setConcerts(defaultConcerts);
-    }
+        // ถ้า Firebase มีปัญหา ให้ใช้ข้อมูล default
+        setConcerts(defaultConcerts);
+      }
+    );
+
+    return () => unsubscribe();
   }, []);
 
   // =========================
@@ -197,7 +207,11 @@ function Home({ user, onLogout }) {
   // =========================
 
   const getDateKey = (day) => {
-    const month = String(calendarMonth + 1).padStart(2, "0");
+    const month = String(calendarMonth + 1).padStart(
+      2,
+      "0"
+    );
+
     const date = String(day).padStart(2, "0");
 
     return `${calendarYear}-${month}-${date}`;
@@ -263,7 +277,8 @@ function Home({ user, onLogout }) {
 
   const selectedConcerts = concerts.filter(
     (concert) =>
-      String(concert.date).slice(0, 10) === selectedDate
+      String(concert.date).slice(0, 10) ===
+      selectedDate
   );
 
   // =========================
@@ -279,7 +294,10 @@ function Home({ user, onLogout }) {
 
       <nav className="navbar">
 
-        <Link to="/" className="logo">
+        <Link
+          to="/"
+          className="logo"
+        >
           Ticket<span>Hub</span>
         </Link>
 
@@ -351,7 +369,7 @@ function Home({ user, onLogout }) {
 
       <section className="concert-section">
 
-        {/* HEADER + SMALL CALENDAR */}
+        {/* HEADER + CALENDAR */}
 
         <div className="section-top">
 
@@ -377,7 +395,7 @@ function Home({ user, onLogout }) {
 
 
           {/* =========================
-              SMALL CALENDAR
+              CALENDAR
           ========================= */}
 
           <div className="mini-calendar">
@@ -386,7 +404,9 @@ function Home({ user, onLogout }) {
 
               <button
                 type="button"
-                onClick={() => changeMonth(-1)}
+                onClick={() =>
+                  changeMonth(-1)
+                }
               >
                 ‹
               </button>
@@ -398,7 +418,9 @@ function Home({ user, onLogout }) {
 
               <button
                 type="button"
-                onClick={() => changeMonth(1)}
+                onClick={() =>
+                  changeMonth(1)
+                }
               >
                 ›
               </button>
@@ -408,67 +430,71 @@ function Home({ user, onLogout }) {
 
             <div className="mini-calendar-weekdays">
 
-              {weekdays.map((day, index) => (
-                <span key={index}>
-                  {day}
-                </span>
-              ))}
+              {weekdays.map(
+                (day, index) => (
+                  <span key={index}>
+                    {day}
+                  </span>
+                )
+              )}
 
             </div>
 
 
             <div className="mini-calendar-grid">
 
-              {calendarDays.map((day, index) => {
+              {calendarDays.map(
+                (day, index) => {
 
-                if (!day) {
+                  if (!day) {
+                    return (
+                      <span
+                        key={`empty-${index}`}
+                        className="calendar-empty"
+                      />
+                    );
+                  }
+
+                  const dateKey =
+                    getDateKey(day);
+
+                  const concertDay =
+                    hasConcert(day);
+
+                  const selected =
+                    selectedDate === dateKey;
+
                   return (
-                    <span
-                      key={`empty-${index}`}
-                      className="calendar-empty"
-                    />
+                    <button
+                      type="button"
+                      key={dateKey}
+                      className={
+                        selected
+                          ? "mini-calendar-day selected"
+                          : concertDay
+                          ? "mini-calendar-day concert-day"
+                          : "mini-calendar-day"
+                      }
+                      onClick={() =>
+                        handleDateClick(day)
+                      }
+                      title={
+                        concertDay
+                          ? "Concert available"
+                          : ""
+                      }
+                    >
+
+                      {day}
+
+                      {concertDay && (
+                        <i></i>
+                      )}
+
+                    </button>
                   );
                 }
-
-                const dateKey = getDateKey(day);
-
-                const concertDay =
-                  hasConcert(day);
-
-                const selected =
-                  selectedDate === dateKey;
-
-                return (
-                  <button
-                    type="button"
-                    key={dateKey}
-                    className={
-                      selected
-                        ? "mini-calendar-day selected"
-                        : concertDay
-                        ? "mini-calendar-day concert-day"
-                        : "mini-calendar-day"
-                    }
-                    onClick={() =>
-                      handleDateClick(day)
-                    }
-                    title={
-                      concertDay
-                        ? "Concert available"
-                        : ""
-                    }
-                  >
-
-                    {day}
-
-                    {concertDay && (
-                      <i></i>
-                    )}
-
-                  </button>
-                );
-
-              })}
+              )}
 
             </div>
 
@@ -536,45 +562,47 @@ function Home({ user, onLogout }) {
         {selectedDate &&
           selectedConcerts.length > 0 && (
 
-          <div className="selected-concert-list">
+            <div className="selected-concert-list">
 
-            {selectedConcerts.map((concert) => (
+              {selectedConcerts.map(
+                (concert) => (
 
-              <div
-                className="selected-concert-item"
-                key={concert.id}
-              >
+                  <div
+                    className="selected-concert-item"
+                    key={concert.id}
+                  >
 
-                <div>
+                    <div>
 
-                  <strong>
-                    {concert.name}
-                  </strong>
+                      <strong>
+                        {concert.name}
+                      </strong>
 
-                  <span>
-                    {concert.artist}
-                  </span>
+                      <span>
+                        {concert.artist}
+                      </span>
 
-                  <small>
-                    📍 {concert.venue}
-                  </small>
+                      <small>
+                        📍 {concert.venue}
+                      </small>
 
-                </div>
+                    </div>
 
-                <Link
-                  to={`/concert/${concert.id}`}
-                  className="calendar-view-button"
-                >
-                  View
-                </Link>
+                    <Link
+                      to={`/concert/${concert.id}`}
+                      className="calendar-view-button"
+                    >
+                      View
+                    </Link>
 
-              </div>
+                  </div>
 
-            ))}
+                )
+              )}
 
-          </div>
+            </div>
 
-        )}
+          )}
 
 
         {/* =========================
@@ -583,107 +611,110 @@ function Home({ user, onLogout }) {
 
         <div className="concert-grid">
 
-          {concerts.map((concert) => {
+          {concerts.map(
+            (concert) => {
 
-            const price =
-              concert.price ??
-              concert.zones?.[0]?.price ??
-              0;
+              const price =
+                concert.price ??
+                concert.zones?.[0]?.price ??
+                0;
 
-            return (
+              return (
 
-              <div
-                className="concert-card"
-                key={concert.id}
-              >
+                <div
+                  className="concert-card"
+                  key={concert.id}
+                >
 
-                {/* IMAGE */}
+                  {/* IMAGE */}
 
-                <div className="concert-image">
+                  <div className="concert-image">
 
-                  {concert.image ? (
+                    {concert.image ? (
 
-                    <img
-                      src={concert.image}
-                      alt={concert.name}
-                    />
+                      <img
+                        src={concert.image}
+                        alt={concert.name}
+                        onError={(e) => {
+                          e.currentTarget.style.display =
+                            "none";
+                        }}
+                      />
 
-                  ) : (
+                    ) : (
 
-                    <div className="no-image">
-                      NO IMAGE
+                      <div className="no-image">
+                        NO IMAGE
+                      </div>
+
+                    )}
+
+                  </div>
+
+
+                  {/* INFO */}
+
+                  <div className="concert-info">
+
+                    <p className="concert-date">
+                      {concert.date}
+                    </p>
+
+                    <h3>
+                      {concert.name}
+                    </h3>
+
+                    <p className="artist">
+                      {concert.artist}
+                    </p>
+
+
+                    <p className="concert-description">
+                      {concert.description ||
+                        "Experience an unforgettable live concert with amazing performances and great music."}
+                    </p>
+
+
+                    <p className="venue">
+                      📍 {concert.venue}
+                    </p>
+
+
+                    {/* BOTTOM */}
+
+                    <div className="concert-bottom">
+
+                      <div>
+
+                        <small>
+                          Starting from
+                        </small>
+
+                        <strong>
+                          ฿
+                          {Number(
+                            price
+                          ).toLocaleString()}
+                        </strong>
+
+                      </div>
+
+                      <Link
+                        to={`/concert/${concert.id}`}
+                        className="view-button"
+                      >
+                        View
+                      </Link>
+
                     </div>
-
-                  )}
-
-                </div>
-
-
-                {/* INFO */}
-
-                <div className="concert-info">
-
-                  <p className="concert-date">
-                    {concert.date}
-                  </p>
-
-                  <h3>
-                    {concert.name}
-                  </h3>
-
-                  <p className="artist">
-                    {concert.artist}
-                  </p>
-
-
-                  {/* DESCRIPTION */}
-
-                  <p className="concert-description">
-                    {concert.description ||
-                      "Experience an unforgettable live concert with amazing performances and great music."}
-                  </p>
-
-
-                  <p className="venue">
-                    📍 {concert.venue}
-                  </p>
-
-
-                  {/* BOTTOM */}
-
-                  <div className="concert-bottom">
-
-                    <div>
-
-                      <small>
-                        Starting from
-                      </small>
-
-                      <strong>
-                        ฿
-                        {Number(
-                          price
-                        ).toLocaleString()}
-                      </strong>
-
-                    </div>
-
-                    <Link
-                      to={`/concert/${concert.id}`}
-                      className="view-button"
-                    >
-                      View
-                    </Link>
 
                   </div>
 
                 </div>
 
-              </div>
-
-            );
-
-          })}
+              );
+            }
+          )}
 
         </div>
 

@@ -4,6 +4,14 @@ import {
   useNavigate
 } from "react-router-dom";
 
+import {
+  ref,
+  push,
+  set
+} from "firebase/database";
+
+import { db } from "../firebase";
+
 function Payment() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -14,15 +22,26 @@ function Payment() {
   const [isPaid, setIsPaid] =
     useState(false);
 
-  // รับข้อมูลจาก navigate state
-  // ถ้า refresh ให้ดึงจาก localStorage
-  const bookingData =
-    location.state ||
-    JSON.parse(
-      localStorage.getItem(
-        "ticketHubCurrentBooking"
-      )
-    );
+  const [isProcessing, setIsProcessing] =
+    useState(false);
+
+  // =========================
+  // GET BOOKING DATA
+  // =========================
+
+  let bookingData = location.state;
+
+  if (!bookingData) {
+    try {
+      bookingData = JSON.parse(
+        localStorage.getItem(
+          "ticketHubCurrentBooking"
+        )
+      );
+    } catch {
+      bookingData = null;
+    }
+  }
 
   // =========================
   // NO BOOKING DATA
@@ -37,6 +56,7 @@ function Payment() {
         </h2>
 
         <button
+          type="button"
           className="primary-button"
           onClick={() =>
             navigate("/")
@@ -63,122 +83,195 @@ function Payment() {
     total
   } = bookingData;
 
-
   // =========================
   // PAYMENT
   // =========================
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
 
-    if (isPaid) return;
+    if (isPaid || isProcessing) {
+      return;
+    }
 
-    const currentUser =
-      JSON.parse(
-        localStorage.getItem(
-          "ticketHubUser"
-        )
-      ) || {};
-
-    const bookingId =
-      "TH" +
-      Date.now()
-        .toString()
-        .slice(-8);
-
-    const booking = {
-
-      id: bookingId,
-
-      username:
-        currentUser.username ||
-        "user",
-
-      concertId,
-
-      concertName,
-
-      artist,
-
-      image,
-
-      date,
-
-      venue,
-
-      zone,
-
-      zoneId,
-
-      price,
-
-      seats,
-
-      total,
-
-      paymentMethod:
-        method,
-
-      status: "Paid",
-
-      createdAt:
-        new Date().toLocaleString(
-          "th-TH"
-        )
-    };
-
-
-    // =========================
-    // SAVE BOOKING
-    // =========================
-
-    const oldBookings =
-      JSON.parse(
-        localStorage.getItem(
-          "ticketHubBookings"
-        )
-      ) || [];
-
-
-    localStorage.setItem(
-      "ticketHubBookings",
-      JSON.stringify([
-        ...oldBookings,
-        booking
-      ])
-    );
-
-
-    // บันทึก booking ล่าสุด
-    localStorage.setItem(
-      "ticketHubLastBooking",
-      JSON.stringify(
-        booking
-      )
-    );
-
-
-    // ลบข้อมูล booking ชั่วคราว
-    localStorage.removeItem(
-      "ticketHubCurrentBooking"
-    );
-
-
-    setIsPaid(true);
-
-
-    // ไปหน้า success
-    setTimeout(() => {
-
-      navigate(
-        "/booking-success",
-        {
-          state: booking
-        }
+    if (
+      !Array.isArray(seats) ||
+      seats.length === 0
+    ) {
+      alert(
+        "ไม่พบข้อมูลที่นั่ง"
       );
 
-    }, 800);
-  };
+      return;
+    }
 
+    setIsProcessing(true);
+
+    try {
+
+      // =========================
+      // CURRENT USER
+      // =========================
+
+      let currentUser = {};
+
+      try {
+        currentUser =
+          JSON.parse(
+            localStorage.getItem(
+              "ticketHubUser"
+            )
+          ) || {};
+      } catch {
+        currentUser = {};
+      }
+
+      // =========================
+      // CREATE BOOKING ID
+      // =========================
+
+      const bookingId =
+        "TH" +
+        Date.now()
+          .toString()
+          .slice(-8);
+
+      // =========================
+      // BOOKING OBJECT
+      // =========================
+
+      const booking = {
+
+        id: bookingId,
+
+        username:
+          currentUser.username ||
+          "user",
+
+        concertId:
+          concertId || "",
+
+        concertName:
+          concertName || "",
+
+        artist:
+          artist || "",
+
+        image:
+          image || "",
+
+        date:
+          date || "",
+
+        venue:
+          venue || "",
+
+        zone:
+          zone || "",
+
+        zoneId:
+          zoneId || "",
+
+        price:
+          Number(price || 0),
+
+        seats:
+          seats,
+
+        total:
+          Number(total || 0),
+
+        paymentMethod:
+          method,
+
+        status:
+          "Paid",
+
+        createdAt:
+          new Date().toISOString()
+      };
+
+      // =========================
+      // SAVE TO FIREBASE
+      // =========================
+
+      const bookingsRef =
+        ref(db, "bookings");
+
+      const newBookingRef =
+        push(bookingsRef);
+
+      await set(
+        newBookingRef,
+        booking
+      );
+
+      // =========================
+      // ALSO SAVE LOCAL STORAGE
+      // =========================
+
+      const oldBookings =
+        JSON.parse(
+          localStorage.getItem(
+            "ticketHubBookings"
+          )
+        ) || [];
+
+      localStorage.setItem(
+        "ticketHubBookings",
+        JSON.stringify([
+          ...oldBookings,
+          booking
+        ])
+      );
+
+      // =========================
+      // LAST BOOKING
+      // =========================
+
+      localStorage.setItem(
+        "ticketHubLastBooking",
+        JSON.stringify(booking)
+      );
+
+      // =========================
+      // REMOVE TEMP BOOKING
+      // =========================
+
+      localStorage.removeItem(
+        "ticketHubCurrentBooking"
+      );
+
+      // =========================
+      // PAYMENT SUCCESS
+      // =========================
+
+      setIsPaid(true);
+
+      setTimeout(() => {
+
+        navigate(
+          "/booking-success",
+          {
+            state: booking
+          }
+        );
+
+      }, 800);
+
+    } catch (error) {
+
+      console.error(
+        "Firebase booking error:",
+        error
+      );
+
+      alert(
+        "ไม่สามารถบันทึกการจองได้ กรุณาตรวจสอบ Firebase Realtime Database"
+      );
+
+      setIsProcessing(false);
+    }
+  };
 
   // =========================
   // PAGE
@@ -194,6 +287,7 @@ function Payment() {
       <div className="payment-header">
 
         <button
+          type="button"
           className="back-button"
           onClick={() =>
             navigate(-1)
@@ -355,6 +449,7 @@ function Payment() {
                     <input
                       type="text"
                       placeholder="MM / YY"
+                      maxLength="7"
                     />
 
                   </div>
@@ -387,12 +482,18 @@ function Payment() {
           ========================= */}
 
           <button
+            type="button"
             className="primary-button payment-button"
             onClick={handlePayment}
-            disabled={isPaid}
+            disabled={
+              isPaid ||
+              isProcessing
+            }
           >
 
             {isPaid
+              ? "Payment Successful"
+              : isProcessing
               ? "Processing..."
               : `Pay ฿${Number(
                   total || 0
@@ -451,6 +552,7 @@ function Payment() {
           <div className="order-info">
 
             <div>
+
               <span>
                 Date
               </span>
@@ -458,10 +560,12 @@ function Payment() {
               <b>
                 {date}
               </b>
+
             </div>
 
 
             <div>
+
               <span>
                 Venue
               </span>
@@ -469,10 +573,12 @@ function Payment() {
               <b>
                 {venue}
               </b>
+
             </div>
 
 
             <div>
+
               <span>
                 Zone
               </span>
@@ -480,25 +586,27 @@ function Payment() {
               <b>
                 {zone}
               </b>
+
             </div>
 
 
             <div>
+
               <span>
                 Seats
               </span>
 
               <b>
-                {Array.isArray(
-                  seats
-                )
+                {Array.isArray(seats)
                   ? seats.join(", ")
                   : "-"}
               </b>
+
             </div>
 
 
             <div>
+
               <span>
                 Price / Seat
               </span>
@@ -509,6 +617,7 @@ function Payment() {
                   price || 0
                 ).toLocaleString()}
               </b>
+
             </div>
 
           </div>

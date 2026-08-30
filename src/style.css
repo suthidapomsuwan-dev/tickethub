@@ -1,35 +1,137 @@
 /* =========================================================
+   TICKETHUB — DARK BLUE / PURPLE THEME
+   Colors: Dark + Blue + Navy + White + Purple
+========================================================= */
+
+:root {
+  --background: #080d1a;
+  --background-light: #0d1426;
+
+  --surface: #111a2e;
+  --surface-light: #16213a;
+
+  --primary: #5b8cff;
+  --primary-dark: #3f6fe0;
+
+  --secondary: #18264a;
+  --secondary-light: #202f57;
+
+  --purple: #9b7cff;
+  --purple-dark: #7658df;
+
+  --blue: #4da6ff;
+
+  --text: #f4f7ff;
+  --text-muted: #9ba8c0;
+
+  --border: #263452;
+
+  --success: #42d69b;
+
+  --danger: #ff647c;
+
+  --warning: #ffc857;
+
+  --radius-small: 8px;
+  --radius-medium: 12px;
+  --radius-large: 18px;
+
+  --shadow:
+    0 12px 35px rgba(0, 0, 0, 0.35);
+
+  --font-main:
+    Inter, "Segoe UI", Arial, sans-serif;
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+
+  font-family: var(--font-main);
+
+  background: var(--background);
+
+  color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+
+/* =========================================================
    LOGIN PAGE
 ========================================================= */
 
 .login-page {
   min-height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   padding: 20px;
 
-  background: linear-gradient(
-    135deg,
-    var(--background),
-    var(--secondary)
-  );
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(91, 140, 255, 0.18),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(155, 124, 255, 0.18),
+      transparent 35%
+    ),
+    var(--background);
 }
 
 .login-card {
   width: 400px;
   max-width: 100%;
+
   padding: 40px;
 
   background: var(--surface);
+
+  border: 1px solid var(--border);
+
   border-radius: var(--radius-large);
+
   box-shadow: var(--shadow);
 }
 
 .login-logo {
   text-align: center;
+
   font-size: 32px;
+
   font-weight: 700;
+
   margin-bottom: 25px;
 }
 
@@ -39,40 +141,61 @@
 
 .login-title {
   text-align: center;
+
   font-size: 24px;
+
   font-weight: 600;
 }
 
 .login-subtitle {
   text-align: center;
+
   color: var(--text-muted);
+
   margin: 5px 0 30px;
 }
 
 .login-card form {
   display: flex;
+
   flex-direction: column;
+
   gap: 8px;
 }
 
 .login-card label {
   font-size: 14px;
+
   font-weight: 500;
+
   margin-top: 8px;
 }
 
 .login-card input {
   width: 100%;
+
   padding: 13px 15px;
 
   border: 1px solid var(--border);
+
   border-radius: var(--radius-small);
 
   outline: none;
+
+  background: var(--background-light);
+
+  color: var(--text);
+}
+
+.login-card input::placeholder {
+  color: #64718a;
 }
 
 .login-card input:focus {
   border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px rgba(91, 140, 255, 0.12);
 }
 
 .login-card .primary-button {
@@ -81,17 +204,23 @@
 
 .demo-account {
   margin-top: 25px;
+
   padding: 15px;
 
-  background: var(--background);
+  background: var(--background-light);
+
+  border: 1px solid var(--border);
+
   border-radius: var(--radius-small);
 
   font-size: 13px;
+
   line-height: 1.8;
 }
 
 .demo-account p {
   font-weight: 600;
+
   margin-bottom: 5px;
 }
 
@@ -104,26 +233,38 @@
   min-height: 420px;
 
   display: flex;
+
   align-items: center;
 
   padding: 60px 10%;
 
-  background: linear-gradient(
-    135deg,
-    var(--background),
-    var(--secondary)
-  );
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(155, 124, 255, 0.18),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #080d1a,
+      #101d3d,
+      #15102c
+    );
 }
 
 .concert-hero h1 {
   font-size: clamp(45px, 6vw, 72px);
+
   line-height: 1.05;
+
   margin: 15px 0 20px;
 }
 
 .concert-hero p:not(.hero-label) {
   color: var(--text-muted);
+
   font-size: 16px;
+
   line-height: 1.7;
 }
 
@@ -133,46 +274,63 @@
 
 .section-heading {
   display: flex;
+
   align-items: end;
+
   justify-content: space-between;
+
   margin-bottom: 30px;
 }
 
 .section-label {
   color: var(--primary);
+
   font-size: 13px;
+
   font-weight: 600;
+
   letter-spacing: 2px;
 }
 
 .section-heading h2 {
   font-size: 32px;
+
   margin-top: 5px;
 }
 
 .section-heading > span {
   color: var(--text-muted);
+
   font-size: 14px;
 }
 
 
-/* GRID */
+/* =========================================================
+   CONCERT GRID
+========================================================= */
 
 .concert-grid {
   display: grid;
+
   grid-template-columns: repeat(3, 1fr);
+
   gap: 25px;
 }
 
 
-/* CARD */
+/* =========================================================
+   CONCERT CARD
+========================================================= */
 
 .concert-card {
   background: var(--surface);
+
   border: 1px solid var(--border);
+
   border-radius: var(--radius-large);
 
   overflow: hidden;
+
   box-shadow: var(--shadow);
 
   transition: 0.25s;
@@ -180,6 +338,8 @@
 
 .concert-card:hover {
   transform: translateY(-5px);
+
+  border-color: var(--primary);
 }
 
 
@@ -187,13 +347,17 @@
 
 .concert-image {
   height: 240px;
+
   overflow: hidden;
 }
 
 .concert-image img {
   width: 100%;
+
   height: 100%;
+
   object-fit: cover;
+
   display: block;
 
   transition: 0.3s;
@@ -212,13 +376,17 @@
 
 .concert-date {
   color: var(--primary);
+
   font-size: 13px;
+
   font-weight: 600;
+
   margin-bottom: 8px;
 }
 
 .concert-info h3 {
   font-size: 20px;
+
   margin-bottom: 3px;
 }
 
@@ -233,6 +401,7 @@
 
 .venue {
   font-size: 13px;
+
   margin-top: 15px;
 }
 
@@ -241,10 +410,13 @@
 
 .concert-bottom {
   display: flex;
+
   align-items: end;
+
   justify-content: space-between;
 
   margin-top: 20px;
+
   padding-top: 18px;
 
   border-top: 1px solid var(--border);
@@ -252,26 +424,38 @@
 
 .concert-bottom small {
   display: block;
+
   color: var(--text-muted);
+
   font-size: 11px;
 }
 
 .concert-bottom strong {
   display: block;
+
   font-size: 18px;
+
   margin-top: 2px;
 }
 
 .view-button {
   text-decoration: none;
 
-  background: var(--primary);
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--purple)
+    );
+
   color: white;
 
   padding: 9px 18px;
+
   border-radius: var(--radius-small);
 
   font-size: 13px;
+
   font-weight: 500;
 }
 
@@ -281,262 +465,663 @@
 
 
 /* =========================================================
-   CONCERT DETAIL PAGE
+   HOME NAVBAR
 ========================================================= */
 
-.concert-detail-page {
-  min-height: 100vh;
-  background: #fafafa;
-  color: #1f1f1f;
-}
+.home-navbar {
+  width: 100%;
 
-
-/* NAVBAR */
-
-.concert-detail-page .navbar {
   height: 76px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
 
   padding: 0 6%;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  background: #fff;
-  border-bottom: 1px solid #eee;
-
   box-sizing: border-box;
+
+  background: rgba(8, 13, 26, 0.95);
+
+  border-bottom: 1px solid var(--border);
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 100;
+
+  backdrop-filter: blur(15px);
 }
 
-.concert-detail-page .logo {
-  color: #111;
+.home-navbar .logo {
+  color: var(--text);
+
   text-decoration: none;
 
   font-size: 25px;
+
   font-weight: 800;
+
   letter-spacing: -1px;
 }
 
-.concert-detail-page .logo span {
-  color: #777;
+.home-navbar .logo span {
+  color: var(--primary);
 }
 
-.concert-detail-page .nav-links {
+
+/* NAV LINKS */
+
+.home-navbar .nav-links {
   display: flex;
+
   align-items: center;
-  gap: 32px;
+
+  gap: 28px;
 }
 
-.concert-detail-page .nav-links a {
-  color: #555;
+.home-navbar .nav-links a {
+  position: relative;
+
+  color: var(--text-muted);
+
   text-decoration: none;
 
   font-size: 14px;
+
   font-weight: 500;
 
-  transition: 0.2s;
+  padding: 8px 2px;
+
+  transition: .2s ease;
 }
 
-.concert-detail-page .nav-links a:hover {
-  color: #111;
+.home-navbar .nav-links a:hover {
+  color: var(--primary);
+}
+
+.home-navbar .nav-links a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  bottom: 0;
+
+  width: 0;
+
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--primary),
+      var(--purple)
+    );
+
+  transition: .2s ease;
+}
+
+.home-navbar .nav-links a:hover::after {
+  width: 100%;
 }
 
 
-/* NAV USER */
+/* USER AREA */
 
-.nav-user {
+.home-navbar .nav-user {
   display: flex;
+
   align-items: center;
-  gap: 15px;
+
+  gap: 12px;
 }
 
-.username {
+.home-navbar .username {
   color: var(--text-muted);
-  font-size: 12px;
+
+  font-size: 13px;
 }
 
-.logout-button {
+.home-navbar .logout-button {
   border: 1px solid var(--border);
 
   background: var(--surface);
+
   color: var(--text);
 
-  padding: 8px 15px;
+  padding: 9px 16px;
 
-  border-radius: 20px;
+  border-radius: 999px;
 
-  font-size: 11px;
+  font-family: var(--font-main);
+
+  font-size: 12px;
+
+  font-weight: 600;
 
   cursor: pointer;
 
-  transition: 0.2s;
+  transition: .2s ease;
 }
 
-.logout-button:hover {
-  background: var(--secondary);
-  color: var(--primary-dark);
+.home-navbar .logout-button:hover {
+  background: var(--primary);
+
+  color: white;
+
   border-color: var(--primary);
-}
 
-.logout-admin {
-  color: #c43d3d !important;
-}
-
-.logout-admin:hover {
-  background: #fff1f1 !important;
-}
-
-.nav-booking-button {
-  padding: 9px 16px;
-
-  border: 1px solid #ddd;
-  border-radius: 10px;
-
-  text-decoration: none;
-
-  color: #111;
-  background: white;
-}
-
-
-/* MAIN DETAIL */
-
-.concert-detail-container {
-  width: min(1150px, 90%);
-
-  margin: 0 auto;
-
-  padding: 60px 0 100px;
-
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
-  gap: 55px;
-
-  align-items: start;
-}
-
-
-/* IMAGE */
-
-.detail-image {
-  width: 100%;
-  height: 520px;
-
-  overflow: hidden;
-
-  border-radius: 20px;
-
-  background: #e9e7e4;
-
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-}
-
-.detail-image img {
-  width: 100%;
-  height: 100%;
-
-  display: block;
-
-  object-fit: cover;
-}
-
-.detail-image .no-image {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #999;
-  font-size: 14px;
-}
-
-
-/* DETAIL INFO */
-
-.detail-info {
-  padding-top: 10px;
-}
-
-.detail-info .section-label {
-  margin-bottom: 12px;
-
-  color: #999;
-
-  font-size: 12px;
-  font-weight: 700;
-
-  letter-spacing: 2px;
-}
-
-.detail-info h1 {
-  margin: 0 0 12px;
-
-  font-size: 42px;
-
-  line-height: 1.15;
-
-  letter-spacing: -1px;
-}
-
-.detail-info h2 {
-  margin: 0 0 28px;
-
-  color: #666;
-
-  font-size: 22px;
-  font-weight: 500;
-}
-
-.detail-info > p {
-  margin: 10px 0;
-
-  color: #555;
-
-  font-size: 15px;
-}
-
-.detail-info h3 {
-  margin: 38px 0 18px;
-  font-size: 20px;
+  transform: translateY(-1px);
 }
 
 
 /* =========================================================
-   ZONE SELECTION
+   HOME HERO BUTTONS
 ========================================================= */
 
-.zone-list {
+.hero-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 30px;
+}
+
+.hero-buttons a {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 130px;
+
+  padding: 13px 22px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition: .2s ease;
+}
+
+.hero-buttons .primary-button {
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--purple)
+    );
+
+  color: white;
+
+  border: 1px solid transparent;
+}
+
+.hero-buttons .primary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 25px rgba(91, 140, 255, 0.25);
+}
+
+.hero-buttons .secondary-button {
+  background: transparent;
+
+  color: var(--text);
+
+  border: 1px solid var(--border);
+}
+
+.hero-buttons .secondary-button:hover {
+  border-color: var(--primary);
+
+  color: var(--primary);
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   HOME QUICK LINKS
+========================================================= */
+
+.home-actions {
   display: grid;
 
   grid-template-columns: repeat(3, 1fr);
 
   gap: 18px;
+
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  padding: 40px 30px;
+}
+
+.home-action-card {
+  display: block;
+
+  padding: 25px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius-large);
+
+  text-decoration: none;
+
+  color: var(--text);
+
+  text-align: left;
+
+  transition: .25s ease;
+
+  box-shadow: var(--shadow);
+}
+
+.home-action-card:hover {
+  transform: translateY(-4px);
+
+  border-color: var(--primary);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, .35);
+}
+
+.home-action-icon {
+  width: 42px;
+
+  height: 42px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin-bottom: 15px;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(91, 140, 255, 0.18),
+      rgba(155, 124, 255, 0.18)
+    );
+
+  color: var(--primary);
+
+  font-size: 20px;
+}
+
+.home-action-card h3 {
+  margin: 0 0 6px;
+
+  font-size: 17px;
+}
+
+.home-action-card p {
+  color: var(--text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   CONCERT DETAIL PAGE
+========================================================= */
+
+.concert-detail-page {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(91, 140, 255, 0.08),
+      transparent 30%
+    ),
+    var(--background);
+
+  color: var(--text);
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+  width: 100%;
+
+  height: 72px;
+
+  padding: 0 7%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  background: rgba(8, 13, 26, 0.95);
+
+  border-bottom: 1px solid var(--border);
+
+  box-sizing: border-box;
+
+  position: sticky;
+
+  top: 0;
+
+  z-index: 100;
+
+  backdrop-filter: blur(15px);
+}
+
+.logo {
+  text-decoration: none;
+
+  font-size: 25px;
+
+  font-weight: 800;
+
+  color: var(--text);
+
+  letter-spacing: -1px;
+}
+
+.logo span {
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+
+  align-items: center;
+
+  gap: 32px;
+}
+
+.nav-links a {
+  text-decoration: none;
+
+  color: var(--text-muted);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: var(--primary);
+}
+
+.nav-user {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+.username {
+  font-size: 14px;
+
+  color: var(--text-muted);
+}
+
+.nav-booking-button {
+  text-decoration: none;
+
+  padding: 10px 17px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(91, 140, 255, 0.15);
+
+  border: 1px solid rgba(91, 140, 255, 0.25);
+
+  color: var(--primary);
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+.nav-booking-button:hover {
+  background: var(--primary);
+
+  color: white;
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   DETAIL INFO
+========================================================= */
+
+.concert-detail-container {
+  width: min(1100px, 90%);
+
+  margin: 45px auto 35px;
+
+  display: grid;
+
+  grid-template-columns: 420px 1fr;
+
+  gap: 55px;
+
+  align-items: center;
+}
+
+.detail-image {
+  width: 100%;
+
+  height: 500px;
+
+  border-radius: 24px;
+
+  overflow: hidden;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.detail-image img {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.no-image {
+  width: 100%;
+
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: var(--text-muted);
+
+  font-weight: 700;
+}
+
+.detail-info {
+  padding: 10px 0;
+}
+
+.section-label {
+  margin: 0 0 10px;
+
+  color: var(--primary);
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.detail-info h1 {
+  margin: 0;
+
+  font-size: 42px;
+
+  line-height: 1.1;
+
+  letter-spacing: -1.5px;
+}
+
+.detail-info h2 {
+  margin: 12px 0 28px;
+
+  color: var(--purple);
+
+  font-size: 23px;
+}
+
+.detail-info p:not(.section-label) {
+  margin: 12px 0;
+
+  color: var(--text-muted);
+
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   CONCERT DESCRIPTION
+========================================================= */
+
+.concert-description {
+  margin: 10px 0;
+
+  color: var(--text-muted);
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  height: 42px;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   BOOKING SECTION
+========================================================= */
+
+.booking-section,
+.seat-section {
+  width: min(1100px, 90%);
+
+  margin: 0 auto;
+}
+
+.booking-section {
+  padding: 35px 0 25px;
+}
+
+.booking-heading,
+.seat-heading {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  margin-bottom: 25px;
+}
+
+.booking-heading h2,
+.seat-heading h2 {
+  margin: 0;
+
+  font-size: 28px;
+
+  letter-spacing: -0.5px;
+}
+
+.booking-heading > span {
+  color: var(--text-muted);
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   ZONE CARDS
+========================================================= */
+
+.zone-list {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 16px;
 }
 
 .zone-card {
+  border: 1px solid var(--border);
+
+  background: var(--surface);
+
+  color: var(--text);
+
+  border-radius: 18px;
+
+  padding: 22px;
+
+  text-align: left;
+
+  cursor: pointer;
+
   display: flex;
 
   flex-direction: column;
 
   gap: 8px;
 
-  padding: 20px;
+  transition: 0.2s ease;
 
-  background: #fff;
-
-  border: 1px solid #ddd;
-
-  border-radius: 16px;
-
-  text-align: left;
-
-  cursor: pointer;
-
-  transition: 0.2s;
+  box-shadow:
+    0 5px 20px rgba(0, 0, 0, 0.2);
 }
 
 button.zone-card {
@@ -544,133 +1129,185 @@ button.zone-card {
 }
 
 .zone-card:hover {
-  border-color: #111;
-  transform: translateY(-2px);
-}
+  transform: translateY(-3px);
 
-.zone-card.selected,
-.zone-card.active {
-  border: 2px solid #111;
-  background: #f5f5f5;
+  border-color: var(--primary);
+
+  box-shadow:
+    0 10px 30px rgba(91, 140, 255, 0.12);
 }
 
 .zone-card strong {
   font-size: 18px;
+
+  color: var(--text);
 }
 
 .zone-card span {
   font-size: 16px;
-  font-weight: 700;
+
+  color: var(--primary);
+
+  font-weight: 800;
 }
 
 .zone-card small {
-  color: #777;
+  color: var(--text-muted);
+
+  font-size: 12px;
+}
+
+.zone-card.selected,
+.zone-card.active {
+  border: 2px solid var(--primary);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(91, 140, 255, 0.12),
+      rgba(155, 124, 255, 0.12)
+    );
+
+  box-shadow:
+    0 10px 30px rgba(91, 140, 255, 0.15);
+}
+
+
+/* =========================================================
+   SEAT SECTION
+========================================================= */
+
+.seat-section {
+  margin-top: 20px;
+
+  padding-bottom: 70px;
+}
+
+.seat-heading p:not(.section-label) {
+  margin: 7px 0 0;
+
+  color: var(--text-muted);
+
   font-size: 13px;
 }
 
 
 /* =========================================================
-   SEAT BOOKING
+   STAGE
 ========================================================= */
 
-.seat-section {
-  max-width: 1200px;
-
-  margin: 40px auto;
-
-  padding: 0 24px 80px;
-}
-
-.seat-heading {
-  margin-bottom: 30px;
-}
-
-.seat-heading h2 {
-  margin: 5px 0;
-  font-size: 30px;
-}
-
-.seat-heading p:last-child {
-  color: #777;
-}
-
-
-/* STAGE */
-
 .stage {
-  width: 70%;
-  max-width: 700px;
+  width: min(650px, 90%);
 
-  margin: 0 auto 35px;
+  height: 45px;
 
-  padding: 15px;
+  margin: 30px auto 35px;
 
-  text-align: center;
+  border-radius: 50% / 100%;
 
-  border-radius: 8px;
+  background:
+    linear-gradient(
+      90deg,
+      #17264a,
+      #3455a3,
+      #17264a
+    );
 
-  background: #222;
   color: white;
 
-  font-size: 14px;
-  font-weight: 700;
+  display: flex;
 
-  letter-spacing: 3px;
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 4px;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.35);
 }
 
 
-/* SEAT MAP */
+/* =========================================================
+   SEAT MAP
+========================================================= */
 
 .seat-map {
+  width: min(800px, 100%);
+
+  margin: 0 auto;
+
   display: grid;
 
   grid-template-columns: repeat(10, 1fr);
 
   gap: 10px;
 
-  max-width: 700px;
+  padding: 25px;
 
-  margin: 0 auto 30px;
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 22px;
+
+  box-shadow: var(--shadow);
 }
 
-
-/* SEAT */
-
 .seat {
-  width: 100%;
-  aspect-ratio: 1;
+  height: 42px;
 
-  border: 1px solid #ddd;
+  border: 1px solid var(--border);
 
-  border-radius: 8px;
+  border-radius: 9px;
 
-  background: white;
+  background: var(--background-light);
 
-  color: #222;
+  color: var(--text-muted);
+
+  font-size: 11px;
+
+  font-weight: 700;
 
   cursor: pointer;
 
-  font-size: 12px;
-
-  transition: 0.15s;
+  transition: 0.15s ease;
 }
 
-.seat:hover {
-  border-color: #111;
+.seat:hover:not(:disabled) {
+  background: rgba(91, 140, 255, 0.15);
+
+  border-color: var(--primary);
+
+  color: var(--primary);
+
   transform: translateY(-2px);
 }
 
 .seat.selected {
-  background: #111;
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--purple)
+    );
+
+  border-color: var(--primary);
+
   color: white;
-  border-color: #111;
 }
 
 .seat.booked,
 .seat.sold {
-  background: #ddd;
-  color: #999;
-  border-color: #ddd;
+  background: #222c40;
+
+  border-color: #303b52;
+
+  color: #5e6a80;
 
   cursor: not-allowed;
 
@@ -678,18 +1315,24 @@ button.zone-card {
 }
 
 
-/* SEAT LEGEND */
+/* =========================================================
+   SEAT LEGEND
+========================================================= */
 
 .seat-legend {
   display: flex;
 
   justify-content: center;
 
-  flex-wrap: wrap;
+  align-items: center;
 
-  gap: 30px;
+  gap: 28px;
 
-  margin: 25px 0 35px;
+  margin: 25px 0;
+
+  color: var(--text-muted);
+
+  font-size: 13px;
 }
 
 .seat-legend span {
@@ -697,32 +1340,33 @@ button.zone-card {
 
   align-items: center;
 
-  gap: 8px;
-
-  font-size: 14px;
+  gap: 7px;
 }
 
 .legend-seat {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+
+  height: 15px;
 
   display: inline-block;
 
-  border: 1px solid #ddd;
-
   border-radius: 4px;
 
-  background: white;
+  background: var(--background-light);
+
+  border: 1px solid var(--border);
 }
 
 .legend-seat.selected {
-  background: #111;
-  border-color: #111;
+  background: var(--primary);
+
+  border-color: var(--primary);
 }
 
 .legend-seat.booked {
-  background: #ddd;
-  border-color: #ddd;
+  background: #30394b;
+
+  border-color: #30394b;
 }
 
 
@@ -731,17 +1375,15 @@ button.zone-card {
 ========================================================= */
 
 .booking-summary {
-  max-width: 900px;
+  margin-top: 30px;
 
-  margin: 0 auto;
+  padding: 22px 25px;
 
-  padding: 25px;
+  background: var(--surface);
 
-  background: white;
+  border: 1px solid var(--border);
 
-  border: 1px solid #eee;
-
-  border-radius: 14px;
+  border-radius: 18px;
 
   display: grid;
 
@@ -750,6 +1392,8 @@ button.zone-card {
   gap: 30px;
 
   align-items: center;
+
+  box-shadow: var(--shadow);
 }
 
 .booking-summary > div {
@@ -761,53 +1405,62 @@ button.zone-card {
 }
 
 .booking-summary span {
-  color: #777;
-  font-size: 13px;
+  color: var(--text-muted);
+
+  font-size: 12px;
 }
 
 .booking-summary strong {
-  font-size: 16px;
+  color: var(--text);
+
+  font-size: 14px;
 }
 
 .booking-total {
-  font-size: 24px !important;
+  color: var(--primary) !important;
+
+  font-size: 22px !important;
 }
 
 
-/* BUTTON */
+/* =========================================================
+   COMMON BUTTON
+========================================================= */
 
-.booking-button {
-  width: 100%;
-
-  padding: 14px;
-
+.primary-button {
   border: none;
 
-  border-radius: 9px;
+  border-radius: 13px;
 
-  background: #111;
+  padding: 14px 22px;
 
-  color: #fff;
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--purple)
+    );
 
-  font-size: 15px;
+  color: white;
 
-  font-weight: 600;
+  font-weight: 800;
 
   cursor: pointer;
 
-  transition: 0.2s;
-
-  white-space: nowrap;
+  transition: 0.2s ease;
 }
 
-.booking-button:hover {
-  background: #333;
+.primary-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 25px rgba(91, 140, 255, 0.25);
 }
 
-.booking-button:disabled {
-  background: #ccc;
+.primary-button:disabled {
+  background: #30394b;
 
-  opacity: 0.5;
+  color: #69758b;
 
   cursor: not-allowed;
 }
@@ -835,6 +1488,7 @@ button.zone-card {
 
 .payment-header h1 {
   font-size: 38px;
+
   margin-top: 15px;
 }
 
@@ -906,7 +1560,7 @@ button.zone-card {
 .payment-method.active {
   border-color: var(--primary);
 
-  background: var(--secondary);
+  background: rgba(91, 140, 255, 0.1);
 }
 
 .payment-method input {
@@ -931,23 +1585,31 @@ button.zone-card {
 
 .qr-payment {
   text-align: center;
+
   padding: 25px;
 }
 
 .qr-box {
   width: 180px;
+
   height: 180px;
 
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   margin: auto;
 
   border: 5px solid var(--text);
 
+  background: white;
+
+  color: #111;
+
   font-weight: 700;
+
   font-size: 25px;
 }
 
@@ -960,7 +1622,7 @@ button.zone-card {
 }
 
 
-/* CARD */
+/* CARD FORM */
 
 .card-form {
   margin-top: 25px;
@@ -982,6 +1644,16 @@ button.zone-card {
   border: 1px solid var(--border);
 
   border-radius: var(--radius-small);
+
+  background: var(--background-light);
+
+  color: var(--text);
+
+  outline: none;
+}
+
+.card-form input:focus {
+  border-color: var(--primary);
 }
 
 .card-row {
@@ -994,11 +1666,13 @@ button.zone-card {
 
 .payment-button {
   width: 100%;
+
   margin-top: 20px;
 }
 
 .payment-button:disabled {
   opacity: 0.6;
+
   cursor: not-allowed;
 }
 
@@ -1041,6 +1715,7 @@ button.zone-card {
 
 .order-concert img {
   width: 70px;
+
   height: 70px;
 
   object-fit: cover;
@@ -1055,6 +1730,7 @@ button.zone-card {
 
 .order-concert span {
   color: var(--text-muted);
+
   font-size: 13px;
 }
 
@@ -1095,7 +1771,7 @@ button.zone-card {
 }
 
 .order-total strong {
-  color: var(--primary-dark);
+  color: var(--primary);
 
   font-size: 23px;
 }
@@ -1116,18 +1792,28 @@ button.zone-card {
 
   padding: 30px;
 
-  background: linear-gradient(
-    135deg,
-    var(--background),
-    var(--secondary)
-  );
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(91, 140, 255, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(155, 124, 255, 0.15),
+      transparent 35%
+    ),
+    var(--background);
 }
 
 .success-card {
   width: 550px;
+
   max-width: 100%;
 
   background: var(--surface);
+
+  border: 1px solid var(--border);
 
   border-radius: var(--radius-large);
 
@@ -1140,11 +1826,13 @@ button.zone-card {
 
 .success-icon {
   width: 70px;
+
   height: 70px;
 
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   margin: auto;
@@ -1174,6 +1862,7 @@ button.zone-card {
 
 .success-card h1 {
   font-size: 32px;
+
   margin: 8px 0;
 }
 
@@ -1186,7 +1875,9 @@ button.zone-card {
 
   padding: 18px;
 
-  background: var(--background);
+  background: var(--background-light);
+
+  border: 1px solid var(--border);
 
   border-radius: var(--radius-medium);
 }
@@ -1202,7 +1893,7 @@ button.zone-card {
 .booking-number strong {
   display: block;
 
-  color: var(--primary-dark);
+  color: var(--primary);
 
   font-size: 23px;
 
@@ -1232,11 +1923,13 @@ button.zone-card {
 
 .success-info span {
   color: var(--text-muted);
+
   font-size: 11px;
 }
 
 .success-info b {
   font-size: 13px;
+
   margin-top: 3px;
 }
 
@@ -1251,7 +1944,8 @@ button.zone-card {
 }
 
 .success-total strong {
-  color: var(--primary-dark);
+  color: var(--primary);
+
   font-size: 23px;
 }
 
@@ -1265,6 +1959,7 @@ button.zone-card {
 
 .success-actions a {
   text-decoration: none;
+
   text-align: center;
 }
 
@@ -1282,6 +1977,12 @@ button.zone-card {
   font-size: 14px;
 }
 
+.secondary-button:hover {
+  border-color: var(--primary);
+
+  color: var(--primary);
+}
+
 
 /* =========================================================
    BOOKING HISTORY
@@ -1289,6 +1990,7 @@ button.zone-card {
 
 .history-page {
   min-height: 100vh;
+
   background: var(--background);
 }
 
@@ -1306,6 +2008,7 @@ button.zone-card {
 
 .history-heading h1 {
   font-size: 38px;
+
   margin: 5px 0;
 }
 
@@ -1343,7 +2046,9 @@ button.zone-card {
 
 .history-image img {
   width: 100%;
+
   height: 100%;
+
   object-fit: cover;
 }
 
@@ -1366,7 +2071,7 @@ button.zone-card {
 
   border-radius: 20px;
 
-  background: #e6f7ef;
+  background: rgba(66, 214, 155, 0.12);
 
   color: var(--success);
 
@@ -1383,11 +2088,12 @@ button.zone-card {
 
 .history-artist {
   color: var(--text-muted);
+
   font-size: 14px;
 }
 
 .history-price {
-  color: var(--primary-dark);
+  color: var(--primary);
 
   font-size: 21px;
 
@@ -1463,6 +2169,7 @@ button.zone-card {
 
 .empty-icon {
   font-size: 50px;
+
   margin-bottom: 15px;
 }
 
@@ -1472,11 +2179,13 @@ button.zone-card {
 
 .empty-bookings p {
   color: var(--text-muted);
+
   margin-bottom: 25px;
 }
 
 .empty-bookings .primary-button {
   display: inline-block;
+
   text-decoration: none;
 }
 
@@ -1503,7 +2212,7 @@ button.zone-card {
 
   padding: 30px 18px;
 
-  background: var(--surface);
+  background: #0b1222;
 
   border-right: 1px solid var(--border);
 
@@ -1553,7 +2262,7 @@ button.zone-card {
 
   background: transparent;
 
-  color: var(--text);
+  color: var(--text-muted);
 
   text-decoration: none;
 
@@ -1566,9 +2275,14 @@ button.zone-card {
 
 .admin-menu:hover,
 .admin-menu.active {
-  background: var(--secondary);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(91, 140, 255, 0.15),
+      rgba(155, 124, 255, 0.15)
+    );
 
-  color: var(--primary-dark);
+  color: var(--primary);
 }
 
 .admin-sidebar-bottom {
@@ -1598,15 +2312,18 @@ button.zone-card {
 
 .admin-header h1 {
   font-size: 30px;
+
   margin-top: 5px;
 }
 
 .admin-user {
   padding: 8px 15px;
 
-  background: var(--secondary);
+  background: rgba(91, 140, 255, 0.12);
 
-  color: var(--primary-dark);
+  color: var(--primary);
+
+  border: 1px solid rgba(91, 140, 255, 0.2);
 
   border-radius: 20px;
 
@@ -1638,10 +2355,19 @@ button.zone-card {
   border-radius: var(--radius-medium);
 
   background: var(--surface);
+
+  color: var(--text);
+
+  outline: none;
+}
+
+.admin-toolbar > input:focus {
+  border-color: var(--primary);
 }
 
 .toolbar-buttons {
   display: flex;
+
   gap: 10px;
 }
 
@@ -1661,7 +2387,12 @@ button.zone-card {
 .admin-stat-card {
   padding: 20px;
 
-  background: var(--surface);
+  background:
+    linear-gradient(
+      135deg,
+      var(--surface),
+      #14203a
+    );
 
   border: 1px solid var(--border);
 
@@ -1685,7 +2416,7 @@ button.zone-card {
 
   margin-top: 5px;
 
-  color: var(--primary-dark);
+  color: var(--primary);
 }
 
 
@@ -1721,25 +2452,10 @@ button.zone-card {
 
 .admin-concert-image img {
   width: 100%;
+
   height: 100%;
 
   object-fit: cover;
-}
-
-.no-image {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  background: var(--secondary);
-
-  color: var(--text-muted);
-
-  font-size: 11px;
 }
 
 .admin-concert-info {
@@ -1760,6 +2476,7 @@ button.zone-card {
 
 .admin-concert-info h2 {
   font-size: 20px;
+
   margin-top: 5px;
 }
 
@@ -1794,20 +2511,28 @@ button.zone-card {
 }
 
 
-/* BUTTONS */
+/* =========================================================
+   DANGER BUTTON
+========================================================= */
 
 .danger-button {
   padding: 10px 15px;
 
-  border: 1px solid #efb8b8;
+  border: 1px solid rgba(255, 100, 124, 0.3);
 
   border-radius: var(--radius-medium);
 
-  background: #fff5f5;
+  background: rgba(255, 100, 124, 0.08);
 
-  color: #c43d3d;
+  color: var(--danger);
 
   cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.danger-button:hover {
+  background: rgba(255, 100, 124, 0.15);
 }
 
 .danger-button.small {
@@ -1819,7 +2544,9 @@ button.zone-card {
 }
 
 
-/* TABLE */
+/* =========================================================
+   ADMIN TABLE
+========================================================= */
 
 .admin-table-section {
   overflow-x: auto;
@@ -1860,7 +2587,7 @@ button.zone-card {
 .table-header {
   background: var(--secondary);
 
-  color: var(--primary-dark);
+  color: var(--primary);
 
   font-size: 11px;
 
@@ -1883,14 +2610,15 @@ button.zone-card {
 
   font-size: 10px;
 
-  background: #e8f7ef;
+  background: rgba(66, 214, 155, 0.12);
 
-  color: #258552;
+  color: var(--success);
 }
 
 .status-pending {
-  background: #fff4dc;
-  color: #a86b00;
+  background: rgba(255, 200, 87, 0.12);
+
+  color: var(--warning);
 }
 
 .table-empty {
@@ -1930,7 +2658,7 @@ button.zone-card {
 
   padding: 20px;
 
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.75);
 
   overflow-y: auto;
 }
@@ -1948,9 +2676,12 @@ button.zone-card {
 
   background: var(--surface);
 
+  border: 1px solid var(--border);
+
   border-radius: var(--radius-large);
 
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.6);
 }
 
 .modal-header {
@@ -1969,6 +2700,7 @@ button.zone-card {
 
 .close-button {
   width: 35px;
+
   height: 35px;
 
   border: none;
@@ -1977,13 +2709,23 @@ button.zone-card {
 
   background: var(--secondary);
 
+  color: var(--text);
+
   font-size: 22px;
 
   cursor: pointer;
 }
 
+.close-button:hover {
+  background: var(--primary);
 
-/* FORM */
+  color: white;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
 
 .form-grid {
   display: grid;
@@ -2009,7 +2751,9 @@ button.zone-card {
 }
 
 .form-group input,
-.zone-edit-card input {
+.zone-edit-card input,
+.form-group select,
+.form-group textarea {
   width: 100%;
 
   padding: 11px 13px;
@@ -2018,18 +2762,25 @@ button.zone-card {
 
   border-radius: var(--radius-small);
 
-  background: var(--surface);
+  background: var(--background-light);
+
+  color: var(--text);
 
   outline: none;
 }
 
 .form-group input:focus,
-.zone-edit-card input:focus {
+.zone-edit-card input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
   border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px rgba(91, 140, 255, 0.1);
 }
 
 
-/* IMAGE */
+/* IMAGE UPLOAD */
 
 .image-upload-box {
   display: flex;
@@ -2043,10 +2794,13 @@ button.zone-card {
   border: 1px dashed var(--border);
 
   border-radius: var(--radius-medium);
+
+  background: var(--background-light);
 }
 
 .image-upload-box img {
   width: 120px;
+
   height: 80px;
 
   object-fit: cover;
@@ -2056,14 +2810,16 @@ button.zone-card {
 
 .image-placeholder {
   width: 120px;
+
   height: 80px;
 
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
-  background: var(--background);
+  background: var(--surface-light);
 
   color: var(--text-muted);
 
@@ -2071,7 +2827,9 @@ button.zone-card {
 }
 
 
-/* ZONE MANAGEMENT */
+/* =========================================================
+   ZONE MANAGEMENT
+========================================================= */
 
 .zone-management {
   margin-top: 30px;
@@ -2100,7 +2858,7 @@ button.zone-card {
 
   margin-bottom: 12px;
 
-  background: var(--background);
+  background: var(--background-light);
 
   border: 1px solid var(--border);
 
@@ -2110,7 +2868,7 @@ button.zone-card {
 .zone-edit-title {
   margin-bottom: 15px;
 
-  color: var(--primary-dark);
+  color: var(--primary);
 
   font-size: 12px;
 
@@ -2120,13 +2878,15 @@ button.zone-card {
 .zone-edit-grid {
   display: grid;
 
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
 
   gap: 10px;
 }
 
 
-/* MODAL FOOTER */
+/* =========================================================
+   MODAL FOOTER
+========================================================= */
 
 .modal-footer {
   display: flex;
@@ -2150,7 +2910,7 @@ button.zone-card {
 .report-page {
   min-height: 100vh;
 
-  background: #fafafa;
+  background: var(--background);
 }
 
 .report-container {
@@ -2186,7 +2946,7 @@ button.zone-card {
 
   margin: 0 auto;
 
-  color: #777;
+  color: var(--text-muted);
 
   line-height: 1.7;
 
@@ -2209,13 +2969,13 @@ button.zone-card {
 
   padding: 40px;
 
-  background: #fff;
+  background: var(--surface);
 
-  border: 1px solid #e9e9e9;
+  border: 1px solid var(--border);
 
   border-radius: 22px;
 
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow);
 }
 
 .report-form .form-group {
@@ -2231,7 +2991,7 @@ button.zone-card {
 
   font-weight: 600;
 
-  color: #222;
+  color: var(--text);
 }
 
 .report-form input,
@@ -2241,11 +3001,11 @@ button.zone-card {
 
   box-sizing: border-box;
 
-  border: 1px solid #dedede;
+  border: 1px solid var(--border);
 
   border-radius: 12px;
 
-  background: #fff;
+  background: var(--background-light);
 
   padding: 14px 16px;
 
@@ -2253,7 +3013,7 @@ button.zone-card {
 
   font-size: 14px;
 
-  color: #222;
+  color: var(--text);
 
   outline: none;
 
@@ -2277,14 +3037,15 @@ button.zone-card {
 .report-form input:focus,
 .report-form select:focus,
 .report-form textarea:focus {
-  border-color: #111;
+  border-color: var(--primary);
 
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 0 0 3px rgba(91, 140, 255, 0.1);
 }
 
 .report-form input::placeholder,
 .report-form textarea::placeholder {
-  color: #aaa;
+  color: #657189;
 }
 
 
@@ -2299,7 +3060,9 @@ button.zone-card {
 
   padding: 16px 18px;
 
-  background: #f7f7f7;
+  background: var(--background-light);
+
+  border: 1px solid var(--border);
 
   border-radius: 12px;
 
@@ -2307,11 +3070,11 @@ button.zone-card {
 }
 
 .report-user-info span {
-  color: #777;
+  color: var(--text-muted);
 }
 
 .report-user-info strong {
-  color: #222;
+  color: var(--text);
 }
 
 
@@ -2339,13 +3102,13 @@ button.zone-card {
 
   text-align: center;
 
-  background: #fff;
+  background: var(--surface);
 
-  border: 1px solid #e9e9e9;
+  border: 1px solid var(--border);
 
   border-radius: 22px;
 
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow);
 }
 
 .report-success h2 {
@@ -2359,7 +3122,7 @@ button.zone-card {
 
   margin: 0 auto;
 
-  color: #777;
+  color: var(--text-muted);
 
   line-height: 1.7;
 }
@@ -2391,33 +3154,407 @@ button.zone-card {
 
 
 /* =========================================================
-   COMMON BUTTON
+   MINI CONCERT CALENDAR
 ========================================================= */
 
-.primary-button {
-  padding: 12px 20px;
+.mini-calendar-section {
+  width: 100%;
+
+  max-width: 1200px;
+
+  margin: -40px auto 40px;
+
+  padding: 0 24px;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  position: relative;
+
+  z-index: 5;
+}
+
+.mini-calendar {
+  width: 270px;
+
+  flex-shrink: 0;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  box-shadow: var(--shadow);
+}
+
+.section-top {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 30px;
+
+  margin-bottom: 35px;
+}
+
+
+/* CALENDAR HEADER */
+
+.mini-calendar-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 15px;
+}
+
+.mini-calendar-header strong {
+  font-size: 15px;
+
+  color: var(--text);
+}
+
+.mini-calendar-header button {
+  width: 30px;
+
+  height: 30px;
 
   border: none;
 
-  border-radius: var(--radius-medium);
+  border-radius: 8px;
 
-  background: var(--primary);
+  background: var(--secondary);
 
-  color: white;
+  color: var(--text);
 
-  font-size: 14px;
+  font-size: 20px;
 
   cursor: pointer;
 
   transition: 0.2s;
 }
 
-.primary-button:hover {
-  background: var(--primary-dark);
+.mini-calendar-header button:hover {
+  background: var(--primary);
+
+  color: white;
 }
 
-.primary-button.full {
-  width: 100%;
+
+/* WEEKDAYS */
+
+.mini-calendar-weekdays {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  text-align: center;
+
+  margin-bottom: 7px;
+}
+
+.mini-calendar-weekdays span {
+  font-size: 10px;
+
+  font-weight: 600;
+
+  color: var(--text-muted);
+}
+
+
+/* DAYS */
+
+.mini-calendar-grid {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 4px;
+}
+
+.mini-calendar-day {
+  position: relative;
+
+  height: 30px;
+
+  border: none;
+
+  background: transparent;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+
+  color: var(--text-muted);
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.mini-calendar-day:hover {
+  background: var(--secondary);
+
+  color: var(--text);
+}
+
+.mini-calendar-day.concert-day {
+  font-weight: 700;
+
+  color: var(--primary);
+}
+
+.mini-calendar-day.concert-day i {
+  position: absolute;
+
+  width: 4px;
+
+  height: 4px;
+
+  background: var(--purple);
+
+  border-radius: 50%;
+
+  bottom: 3px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+}
+
+.mini-calendar-day.selected {
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--purple)
+    );
+
+  color: white;
+
+  font-weight: 700;
+}
+
+.mini-calendar-day.selected i {
+  background: white;
+}
+
+.calendar-empty {
+  height: 30px;
+}
+
+
+/* CALENDAR LEGEND */
+
+.calendar-hint {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 13px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--border);
+
+  font-size: 10px;
+
+  color: var(--text-muted);
+}
+
+.calendar-hint i {
+  width: 5px;
+
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--purple);
+}
+
+
+/* SELECTED DATE */
+
+.selected-date-panel {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 17px 20px;
+
+  margin-bottom: 15px;
+
+  background: var(--background-light);
+
+  border: 1px solid var(--border);
+
+  border-radius: 14px;
+}
+
+.selected-date-panel p {
+  margin: 0 0 4px;
+
+  font-size: 9px;
+
+  letter-spacing: 1.5px;
+
+  color: var(--text-muted);
+}
+
+.selected-date-panel strong {
+  font-size: 15px;
+
+  color: var(--text);
+}
+
+.selected-date-panel button {
+  border: none;
+
+  background: transparent;
+
+  font-size: 24px;
+
+  color: var(--text-muted);
+
+  cursor: pointer;
+}
+
+.selected-date-panel button:hover {
+  color: var(--primary);
+}
+
+
+/* SELECTED CONCERT */
+
+.selected-concert-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-bottom: 25px;
+}
+
+.selected-concert-item {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 14px 18px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--border);
+
+  border-radius: 12px;
+}
+
+.selected-concert-item > div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.selected-concert-item strong {
+  font-size: 14px;
+}
+
+.selected-concert-item span {
+  font-size: 12px;
+
+  color: var(--text-muted);
+}
+
+.selected-concert-item small {
+  font-size: 11px;
+
+  color: #69758b;
+}
+
+.calendar-view-button {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 8px 17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      var(--purple)
+    );
+
+  color: white;
+
+  text-decoration: none;
+
+  border-radius: 8px;
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.calendar-view-button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 18px rgba(91, 140, 255, 0.25);
+}
+
+
+/* =========================================================
+   NOT FOUND
+========================================================= */
+
+.not-found-page {
+  min-height: 70vh;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 20px;
+}
+
+.not-found-page h1 {
+  margin: 0;
+}
+
+.not-found-page a {
+  text-decoration: none;
+
+  color: var(--primary);
+
+  font-weight: 700;
 }
 
 
@@ -2489,6 +3626,7 @@ button.zone-card {
 
   .admin-concert-meta {
     flex-direction: column;
+
     gap: 5px;
   }
 }
@@ -2496,6 +3634,7 @@ button.zone-card {
 
 @media (max-width: 800px) {
 
+  .navbar,
   .concert-detail-page .navbar {
     height: auto;
 
@@ -2508,7 +3647,7 @@ button.zone-card {
     gap: 15px;
   }
 
-  .concert-detail-page .nav-links {
+  .nav-links {
     width: 100%;
 
     order: 3;
@@ -2636,6 +3775,78 @@ button.zone-card {
 }
 
 
+@media (max-width: 768px) {
+
+  .section-top {
+    flex-direction: column;
+  }
+
+  .mini-calendar {
+    width: 100%;
+
+    max-width: 300px;
+  }
+
+  .selected-concert-item {
+    align-items: flex-start;
+  }
+
+  .selected-concert-item > div {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 3px;
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .home-navbar {
+    height: auto;
+
+    padding: 15px 20px;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+  }
+
+  .home-navbar .nav-links {
+    order: 3;
+
+    width: 100%;
+
+    justify-content: center;
+
+    gap: 18px;
+  }
+
+  .home-navbar .username {
+    display: none;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .hero-buttons a {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .home-actions {
+    grid-template-columns: 1fr;
+
+    padding: 30px 20px;
+  }
+}
+
+
 @media (max-width: 600px) {
 
   .concert-grid {
@@ -2703,1163 +3914,4 @@ button.zone-card {
   .report-form {
     margin: 0;
   }
-}
-/* =========================================
-   HOME NAVBAR
-========================================= */
-
-.home-navbar {
-  width: 100%;
-  height: 76px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0 6%;
-  box-sizing: border-box;
-
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.home-navbar .logo {
-  color: var(--text);
-  text-decoration: none;
-
-  font-size: 25px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.home-navbar .logo span {
-  color: var(--primary);
-}
-
-
-/* NAV LINKS */
-
-.home-navbar .nav-links {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
-
-.home-navbar .nav-links a {
-  position: relative;
-
-  color: var(--text);
-  text-decoration: none;
-
-  font-size: 14px;
-  font-weight: 500;
-
-  padding: 8px 2px;
-
-  transition: .2s ease;
-}
-
-.home-navbar .nav-links a:hover {
-  color: var(--primary);
-}
-
-.home-navbar .nav-links a::after {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  bottom: 0;
-
-  width: 0;
-  height: 2px;
-
-  background: var(--primary);
-
-  transition: .2s ease;
-}
-
-.home-navbar .nav-links a:hover::after {
-  width: 100%;
-}
-
-
-/* USER AREA */
-
-.home-navbar .nav-user {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.home-navbar .username {
-  color: var(--text-muted);
-  font-size: 13px;
-}
-
-.home-navbar .logout-button {
-  border: 1px solid var(--border);
-
-  background: var(--surface);
-  color: var(--text);
-
-  padding: 9px 16px;
-
-  border-radius: 999px;
-
-  font-family: var(--font-main);
-  font-size: 12px;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  transition: .2s ease;
-}
-
-.home-navbar .logout-button:hover {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-
-  transform: translateY(-1px);
-}
-
-
-/* =========================================
-   HOME HERO BUTTONS
-========================================= */
-
-.hero-buttons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  margin-top: 30px;
-}
-
-.hero-buttons a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 130px;
-  padding: 13px 22px;
-
-  border-radius: 10px;
-
-  text-decoration: none;
-
-  font-size: 14px;
-  font-weight: 600;
-
-  transition: .2s ease;
-}
-
-
-/* PRIMARY */
-
-.hero-buttons .primary-button {
-  background: var(--primary);
-  color: white;
-
-  border: 1px solid var(--primary);
-}
-
-.hero-buttons .primary-button:hover {
-  background: var(--primary-dark);
-
-  transform: translateY(-2px);
-
-  box-shadow: 0 8px 20px rgba(0,0,0,.12);
-}
-
-
-/* SECONDARY */
-
-.hero-buttons .secondary-button {
-  background: var(--surface);
-  color: var(--text);
-
-  border: 1px solid var(--border);
-}
-
-.hero-buttons .secondary-button:hover {
-  border-color: var(--primary);
-
-  transform: translateY(-2px);
-}
-
-
-/* =========================================
-   HOME QUICK LINKS
-========================================= */
-
-.home-actions {
-  display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 18px;
-
-  max-width: 1100px;
-
-  margin: 0 auto;
-
-  padding: 40px 30px;
-}
-
-.home-action-card {
-  display: block;
-
-  padding: 25px;
-
-  background: var(--surface);
-
-  border: 1px solid var(--border);
-
-  border-radius: var(--radius-large);
-
-  text-decoration: none;
-
-  color: var(--text);
-
-  text-align: left;
-
-  transition: .25s ease;
-
-  box-shadow: var(--shadow);
-}
-
-.home-action-card:hover {
-  transform: translateY(-4px);
-
-  border-color: var(--primary);
-
-  box-shadow: 0 12px 30px rgba(0,0,0,.08);
-}
-
-.home-action-icon {
-  width: 42px;
-  height: 42px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin-bottom: 15px;
-
-  border-radius: 12px;
-
-  background: var(--secondary);
-
-  font-size: 20px;
-}
-
-.home-action-card h3 {
-  margin: 0 0 6px;
-
-  font-size: 17px;
-}
-
-.home-action-card p {
-  color: var(--text-muted);
-
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 700px) {
-
-  .home-navbar {
-    height: auto;
-
-    padding: 15px 20px;
-
-    flex-wrap: wrap;
-
-    gap: 15px;
-  }
-
-  .home-navbar .nav-links {
-    order: 3;
-
-    width: 100%;
-
-    justify-content: center;
-
-    gap: 18px;
-  }
-
-  .home-navbar .username {
-    display: none;
-  }
-
-  .hero-buttons {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .hero-buttons a {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .home-actions {
-    grid-template-columns: 1fr;
-
-    padding: 30px 20px;
-  }
-
-}
-/* =========================================
-   CONCERT DETAIL PAGE
-========================================= */
-
-.concert-detail-page {
-  min-height: 100vh;
-  background: #faf7fb;
-  color: #25212a;
-}
-
-
-/* =========================================
-   NAVBAR
-========================================= */
-
-.navbar {
-  width: 100%;
-  height: 72px;
-  padding: 0 7%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid #eee5ef;
-  box-sizing: border-box;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  text-decoration: none;
-  font-size: 25px;
-  font-weight: 800;
-  color: #26202a;
-  letter-spacing: -1px;
-}
-
-.logo span {
-  color: #d86ca5;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #716875;
-  font-size: 14px;
-  font-weight: 600;
-  transition: 0.2s ease;
-}
-
-.nav-links a:hover {
-  color: #d15b98;
-}
-
-.nav-user {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.username {
-  font-size: 14px;
-  color: #655c68;
-}
-
-.nav-booking-button {
-  text-decoration: none;
-  padding: 10px 17px;
-  border-radius: 12px;
-  background: #f3d9e8;
-  color: #a94678;
-  font-size: 13px;
-  font-weight: 700;
-  transition: 0.2s ease;
-}
-
-.nav-booking-button:hover {
-  background: #eac5dc;
-  transform: translateY(-1px);
-}
-
-
-/* =========================================
-   CONCERT INFO
-========================================= */
-
-.concert-detail-container {
-  width: min(1100px, 90%);
-  margin: 45px auto 35px;
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 55px;
-  align-items: center;
-}
-
-.detail-image {
-  width: 100%;
-  height: 500px;
-  border-radius: 24px;
-  overflow: hidden;
-  background: #eee7ed;
-  box-shadow: 0 15px 40px rgba(70, 45, 65, 0.08);
-}
-
-.detail-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.no-image {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #99909a;
-  font-weight: 700;
-}
-
-.detail-info {
-  padding: 10px 0;
-}
-
-.section-label {
-  margin: 0 0 10px;
-  color: #c25a91;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
-
-.detail-info h1 {
-  margin: 0;
-  font-size: 42px;
-  line-height: 1.1;
-  letter-spacing: -1.5px;
-}
-
-.detail-info h2 {
-  margin: 12px 0 28px;
-  color: #b95a89;
-  font-size: 23px;
-}
-
-.detail-info p:not(.section-label) {
-  margin: 12px 0;
-  color: #665d68;
-  font-size: 15px;
-}
-
-
-/* =========================================
-   BOOKING SECTION
-========================================= */
-
-.booking-section,
-.seat-section {
-  width: min(1100px, 90%);
-  margin: 0 auto;
-}
-
-.booking-section {
-  padding: 35px 0 25px;
-}
-
-.booking-heading,
-.seat-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 25px;
-}
-
-.booking-heading h2,
-.seat-heading h2 {
-  margin: 0;
-  font-size: 28px;
-  letter-spacing: -0.5px;
-}
-
-.booking-heading > span {
-  color: #918692;
-  font-size: 13px;
-}
-
-
-/* =========================================
-   ZONE CARDS
-========================================= */
-
-.zone-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.zone-card {
-  border: 1px solid #eadde7;
-  background: white;
-  border-radius: 18px;
-  padding: 22px;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: 0.2s ease;
-  box-shadow: 0 5px 20px rgba(60, 40, 55, 0.04);
-}
-
-.zone-card:hover {
-  transform: translateY(-3px);
-  border-color: #df9ec1;
-  box-shadow: 0 10px 25px rgba(100, 55, 85, 0.08);
-}
-
-.zone-card strong {
-  font-size: 18px;
-  color: #302934;
-}
-
-.zone-card span {
-  font-size: 16px;
-  color: #c2528b;
-  font-weight: 800;
-}
-
-.zone-card small {
-  color: #938894;
-  font-size: 12px;
-}
-
-.zone-card.selected {
-  border: 2px solid #d96b9f;
-  background: #fff5fa;
-  box-shadow: 0 10px 25px rgba(217, 107, 159, 0.12);
-}
-
-
-/* =========================================
-   SEAT SECTION
-========================================= */
-
-.seat-section {
-  margin-top: 20px;
-  padding-bottom: 70px;
-}
-
-.seat-heading p:not(.section-label) {
-  margin: 7px 0 0;
-  color: #928794;
-  font-size: 13px;
-}
-
-
-/* =========================================
-   STAGE
-========================================= */
-
-.stage {
-  width: min(650px, 90%);
-  height: 45px;
-  margin: 30px auto 35px;
-  border-radius: 50% / 100%;
-  background: #302a31;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 4px;
-  box-shadow: 0 8px 20px rgba(30, 25, 30, 0.15);
-}
-
-
-/* =========================================
-   SEAT MAP
-========================================= */
-
-.seat-map {
-  width: min(800px, 100%);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 10px;
-  padding: 25px;
-  background: white;
-  border: 1px solid #eee3eb;
-  border-radius: 22px;
-  box-shadow: 0 10px 35px rgba(70, 45, 65, 0.06);
-}
-
-.seat {
-  height: 42px;
-  border: 1px solid #ded5dd;
-  border-radius: 9px;
-  background: #f8f6f8;
-  color: #625965;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.15s ease;
-}
-
-.seat:hover:not(:disabled) {
-  background: #f1d7e5;
-  border-color: #d87aa5;
-  color: #a74777;
-  transform: translateY(-2px);
-}
-
-.seat.selected {
-  background: #d8669c;
-  border-color: #d8669c;
-  color: white;
-}
-
-.seat.booked {
-  background: #ddd9dd;
-  border-color: #ddd9dd;
-  color: #aaa4aa;
-  cursor: not-allowed;
-  text-decoration: line-through;
-}
-
-
-/* =========================================
-   LEGEND
-========================================= */
-
-.seat-legend {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 28px;
-  margin: 25px 0;
-  color: #766d77;
-  font-size: 13px;
-}
-
-.seat-legend span {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.legend-seat {
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  border-radius: 4px;
-  background: #f8f6f8;
-  border: 1px solid #ded5dd;
-}
-
-.legend-seat.selected {
-  background: #d8669c;
-  border-color: #d8669c;
-}
-
-.legend-seat.booked {
-  background: #ddd9dd;
-  border-color: #ddd9dd;
-}
-
-
-/* =========================================
-   BOOKING SUMMARY
-========================================= */
-
-.booking-summary {
-  margin-top: 30px;
-  padding: 22px 25px;
-  background: white;
-  border: 1px solid #eadfe8;
-  border-radius: 18px;
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 30px;
-  align-items: center;
-  box-shadow: 0 8px 25px rgba(70, 45, 65, 0.06);
-}
-
-.booking-summary > div {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.booking-summary span {
-  color: #938894;
-  font-size: 12px;
-}
-
-.booking-summary strong {
-  color: #302934;
-  font-size: 14px;
-}
-
-.booking-total {
-  color: #c6538d !important;
-  font-size: 22px !important;
-}
-
-.primary-button {
-  border: none;
-  border-radius: 13px;
-  padding: 14px 22px;
-  background: #d8669c;
-  color: white;
-  font-weight: 800;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.primary-button:hover:not(:disabled) {
-  background: #c9558d;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(200, 80, 140, 0.2);
-}
-
-.primary-button:disabled {
-  background: #d9d3d8;
-  color: #a49da4;
-  cursor: not-allowed;
-}
-
-
-/* =========================================
-   NOT FOUND
-========================================= */
-
-.not-found-page {
-  min-height: 70vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-
-.not-found-page h1 {
-  margin: 0;
-}
-
-.not-found-page a {
-  text-decoration: none;
-  color: #c6538d;
-  font-weight: 700;
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 800px) {
-
-  .navbar {
-    height: auto;
-    padding: 18px 5%;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-
-  .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: center;
-    gap: 18px;
-  }
-
-  .concert-detail-container {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-
-  .detail-image {
-    height: 380px;
-  }
-
-  .detail-info h1 {
-    font-size: 32px;
-  }
-
-  .booking-heading,
-  .seat-heading {
-    display: block;
-  }
-
-  .booking-heading > span {
-    display: block;
-    margin-top: 8px;
-  }
-
-  .seat-map {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .booking-summary {
-    grid-template-columns: 1fr;
-  }
-
-  .booking-button {
-    width: 100%;
-  }
-}
-/* =========================
-   MINI CONCERT CALENDAR
-========================= */
-
-.mini-calendar-section {
-  width: 100%;
-  max-width: 1200px;
-  margin: -40px auto 40px;
-  padding: 0 24px;
-
-  display: flex;
-  justify-content: flex-end;
-
-  position: relative;
-  z-index: 5;
-}
-
-.mini-calendar {
-  width: 270px;
-  background: #ffffff;
-  border: 1px solid #eeeeee;
-  border-radius: 20px;
-  padding: 18px;
-
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-}
-/* =========================================
-   HOME - SMALL CONCERT CALENDAR
-========================================= */
-
-.section-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 30px;
-  margin-bottom: 35px;
-}
-
-.section-heading {
-  flex: 1;
-}
-
-
-/* =========================================
-   MINI CALENDAR
-========================================= */
-
-.mini-calendar {
-  width: 270px;
-  flex-shrink: 0;
-  background: #ffffff;
-  border: 1px solid #eeeeee;
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-}
-
-.mini-calendar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.mini-calendar-header strong {
-  font-size: 15px;
-  color: #222;
-}
-
-.mini-calendar-header button {
-  width: 30px;
-  height: 30px;
-  border: none;
-  border-radius: 8px;
-  background: #f5f5f5;
-  color: #333;
-  font-size: 20px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.mini-calendar-header button:hover {
-  background: #222;
-  color: white;
-}
-
-
-/* =========================================
-   WEEKDAYS
-========================================= */
-
-.mini-calendar-weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  margin-bottom: 7px;
-}
-
-.mini-calendar-weekdays span {
-  font-size: 10px;
-  font-weight: 600;
-  color: #999;
-}
-
-
-/* =========================================
-   DAYS
-========================================= */
-
-.mini-calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-}
-
-.mini-calendar-day {
-  position: relative;
-  height: 30px;
-  border: none;
-  background: transparent;
-  border-radius: 8px;
-  font-size: 12px;
-  color: #444;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.mini-calendar-day:hover {
-  background: #f3f3f3;
-}
-
-.mini-calendar-day.concert-day {
-  font-weight: 700;
-  color: #111;
-}
-
-.mini-calendar-day.concert-day i {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #111;
-  border-radius: 50%;
-  bottom: 3px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.mini-calendar-day.selected {
-  background: #111;
-  color: white;
-  font-weight: 700;
-}
-
-.mini-calendar-day.selected i {
-  background: white;
-}
-
-.calendar-empty {
-  height: 30px;
-}
-
-
-/* =========================================
-   CALENDAR LEGEND
-========================================= */
-
-.calendar-hint {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-top: 13px;
-  padding-top: 12px;
-  border-top: 1px solid #eeeeee;
-  font-size: 10px;
-  color: #999;
-}
-
-.calendar-hint i {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #111;
-}
-
-
-/* =========================================
-   SELECTED DATE
-========================================= */
-
-.selected-date-panel {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 17px 20px;
-  margin-bottom: 15px;
-  background: #f8f8f8;
-  border-radius: 14px;
-}
-
-.selected-date-panel p {
-  margin: 0 0 4px;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  color: #999;
-}
-
-.selected-date-panel strong {
-  font-size: 15px;
-  color: #222;
-}
-
-.selected-date-panel button {
-  border: none;
-  background: transparent;
-  font-size: 24px;
-  color: #999;
-  cursor: pointer;
-}
-
-.selected-date-panel button:hover {
-  color: #111;
-}
-
-
-/* =========================================
-   SELECTED CONCERT
-========================================= */
-
-.selected-concert-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 25px;
-}
-
-.selected-concert-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 14px 18px;
-  background: #fff;
-  border: 1px solid #eeeeee;
-  border-radius: 12px;
-}
-
-.selected-concert-item > div {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.selected-concert-item strong {
-  font-size: 14px;
-}
-
-.selected-concert-item span {
-  font-size: 12px;
-  color: #777;
-}
-
-.selected-concert-item small {
-  font-size: 11px;
-  color: #999;
-}
-
-.calendar-view-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 17px;
-  background: #111;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 11px;
-  font-weight: 600;
-  transition: 0.2s;
-}
-
-.calendar-view-button:hover {
-  background: #333;
-  transform: translateY(-1px);
-}
-
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media (max-width: 768px) {
-
-  .section-top {
-    flex-direction: column;
-  }
-
-  .mini-calendar {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .selected-concert-item {
-    align-items: flex-start;
-  }
-
-  .selected-concert-item > div {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-  }
-  
-}
-
-/* =========================
-   CONCERT DESCRIPTION
-========================= */
-
-.concert-description {
-  margin: 10px 0;
-  color: #777;
-  font-size: 13px;
-  line-height: 1.6;
-
-  /* จำกัดพื้นที่ประมาณ 2 บรรทัด */
-  height: 42px;
-  overflow: hidden;
 }

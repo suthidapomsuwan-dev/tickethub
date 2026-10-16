@@ -1,16 +1,104 @@
-# React + Vite
+# TicketHub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## รายละเอียดโครงการ
 
-Currently, two official plugins are available:
+TicketHub เป็นเว็บไซต์สำหรับการจองบัตรคอนเสิร์ตออนไลน์ ผู้ใช้งานสามารถดูรายการคอนเสิร์ต ดูรายละเอียด เลือกที่นั่ง และตรวจสอบประวัติการจองได้
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+ระบบผู้ดูแลสามารถจัดการข้อมูลคอนเสิร์ตและตรวจสอบข้อมูลการจองได้
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## เทคโนโลยีที่ใช้
 
-## Expanding the ESLint configuration
+* React
+* Vite
+* Firebase
+* React Router
+* CSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## โครงสร้างไฟล์
+
+tickethub/
+├── public/
+│   └── images/
+│       └── รูปภาพที่ใช้ในเว็บไซต์
+│
+├── src/
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── ConcertDetail.jsx
+│   │   ├── BookingHistory.jsx
+│   │   ├── Login.jsx
+│   │   └── AdminDashboard.jsx
+│   │
+│   ├── App.jsx
+│   ├── firebase.js
+│   └── main.jsx
+│
+├── package.json
+└── README.md
+
+
+## วิธีติดตั้งโปรเจกต์
+
+1. ติดตั้ง Node.js
+2. ดาวน์โหลดหรือเปิดโฟลเดอร์โปรเจกต์
+3. เปิด Terminal ใน VS Code
+4. ติดตั้ง Dependencies ด้วยคำสั่ง
+npm install
+5. เริ่มต้นโปรเจกต์ด้วยคำสั่ง
+npm run dev
+
+## วิธีตรวจสอบผลงาน
+
+หลังจากรันคำสั่ง
+npm run dev
+
+ระบบจะแสดง URL สำหรับเปิดเว็บไซต์ เช่น
+
+http://localhost:5173
+
+เปิด URL ดังกล่าวผ่านเว็บเบราว์เซอร์เพื่อตรวจสอบการทำงานของระบบ
+
+## ฟังก์ชันของระบบ
+### ผู้ใช้งาน
+
+* ดูรายการคอนเสิร์ต
+* ค้นหาคอนเสิร์ต
+* ดูรายละเอียดคอนเสิร์ต
+* เลือกที่นั่ง
+* จองบัตรคอนเสิร์ต
+* ตรวจสอบประวัติการจอง
+
+### ผู้ดูแลระบบ
+
+* จัดการข้อมูลคอนเสิร์ต
+* เพิ่มข้อมูลคอนเสิร์ต
+* แก้ไขข้อมูลคอนเสิร์ต
+* ลบข้อมูลคอนเสิร์ต
+* ตรวจสอบข้อมูลการจอง
+
+
+## Firebase
+
+โครงการใช้ Firebase สำหรับจัดเก็บและจัดการข้อมูล
+ไฟล์ข้อมูล Firebase ที่ Export สำหรับการส่งงานคือ
+firebase-data.json
+
+## Wireframe
+
+Wireframe ของโครงการสามารถดูได้จาก
+ใส่ Link Figma ที่นี่
+
+## Sitemap และ User Flow
+
+ไฟล์รูปภาพประกอบด้วย
+
+sitemap.png
+user-flow.png
+
+
+## สินทรัพย์ดิจิทัล
+
+รูปภาพและไฟล์ประกอบของโครงการจัดเก็บไว้ในโฟลเดอร์
+assets/

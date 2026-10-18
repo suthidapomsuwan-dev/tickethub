@@ -11607,8 +11607,8 @@ input:focus, textarea:focus, select:focus { border-color: var(--electric); outli
 .concert-detail-page .booking-heading h2 { color: var(--ink); font-size: clamp(32px, 5vw, 60px); font-weight: 800; letter-spacing: -.06em; }
 .concert-detail-page .zone-section { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 rgba(8,8,8,.14); }
 .concert-detail-page .zone-header, .concert-detail-page .zone-label, .concert-detail-page .zone-availability, .seat-legend { color: var(--ink); }
-.concert-detail-page .stage { color: var(--paper); background: var(--ink); border: 0; border-radius: 0; letter-spacing: .2em; }
 .concert-detail-page .stage-line { background: var(--electric); }
+.payment-error { margin: 12px 0; padding: 11px 13px; color: #7F1D1D; background: #FFF1F1; border: 1px solid #D9A0A0; font-size: 13px; line-height: 1.5; }
 .concert-detail-page .seat-map-wrapper { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--electric) var(--surface); }
 .concert-detail-page .seat-map { min-width: max-content; }
 .concert-detail-page .seat { color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; }
@@ -11624,6 +11624,9 @@ input:focus, textarea:focus, select:focus { border-color: var(--electric); outli
 .demo-payment-note { width: fit-content; max-width: 100%; margin: 14px auto 0; padding: 8px 12px; color: var(--ink); background: #E8EDFF; border: 1px solid var(--electric); border-radius: 0; font-size: 11px; font-weight: 700; text-align: center; }
 .qr-box { display: grid; place-items: center; color: var(--electric); background: var(--surface); border: 1px dashed var(--ink); border-radius: 0; font-weight: 800; letter-spacing: .12em; }
 .success-icon { color: var(--paper); background: var(--electric); border-radius: 0; }
+.success-image { width: min(100%, 480px); aspect-ratio: 16 / 9; margin: 0 auto 24px; overflow: hidden; background: var(--gradient-hero); border: 1px solid var(--ink); box-shadow: 4px 4px 0 var(--electric); }
+.success-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.success-image-placeholder { display: grid; width: 100%; height: 100%; place-items: center; color: var(--paper); background: radial-gradient(ellipse at 72% 32%, rgba(25,71,255,.58), transparent 42%), var(--gradient-hero); font-size: 11px; font-weight: 800; letter-spacing: .2em; }
 .booking-number, .success-info, .success-total { border-color: var(--ink); }
 .booking-history-page .booking-card, .booking-history-page .empty-bookings { background: var(--paper); }
 .booking-card-top h2, .booking-card-top h3 { color: var(--ink); text-transform: uppercase; }
@@ -11822,7 +11825,7 @@ input:focus, textarea:focus, select:focus { border-color: var(--electric); outli
 
 /* Seat map uses only configured zone and seat counts; it is illustrative when no official plan exists. */
 .seat-map-disclaimer { max-width: 760px; margin: -14px auto 24px; color: var(--muted); font-size: 12px; line-height: 1.6; text-align: center; }
-.concert-detail-page .stage { width: min(760px, 100%); border-radius: 50% / 100%; background: var(--gradient-blue); }
+.concert-detail-page .stage { width: min(760px, 100%); color: #080808; border: 1px solid #1947FF; border-radius: 50% / 100%; background: linear-gradient(100deg, #8EA4FF, #E8EDFF 50%, #8EA4FF); letter-spacing: .2em; box-shadow: 0 5px 0 rgba(8,8,8,.16), 0 0 18px rgba(25,71,255,.18); text-shadow: none; }
 .concert-detail-page .stage-wrapper { max-width: 960px; margin-inline: auto; }
 .concert-detail-page .all-zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: clamp(16px, 2vw, 28px); align-items: start; }
 .concert-detail-page .zone-section { min-width: 0; padding: clamp(14px, 2vw, 24px); background: var(--paper); border: 1px solid var(--ink); box-shadow: 4px 4px 0 rgba(8,8,8,.12); }

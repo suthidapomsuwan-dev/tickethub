@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 function BookingSuccess() {
@@ -5,6 +6,7 @@ function BookingSuccess() {
   const location = useLocation();
 
   const booking = location.state;
+  const [imageFailed, setImageFailed] = useState(false);
 
   if (!booking) {
     return (
@@ -23,8 +25,19 @@ function BookingSuccess() {
 
       <div className="success-card">
 
-        <div className="success-icon">
-          ✓
+        <div className="success-image">
+          {booking.image && !imageFailed ? (
+            <img
+              src={booking.image}
+              alt={booking.concertName ? `${booking.concertName} concert` : "Concert"}
+              decoding="async"
+              onError={() => setImageFailed(true)}
+            />
+          ) : (
+            <div className="success-image-placeholder" role="img" aria-label="Concert image unavailable">
+              TICKETHUB / LIVE
+            </div>
+          )}
         </div>
 
         <p className="success-label">
@@ -82,7 +95,7 @@ function BookingSuccess() {
 
           <div>
             <span>Seats</span>
-            <b>{booking.seats.join(", ")}</b>
+            <b>{Array.isArray(booking.seats) ? booking.seats.join(", ") : booking.seats || "—"}</b>
           </div>
 
         </div>

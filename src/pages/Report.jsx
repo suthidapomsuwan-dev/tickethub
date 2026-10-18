@@ -76,7 +76,7 @@ function Report({ user, onLogout }) {
           </Link>
 
           <Link to="/report">
-            REPORT ↗
+            REPORT
           </Link>
 
         </div>
@@ -129,8 +129,8 @@ function Report({ user, onLogout }) {
 
           <div className="report-success">
 
-            <div className="success-icon">
-              ✓
+            <div className="success-icon" aria-label="Report submitted">
+              OK
             </div>
 
             <h2>

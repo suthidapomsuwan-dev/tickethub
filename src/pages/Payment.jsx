@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   useLocation,
   useNavigate
@@ -13,6 +13,7 @@ import {
 
 import { db } from "../firebase";
 import { canBookConcert, isConcertPast } from "../utils/concertDate";
+import { validateDemoCardDetails } from "../utils/demoCardValidation";
 
 function Payment() {
   const location = useLocation();
@@ -28,6 +29,11 @@ function Payment() {
     useState(false);
 
   const [eventStatus, setEventStatus] = useState("checking");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpiry, setCardExpiry] = useState("");
+  const [cardCvv, setCardCvv] = useState("");
+  const [paymentError, setPaymentError] = useState("");
+  const paymentLock = useRef(false);
 
   // =========================
   // GET BOOKING DATA
@@ -143,7 +149,7 @@ function Payment() {
 
   const handlePayment = async () => {
 
-    if (isPaid || isProcessing) {
+    if (isPaid || isProcessing || paymentLock.current) {
       return;
     }
 
@@ -158,12 +164,24 @@ function Payment() {
       return;
     }
 
+    if (method === "card") {
+      const validationError = validateDemoCardDetails(cardNumber, cardExpiry, cardCvv);
+      if (validationError) {
+        setPaymentError(validationError);
+        return;
+      }
+    }
+
+    setPaymentError("");
+    paymentLock.current = true;
+
     setIsProcessing(true);
 
     try {
       const concertIsBookable = await verifyConcertBeforePayment();
       if (!concertIsBookable) {
         setEventStatus("ended");
+        paymentLock.current = false;
         setIsProcessing(false);
         alert("This concert has ended or its date could not be verified. No booking was saved.");
         return;
@@ -171,6 +189,7 @@ function Payment() {
     } catch (error) {
       console.error("Unable to verify concert before booking:", error);
       setEventStatus("unavailable");
+      paymentLock.current = false;
       setIsProcessing(false);
       alert("Unable to verify the concert date. No booking was saved.");
       return;
@@ -199,11 +218,27 @@ function Payment() {
       // CREATE BOOKING ID
       // =========================
 
-      const bookingId =
-        "TH" +
-        Date.now()
-          .toString()
-          .slice(-8);
+      const bookingSignature = JSON.stringify({
+        concertId: String(concertId || ""),
+        zoneId: String(zoneId || ""),
+        seats: [...seats].map(String).sort(),
+        userId: String(currentUser.uid || currentUser.userId || currentUser.id || ""),
+      });
+      const samePendingAttempt = localStorage.getItem("ticketHubPendingBookingSignature") === bookingSignature;
+      let firebaseBookingKey = samePendingAttempt
+        ? localStorage.getItem("ticketHubPendingBookingKey")
+        : null;
+      let bookingId = samePendingAttempt
+        ? localStorage.getItem("ticketHubPendingBookingId")
+        : null;
+
+      if (!firebaseBookingKey || !bookingId) {
+        firebaseBookingKey = push(ref(db, "bookings")).key;
+        bookingId = "TH" + Date.now().toString().slice(-8);
+        localStorage.setItem("ticketHubPendingBookingSignature", bookingSignature);
+        localStorage.setItem("ticketHubPendingBookingKey", firebaseBookingKey);
+        localStorage.setItem("ticketHubPendingBookingId", bookingId);
+      }
 
       // =========================
       // BOOKING OBJECT
@@ -273,11 +308,7 @@ function Payment() {
       // SAVE TO FIREBASE
       // =========================
 
-      const bookingsRef =
-        ref(db, "bookings");
-
-      const newBookingRef = push(bookingsRef);
-      await set(newBookingRef, booking);
+      await set(ref(db, `bookings/${firebaseBookingKey}`), booking);
 
       // =========================
       // ALSO SAVE LOCAL STORAGE
@@ -314,6 +345,12 @@ function Payment() {
       localStorage.removeItem(
         "ticketHubCurrentBooking"
       );
+      localStorage.removeItem("ticketHubPendingBookingSignature");
+      localStorage.removeItem("ticketHubPendingBookingKey");
+      localStorage.removeItem("ticketHubPendingBookingId");
+      setCardNumber("");
+      setCardExpiry("");
+      setCardCvv("");
 
       // =========================
       // PAYMENT SUCCESS
@@ -343,6 +380,7 @@ function Payment() {
         "ไม่สามารถบันทึกการจองได้ กรุณาตรวจสอบ Firebase Realtime Database"
       );
 
+      paymentLock.current = false;
       setIsProcessing(false);
     }
   };
@@ -418,11 +456,10 @@ function Payment() {
                   method ===
                   "promptpay"
                 }
-                onChange={(e) =>
-                  setMethod(
-                    e.target.value
-                  )
-                }
+                onChange={(e) => {
+                  setMethod(e.target.value);
+                  setPaymentError("");
+                }}
               />
 
               <div>
@@ -505,42 +542,72 @@ function Payment() {
 
               <div className="card-form">
 
-                <label>
+                <p className="demo-payment-note" role="note">
+                  Demo card check only. Use test values; card details stay in this page and are never saved.
+                </p>
+
+                <label htmlFor="demo-card-number">
                   Card Number
                 </label>
 
                 <input
+                  id="demo-card-number"
                   type="text"
+                  inputMode="numeric"
                   placeholder="1234 5678 9012 3456"
                   maxLength="19"
+                  autoComplete="off"
+                  value={cardNumber}
+                  onChange={(event) => {
+                    const digits = event.target.value.replace(/\D/g, "").slice(0, 16);
+                    setCardNumber(digits.replace(/(\d{4})(?=\d)/g, "$1 "));
+                    setPaymentError("");
+                  }}
                 />
 
                 <div className="card-row">
 
                   <div>
 
-                    <label>
+                    <label htmlFor="demo-card-expiry">
                       Expiry Date
                     </label>
 
                     <input
+                      id="demo-card-expiry"
                       type="text"
                       placeholder="MM / YY"
                       maxLength="7"
+                      inputMode="numeric"
+                      autoComplete="off"
+                      value={cardExpiry}
+                      onChange={(event) => {
+                        const digits = event.target.value.replace(/\D/g, "").slice(0, 4);
+                        setCardExpiry(digits.length > 2 ? `${digits.slice(0, 2)} / ${digits.slice(2)}` : digits);
+                        setPaymentError("");
+                      }}
                     />
 
                   </div>
 
                   <div>
 
-                    <label>
+                    <label htmlFor="demo-card-cvv">
                       CVV
                     </label>
 
                     <input
+                      id="demo-card-cvv"
                       type="password"
+                      inputMode="numeric"
                       placeholder="•••"
-                      maxLength="3"
+                      maxLength="4"
+                      autoComplete="off"
+                      value={cardCvv}
+                      onChange={(event) => {
+                        setCardCvv(event.target.value.replace(/\D/g, "").slice(0, 4));
+                        setPaymentError("");
+                      }}
                     />
 
                   </div>
@@ -550,6 +617,8 @@ function Payment() {
               </div>
 
             )}
+
+            {paymentError && <p className="payment-error" role="alert">{paymentError}</p>}
 
           </div>
 

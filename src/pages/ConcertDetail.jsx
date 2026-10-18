@@ -18,28 +18,13 @@ function ConcertDetail() {
   ========================================================= */
 
   useEffect(() => {
-    const concertsRef = ref(db, "concerts");
+    const concertRef = ref(db, `concerts/${id}`);
 
     const unsubscribe = onValue(
-      concertsRef,
+      concertRef,
       (snapshot) => {
-        const data = snapshot.val();
-
-        if (!data) {
-          setConcert(null);
-          setLoading(false);
-          return;
-        }
-
-        const concerts = Array.isArray(data)
-          ? data
-          : Object.values(data);
-
-        const found = concerts.find(
-          (item) => String(item?.id) === String(id)
-        );
-
-        if (!found) {
+        const found = snapshot.val();
+        if (!found || String(found.id) !== String(id)) {
           setConcert(null);
           setLoading(false);
           return;
@@ -49,63 +34,30 @@ function ConcertDetail() {
           ? found.zones
           : Object.values(found.zones || {});
 
-        /*
-         * แต่ละ Zone จะเก็บ rows / seatsPerRow ของตัวเอง
-         *
-         * เช่น
-         *
-         * VIP
-         * rows = 2
-         * seatsPerRow = 8
-         *
-         * A
-         * rows = 3
-         * seatsPerRow = 10
-         */
-
         const normalizedZones = rawZones
           .filter(Boolean)
-          .map((zone, index) => ({
+          .filter((zone) => zone.id !== undefined && zone.id !== null)
+          .map((zone) => ({
             ...zone,
 
-            id:
-              zone.id !== undefined &&
-              zone.id !== null
-                ? String(zone.id)
-                : `ZONE-${index + 1}`,
+            id: String(zone.id),
 
             name:
               zone.name ||
-              zone.id ||
-              `Zone ${index + 1}`,
+              String(zone.id),
 
             price: Number(zone.price) || 0,
-
-            rows: Math.max(
-              1,
-              Number(zone.rows) || 3
-            ),
-
-            seatsPerRow: Math.max(
-              1,
-              Number(zone.seatsPerRow) || 10
-            ),
+            // Keep the seat-capacity defaults used by the previously working booking flow.
+            rows: Math.max(1, Number(zone.rows) || 3),
+            seatsPerRow: Math.max(1, Number(zone.seatsPerRow) || 10),
+            seatIds: Array.isArray(zone.seatIds)
+              ? [...new Set(zone.seatIds.map((seat) => String(seat).trim()).filter(Boolean))]
+              : typeof zone.seatIds === "string"
+                ? [...new Set(zone.seatIds.split(/[\n,]/).map((seat) => seat.trim()).filter(Boolean))]
+                : zone.seatIds && typeof zone.seatIds === "object"
+                  ? zone.seatIds
+                  : [],
           }));
-
-        /*
-         * ถ้าไม่มี Zone
-         * สร้าง Zone A ให้
-         */
-
-        if (normalizedZones.length === 0) {
-          normalizedZones.push({
-            id: "A",
-            name: "Regular A",
-            price: Number(found.price) || 0,
-            rows: 5,
-            seatsPerRow: 10,
-          });
-        }
 
         const normalizedConcert = {
           ...found,
@@ -152,9 +104,7 @@ function ConcertDetail() {
           return;
         }
 
-        const bookingList = Array.isArray(data)
-          ? data
-          : Object.values(data);
+        const bookingList = Array.isArray(data) ? data : Object.values(data);
 
         setBookings(
           bookingList.filter(Boolean)
@@ -180,37 +130,47 @@ function ConcertDetail() {
   const createZoneSeats = (zone) => {
     if (!zone) return [];
 
-    const rows = Math.max(
-      1,
-      Number(zone.rows) || 1
-    );
+    let configuredSeats = Array.isArray(zone.seatIds)
+      ? zone.seatIds.map((seat) => ({ seat }))
+      : typeof zone.seatIds === "string"
+        ? zone.seatIds.split(/[\n,]/).map((seat) => ({ seat }))
+        : zone.seatIds && typeof zone.seatIds === "object"
+          ? Object.entries(zone.seatIds).map(([key, entry]) => typeof entry === "object" && entry !== null
+              ? { seat: entry.seatId ?? entry.seat ?? entry.id ?? key, status: entry.status }
+              : { seat: key, status: typeof entry === "string" ? entry : undefined })
+        : Array.isArray(zone.seats)
+          ? zone.seats.map((entry, index) => typeof entry === "object" && entry !== null
+              ? { seat: entry.seatId ?? entry.seat ?? entry.id ?? index, status: entry.status }
+              : { seat: entry })
+          : zone.seats && typeof zone.seats === "object"
+            ? Object.entries(zone.seats).map(([key, entry]) => typeof entry === "object" && entry !== null
+                ? { seat: entry.seatId ?? entry.seat ?? entry.id ?? key, status: entry.status }
+                : { seat: key, status: typeof entry === "string" ? entry : undefined })
+            : [];
 
-    const seatsPerRow = Math.max(
-      1,
-      Number(zone.seatsPerRow) || 1
-    );
-
-    const seats = [];
-
-    for (let row = 0; row < rows; row++) {
-      const rowLetter =
-        String.fromCharCode(65 + row);
-
-      for (
-        let seat = 1;
-        seat <= seatsPerRow;
-        seat++
-      ) {
-        seats.push({
-          seat: `${rowLetter}${seat}`,
-          zoneId: String(zone.id),
-          zoneName: zone.name,
-          price: Number(zone.price) || 0,
-        });
-      }
+    // Preserve the previously used 3 × 10 seat fallback for each real configured zone.
+    // Do not create a fallback zone when a concert has no zone records.
+    const rowCount = Number(zone.rows);
+    const seatsPerRow = Number(zone.seatsPerRow);
+    if (configuredSeats.length === 0 && Number.isInteger(rowCount) && rowCount > 0 && Number.isInteger(seatsPerRow) && seatsPerRow > 0) {
+      configuredSeats = Array.from({ length: rowCount }, (_, rowIndex) =>
+        Array.from({ length: seatsPerRow }, (_, seatIndex) => ({ seat: `${String.fromCharCode(65 + rowIndex)}${seatIndex + 1}` }))
+      ).flat();
     }
 
-    return seats;
+    const normalizedSeats = configuredSeats
+      .map(({ seat, status }) => ({ seat: String(seat ?? "").trim(), status: String(status || "").toLowerCase() }))
+      .filter((entry) => entry.seat);
+    const uniqueSeats = [...new Map(normalizedSeats.map((entry) => [entry.seat, entry])).values()];
+
+    return uniqueSeats
+      .map(({ seat, status }) => ({
+        seat,
+        zoneId: String(zone.id),
+        zoneName: zone.name,
+        price: Number(zone.price) || 0,
+        status,
+      }));
   };
 
   /* =========================================================
@@ -234,6 +194,9 @@ function ConcertDetail() {
 
     bookings.forEach((booking) => {
       if (!booking) return;
+
+      const status = String(booking.status || booking.paymentStatus || "").toLowerCase();
+      if (["cancelled", "canceled", "failed", "refunded"].some((inactive) => status.includes(inactive))) return;
 
       const bookingConcertId =
         booking.concertId ??
@@ -408,9 +371,12 @@ function ConcertDetail() {
       }
     });
 
-    return booked.filter(
-      (item) => item.seat
-    );
+    const uniqueBookedSeats = new Map();
+    booked.filter((item) => item.seat).forEach((item) => {
+      const key = `${item.zoneId ?? ""}:${item.seat}`;
+      uniqueBookedSeats.set(key, item);
+    });
+    return [...uniqueBookedSeats.values()];
   };
 
   const bookedSeats = getBookedSeats();
@@ -421,8 +387,12 @@ function ConcertDetail() {
 
   const isSeatBooked = (
     zoneId,
-    seatName
+    seatName,
+    seatStatus
   ) => {
+    if (["booked", "sold", "confirmed", "reserved", "paid", "unavailable"].includes(String(seatStatus || "").toLowerCase())) return true;
+    const currentZone = concert?.zones?.find((item) => String(item.id) === String(zoneId));
+    const zoneAliases = new Set([String(zoneId), currentZone?.name].filter(Boolean));
     return bookedSeats.some((item) => {
       const sameSeat =
         String(item.seat) ===
@@ -436,8 +406,7 @@ function ConcertDetail() {
       if (item.zoneId) {
         return (
           sameSeat &&
-          String(item.zoneId) ===
-            String(zoneId)
+          zoneAliases.has(String(item.zoneId))
         );
       }
 
@@ -476,11 +445,15 @@ function ConcertDetail() {
 
     const zoneId = String(zone.id);
     const seat = String(seatName);
+    const configuredSeatStatus = allZoneSeats
+      .find((zoneData) => String(zoneData.zone.id) === zoneId)
+      ?.seats.find((seatData) => seatData.seat === seat)?.status;
 
     if (
       isSeatBooked(
         zoneId,
-        seat
+        seat,
+        configuredSeatStatus
       )
     ) {
       return;
@@ -870,18 +843,10 @@ function ConcertDetail() {
       0
     );
 
-  const bookedForConcert =
-    bookedSeats.filter(
-      (booked) =>
-        booked.seat
-    );
-
-  const availableSeats =
-    Math.max(
-      0,
-      totalSeats -
-        bookedForConcert.length
-    );
+  const availableSeats = allZoneSeats.reduce(
+                    (sum, zoneData) => sum + zoneData.seats.filter((item) => !isSeatBooked(zoneData.zone.id, item.seat, item.status)).length,
+    0
+  );
 
   /* =========================================================
      PAGE
@@ -1016,14 +981,19 @@ function ConcertDetail() {
             </p>
 
             <h2>
-              PICK YOUR SEAT.
+              SELECT YOUR SEATS
             </h2>
 
           </div>
 
-          <span>
-            {availableSeats}{" "}
-            seats available
+          <span role="status">
+            {!canBook
+              ? eventEnded ? "EVENT ENDED" : "BOOKING UNAVAILABLE"
+              : totalSeats === 0
+                ? "ยังไม่เปิดให้จองในขณะนี้"
+                : availableSeats === 0
+                  ? "SOLD OUT"
+                  : `${availableSeats} seats available`}
           </span>
 
         </div>
@@ -1042,14 +1012,15 @@ function ConcertDetail() {
 
         </div>
 
-        <p className="seat-map-disclaimer">
-          Illustrative seat layout based on the zones and seat counts configured for this event. An official venue seating plan was not provided.
-        </p>
+        {totalSeats > 0 && <p className="seat-map-disclaimer">
+          Seat IDs and capacity use the event configuration. The displayed layout is illustrative; an official venue seating plan was not provided.
+        </p>}
 
         {/* ===================================================
             ZONES
         =================================================== */}
 
+        {allZoneSeats.length === 0 && <p className="seat-map-empty" role="status">ยังไม่มีข้อมูลโซนที่นั่งสำหรับคอนเสิร์ตนี้</p>}
         <div className="all-zones">
 
           {allZoneSeats.map(
@@ -1068,18 +1039,7 @@ function ConcertDetail() {
                   zone.id
                 );
 
-              const zoneBooked =
-                seats.filter(
-                  (seatData) =>
-                    isSeatBooked(
-                      zoneId,
-                      seatData.seat
-                    )
-                ).length;
-
-              const zoneAvailable =
-                seats.length -
-                zoneBooked;
+              const zoneAvailable = seats.filter((seatData) => !isSeatBooked(zoneId, seatData.seat, seatData.status)).length;
 
               return (
                 <div
@@ -1112,22 +1072,16 @@ function ConcertDetail() {
 
                     </div>
 
-                    <div className="zone-availability">
-
-                      <strong>
-                        {
-                          zoneAvailable
-                        }
-                      </strong>
-
-                      <span>
-                        /{" "}
-                        {
-                          seats.length
-                        }{" "}
-                        available
-                      </span>
-
+                    <div className="zone-availability" role="status">
+                      {!canBook ? (
+                        <strong>{eventEnded ? "EVENT ENDED" : "BOOKING UNAVAILABLE"}</strong>
+                      ) : seats.length === 0 ? (
+                        <span>ยังไม่เปิดให้จองในขณะนี้</span>
+                      ) : zoneAvailable === 0 ? (
+                        <><strong>SOLD OUT</strong><span>{seats.length} seats</span></>
+                      ) : (
+                        <><strong>{zoneAvailable}</strong><span>/ {seats.length} available</span></>
+                      )}
                     </div>
 
                   </div>
@@ -1136,18 +1090,13 @@ function ConcertDetail() {
                       SEAT MAP ของ ZONE นี้
                   ================================= */}
 
-                  <div className="zone-seat-area">
+                  {seats.length === 0 ? (
+                    <p className="zone-seat-empty" role="status">ขออภัย ขณะนี้ยังไม่สามารถจองที่นั่งโซนนี้ได้</p>
+                  ) : <div className="zone-seat-area">
 
                     <div
                       className="seat-map zone-seat-map"
-                      style={{
-                        gridTemplateColumns: `repeat(${Math.min(
-                          Number(
-                            zone.seatsPerRow
-                          ) || 1,
-                          12
-                        )}, 64px)`,
-                      }}
+                      style={{ gridTemplateColumns: `repeat(${Number(zone.seatsPerRow) > 0 ? Number(zone.seatsPerRow) : Math.min(seats.length, 12)}, 64px)` }}
                     >
 
                       {seats.map(
@@ -1161,7 +1110,8 @@ function ConcertDetail() {
                           const isBooked =
                             isSeatBooked(
                               zoneId,
-                              seat
+                              seat,
+                              seatData.status
                             );
 
                           const isSelected =
@@ -1229,7 +1179,7 @@ function ConcertDetail() {
 
                     </div>
 
-                  </div>
+                  </div>}
 
                 </div>
               );

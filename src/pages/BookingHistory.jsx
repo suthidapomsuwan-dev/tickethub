@@ -76,6 +76,7 @@ function BookingHistory() {
     currentUser?.username ||
     currentUser?.email ||
     "";
+  const userId = currentUser?.uid || currentUser?.userId || currentUser?.id || "";
 
   /* =========================================================
      FILTER USER BOOKINGS
@@ -87,6 +88,14 @@ function BookingHistory() {
         !booking.user &&
         !booking.username &&
         !booking.email
+      ) {
+        return true;
+      }
+
+      if (
+        booking.userId &&
+        userId &&
+        String(booking.userId) === String(userId)
       ) {
         return true;
       }
@@ -568,7 +577,7 @@ function BookingHistory() {
           <div className="empty-bookings">
 
             <div className="empty-icon">
-              🎫
+              <span className="ticket-icon" aria-hidden="true">T</span>
             </div>
 
             <h2>
@@ -656,6 +665,8 @@ function BookingHistory() {
                             booking.concertName ||
                             "Concert"
                           }
+                          loading="lazy"
+                          decoding="async"
                           onError={(
                             event
                           ) => {

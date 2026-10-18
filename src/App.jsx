@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 
 import {
   Routes,
@@ -6,15 +6,16 @@ import {
   Navigate
 } from "react-router-dom";
 
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import ConcertDetail from "./pages/ConcertDetail";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Payment from "./pages/Payment";
-import BookingSuccess from "./pages/BookingSuccess";
-import BookingHistory from "./pages/BookingHistory";
-import AdminDashboard from "./pages/AdminDashboard";
-import Report from "./pages/Report";
+
+const Login = lazy(() => import("./pages/Login"));
+const Home = lazy(() => import("./pages/Home"));
+const ConcertDetail = lazy(() => import("./pages/ConcertDetail"));
+const Payment = lazy(() => import("./pages/Payment"));
+const BookingSuccess = lazy(() => import("./pages/BookingSuccess"));
+const BookingHistory = lazy(() => import("./pages/BookingHistory"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Report = lazy(() => import("./pages/Report"));
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
 
 
   return (
+    <Suspense fallback={<div className="route-loading" role="status">Loading page…</div>}>
     <Routes>
 
       {/* LOGIN */}
@@ -205,6 +207,7 @@ function App() {
       />
 
     </Routes>
+    </Suspense>
   );
 }
 

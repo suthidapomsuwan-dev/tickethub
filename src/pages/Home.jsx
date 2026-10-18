@@ -4,83 +4,10 @@ import { ref, onValue } from "firebase/database";
 import { db } from "../firebase";
 import { formatConcertDate, getConcertDateKey, getLocalDateKey, isConcertPast } from "../utils/concertDate";
 
-const defaultConcerts = [
-  {
-    id: "C001",
-    name: "Summer Music Festival",
-    artist: "BUS",
-    date: "2026-09-12",
-    venue: "IMPACT Arena",
-    price: 1800,
-    description:
-      "A summer night filled with music, energy and unforgettable moments with BUS.",
-    image:
-      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a",
-    zones: [
-      {
-        id: "VIP",
-        name: "VIP",
-        price: 2500,
-        rows: 2,
-        seatsPerRow: 8,
-      },
-      {
-        id: "A",
-        name: "Regular A",
-        price: 1800,
-        rows: 3,
-        seatsPerRow: 10,
-      },
-    ],
-  },
-
-  {
-    id: "C002",
-    name: "The Next Concert",
-    artist: "LYKN",
-    date: "2026-10-20",
-    venue: "Thunder Dome",
-    price: 1800,
-    description:
-      "Experience an exciting night of live performances and special moments with LYKN.",
-    image:
-      "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14",
-    zones: [
-      {
-        id: "A",
-        name: "Regular A",
-        price: 1800,
-        rows: 3,
-        seatsPerRow: 10,
-      },
-    ],
-  },
-
-  {
-    id: "C003",
-    name: "Live On Stage",
-    artist: "PROXIE",
-    date: "2026-11-05",
-    venue: "Union Hall",
-    price: 1200,
-    description:
-      "A live concert experience featuring powerful performances from PROXIE.",
-    image:
-      "https://images.unsplash.com/photo-1506157786151-b8491531f063",
-    zones: [
-      {
-        id: "A",
-        name: "Regular A",
-        price: 1200,
-        rows: 3,
-        seatsPerRow: 10,
-      },
-    ],
-  },
-];
-
 function Home({ user, onLogout }) {
   const [concerts, setConcerts] = useState([]);
+  const [concertsLoading, setConcertsLoading] = useState(true);
+  const [concertsError, setConcertsError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [concertView, setConcertView] = useState("upcoming");
 
@@ -112,10 +39,9 @@ function Home({ user, onLogout }) {
       (snapshot) => {
         const data = snapshot.val();
 
-        // ถ้า Firebase ยังไม่มีข้อมูล
-        // ใช้ข้อมูล default
         if (!data) {
-          setConcerts(defaultConcerts);
+          setConcerts([]);
+          setConcertsLoading(false);
           return;
         }
 
@@ -123,26 +49,9 @@ function Home({ user, onLogout }) {
 
         const updatedConcerts = firebaseConcerts.map(
           (concert) => {
-            const defaultConcert =
-              defaultConcerts.find(
-                (item) =>
-                  String(item.id) ===
-                  String(concert.id)
-              );
-
-            /*
-             * สำคัญ:
-             * ถ้า Firebase มี zones อยู่แล้ว
-             * ให้ใช้ zones จาก Firebase
-             *
-             * ถ้าไม่มี zones
-             * ให้ใช้ zones จาก default
-             */
-            const zones =
-              Array.isArray(concert.zones) &&
-              concert.zones.length > 0
-                ? concert.zones
-                : defaultConcert?.zones || [];
+            const zones = Array.isArray(concert.zones)
+              ? concert.zones
+              : Object.values(concert.zones || {});
 
             /*
              * หาราคาต่ำสุดจาก Zone จริง
@@ -158,20 +67,10 @@ function Home({ user, onLogout }) {
             const startingPrice =
               zonePrices.length > 0
                 ? Math.min(...zonePrices)
-                : Number(
-                    concert.price ??
-                      defaultConcert?.price ??
-                      0
-                  );
+                : Number(concert.price) || 0;
 
             return {
               ...concert,
-
-              description:
-                concert.description ||
-                defaultConcert?.description ||
-                "Experience an unforgettable live concert with amazing performances and great music.",
-
               zones,
 
               // ราคาเริ่มต้นจะตรงกับ Zone ที่ถูกที่สุด
@@ -181,6 +80,8 @@ function Home({ user, onLogout }) {
         );
 
         setConcerts(updatedConcerts);
+        setConcertsError("");
+        setConcertsLoading(false);
       },
       (error) => {
         console.error(
@@ -188,9 +89,9 @@ function Home({ user, onLogout }) {
           error
         );
 
-        // ถ้า Firebase มีปัญหา
-        // ใช้ข้อมูล default
-        setConcerts(defaultConcerts);
+        setConcerts([]);
+        setConcertsError("Concerts could not be loaded. Please try again later.");
+        setConcertsLoading(false);
       }
     );
 
@@ -490,6 +391,7 @@ function Home({ user, onLogout }) {
 
       </section>
 
+
       <div className="brand-marquee" aria-label="Music, live, experience, your next show">
         <div className="brand-marquee-track" aria-hidden="true">
           <span>MUSIC · LIVE · EXPERIENCE · YOUR NEXT SHOW ·</span>
@@ -503,6 +405,10 @@ function Home({ user, onLogout }) {
       ========================= */}
 
       <section className="concert-section" id="upcoming-shows">
+
+        {concertsLoading && <p role="status">Loading concerts…</p>}
+        {!concertsLoading && concertsError && <p role="alert">{concertsError}</p>}
+        {!concertsLoading && !concertsError && concerts.length === 0 && <p role="status">No concerts are currently available.</p>}
 
         <div className="concert-discovery-bar">
           <label className="concert-search">
@@ -828,6 +734,8 @@ function Home({ user, onLogout }) {
                       <img
                         src={concert.image}
                         alt={concert.name}
+                        loading="lazy"
+                        decoding="async"
                         onError={(e) => {
                           e.currentTarget.hidden = true;
                         }}

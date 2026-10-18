@@ -3,86 +3,14 @@ import { Link } from "react-router-dom";
 import { ref, onValue, set, remove } from "firebase/database";
 import { db } from "../firebase";
 
-const defaultConcerts = [
-  {
-    id: "C001",
-    name: "Summer Music Festival",
-    artist: "BUS",
-    date: "2026-09-12",
-    venue: "IMPACT Arena",
-    price: 1500,
-    description:
-      "A summer night filled with music, energy and unforgettable moments with BUS.",
-    image:
-      "https://images.unsplash.com/photo-1501386761578-eac5c94b800a",
-    zones: [
-      {
-        id: "VIP",
-        name: "VIP",
-        price: 2500
-      },
-      {
-        id: "A",
-        name: "Regular A",
-        price: 1800
-      }
-    ]
-  },
-  {
-    id: "C002",
-    name: "The Next Concert",
-    artist: "LYKN",
-    date: "2026-10-20",
-    venue: "Thunder Dome",
-    price: 1800,
-    description:
-      "Experience an exciting night of live performances and special moments with LYKN.",
-    image:
-      "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14",
-    zones: [
-      {
-        id: "A",
-        name: "Regular A",
-        price: 1800
-      }
-    ]
-  },
-  {
-    id: "C003",
-    name: "Live On Stage",
-    artist: "PROXIE",
-    date: "2026-11-05",
-    venue: "Union Hall",
-    price: 1200,
-    description:
-      "A live concert experience featuring powerful performances from PROXIE.",
-    image:
-      "https://images.unsplash.com/photo-1506157786151-b8491531f063",
-    zones: [
-      {
-        id: "A",
-        name: "Regular A",
-        price: 1200
-      }
-    ]
-  }
-];
-
 function AdminDashboard({ user, onLogout }) {
 
   const [activePage, setActivePage] =
     useState("concerts");
 
-  const [concerts, setConcerts] =
-    useState(defaultConcerts);
-
-  const [bookings] = useState(() => {
-    try {
-      return JSON.parse(localStorage.getItem("ticketHubBookings")) || [];
-    } catch {
-      return [];
-    }
-  });
+  const [concerts, setConcerts] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [dataError, setDataError] = useState("");
 
   const [reports] = useState(() => {
     try {
@@ -127,10 +55,7 @@ function AdminDashboard({ user, onLogout }) {
 
           if (!data) {
 
-            setConcerts(
-              defaultConcerts
-            );
-
+            setConcerts([]);
             return;
           }
 
@@ -141,25 +66,9 @@ function AdminDashboard({ user, onLogout }) {
             firebaseConcerts.map(
               (concert) => {
 
-                const defaultConcert =
-                  defaultConcerts.find(
-                    (item) =>
-                      String(item.id) ===
-                      String(concert.id)
-                  );
-
                 return {
                   ...concert,
-
-                  description:
-                    concert.description ||
-                    defaultConcert?.description ||
-                    "Experience an unforgettable live concert with amazing performances and great music.",
-
-                  zones:
-                    concert.zones ||
-                    defaultConcert?.zones ||
-                    []
+                  zones: Array.isArray(concert.zones) ? concert.zones : Object.values(concert.zones || {})
                 };
               }
             );
@@ -167,6 +76,7 @@ function AdminDashboard({ user, onLogout }) {
           setConcerts(
             updatedConcerts
           );
+          setDataError("");
         },
         (error) => {
 
@@ -176,14 +86,26 @@ function AdminDashboard({ user, onLogout }) {
           );
 
           setConcerts(
-            defaultConcerts
+            []
           );
+          setDataError("Firebase concerts could not be loaded. Check database access and try again.");
         }
       );
 
     return () =>
       unsubscribe();
 
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onValue(ref(db, "bookings"), (snapshot) => {
+      setBookings(Object.values(snapshot.val() || {}).filter(Boolean));
+    }, (error) => {
+      console.error("Firebase bookings error:", error);
+      setBookings([]);
+      setDataError("Firebase bookings could not be loaded. Check database access and try again.");
+    });
+    return unsubscribe;
   }, []);
 
 
@@ -212,19 +134,13 @@ function AdminDashboard({ user, onLogout }) {
 
       venue: "",
 
-      price: 1000,
+      price: 0,
 
       description: "",
 
       image: "",
 
-      zones: [
-        {
-          id: "A",
-          name: "Regular A",
-          price: 1000
-        }
-      ]
+      zones: []
 
     });
 
@@ -387,6 +303,7 @@ function AdminDashboard({ user, onLogout }) {
         (editingConcert.zones || [])
           .map((zone) => ({
             ...zone,
+            seatIds: Array.isArray(zone.seatIds) ? [...new Set(zone.seatIds.map((seat) => String(seat).trim()).filter(Boolean))] : [],
             price:
               Number(
                 zone.price
@@ -439,8 +356,8 @@ function AdminDashboard({ user, onLogout }) {
       name:
         "New Zone",
 
-      price:
-        1000
+      price: 0,
+      seatIds: []
 
     };
 
@@ -481,9 +398,10 @@ function AdminDashboard({ user, onLogout }) {
 
           ...updatedZones[index],
 
-          [field]:
-            field === "price"
-              ? Number(value)
+          [field]: field === "price"
+            ? Number(value)
+            : field === "seatIdsText"
+              ? [...new Set(value.split(/[\n,]/).map((seat) => seat.trim()).filter(Boolean))]
               : value
 
         };
@@ -816,7 +734,7 @@ function AdminDashboard({ user, onLogout }) {
             )
           }
         >
-          🎤 Concerts
+          Concerts
         </button>
 
 
@@ -832,7 +750,7 @@ function AdminDashboard({ user, onLogout }) {
             )
           }
         >
-          🎫 Bookings
+          Bookings
         </button>
 
 
@@ -848,7 +766,7 @@ function AdminDashboard({ user, onLogout }) {
             )
           }
         >
-          ⚠️ Reports
+          Reports
         </button>
 
 
@@ -917,6 +835,8 @@ function AdminDashboard({ user, onLogout }) {
 
         </header>
 
+        {dataError && <p role="alert" className="admin-data-error">{dataError}</p>}
+
 
         {/* =========================
             CONCERTS
@@ -961,7 +881,7 @@ function AdminDashboard({ user, onLogout }) {
                     csvInputRef.current?.click()
                   }
                 >
-                  📄 Import CSV
+                  Import CSV
                 </button>
 
 
@@ -1065,6 +985,8 @@ function AdminDashboard({ user, onLogout }) {
                             alt={
                               concert.name
                             }
+                            loading="lazy"
+                            decoding="async"
                           />
 
                         ) : (
@@ -1108,17 +1030,17 @@ function AdminDashboard({ user, onLogout }) {
                         <div className="admin-concert-meta">
 
                           <span>
-                            📅{" "}
+                            Date{" "}
                             {concert.date}
                           </span>
 
                           <span>
-                            📍{" "}
+                            Venue{" "}
                             {concert.venue}
                           </span>
 
                           <span>
-                            🪑{" "}
+                            Seats{" "}
                             {concert.zones
                               ?.length ||
                               0}{" "}
@@ -1273,7 +1195,7 @@ function AdminDashboard({ user, onLogout }) {
 
                         <span className="status-paid">
                           {booking.status ||
-                            "Paid"}
+                            "Confirmed"}
                         </span>
 
                       </div>
@@ -1767,6 +1689,18 @@ function AdminDashboard({ user, onLogout }) {
 
                         </div>
 
+                      </div>
+
+                      <div className="zone-seat-id-field">
+                        <label htmlFor={`seat-ids-${zone.id}`}>Official seat IDs</label>
+                        <textarea
+                          id={`seat-ids-${zone.id}`}
+                          rows="3"
+                          value={(zone.seatIds || []).join(", ")}
+                          onChange={(event) => updateZone(index, "seatIdsText", event.target.value)}
+                          placeholder="Enter IDs from the venue seating plan, e.g. A1, A2, A3"
+                        />
+                        <small>Separate IDs with commas or new lines. Leave empty until verified seat IDs are available.</small>
                       </div>
 
 

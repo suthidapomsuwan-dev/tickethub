@@ -11583,6 +11583,7 @@ input, textarea, select, .search-input, .filter-select {
 }
 input::placeholder, textarea::placeholder { color: #74747A; }
 input:focus, textarea:focus, select:focus { border-color: var(--electric); outline: 2px solid rgba(25,71,255,.18); }
+.route-loading { min-height: 50vh; display: grid; place-items: center; color: var(--muted); font-weight: 700; }
 .concert-card, .booking-card, .booking-summary, .payment-card, .order-summary, .success-card,
 .report-form, .admin-stat-card, .admin-table-section, .admin-concert-card, .concert-modal, .zone-section {
   color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 rgba(8,8,8,.12);
@@ -11834,6 +11835,11 @@ input:focus, textarea:focus, select:focus { border-color: var(--electric); outli
 .concert-detail-page .seat.selected { background: var(--gradient-blue); }
 .concert-detail-page .seat:disabled:not(.booked) { color: #606065; background: #E8E8EA; border-color: #929298; cursor: not-allowed; }
 .concert-detail-page .booking-section--closed .event-ended-notice { display: grid; }
+.concert-detail-page .seat-map-empty, .concert-detail-page .zone-seat-empty { margin: 12px 0; padding: 16px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); line-height: 1.6; }
+.zone-seat-id-field { display: grid; gap: 8px; margin-top: 16px; }
+.zone-seat-id-field textarea { width: 100%; min-height: 80px; padding: 10px; color: var(--ink); background: var(--paper); border: 1px solid var(--border); font: inherit; resize: vertical; }
+.zone-seat-id-field small { color: var(--muted); line-height: 1.5; }
+.admin-data-error { margin: 16px; padding: 12px; color: var(--ink); background: var(--surface); border-left: 4px solid var(--electric); }
 
 @media (max-width: 600px) {
   .concert-hero > .hero-abstract-art { opacity: .6; }

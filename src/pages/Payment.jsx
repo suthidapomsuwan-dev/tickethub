@@ -7,8 +7,8 @@ import {
 import {
   ref,
   push,
-  set,
-  get
+  get,
+  set
 } from "firebase/database";
 
 import { db } from "../firebase";
@@ -57,12 +57,10 @@ function Payment() {
       return () => { active = false; };
     }
 
-    get(ref(db, "concerts"))
+    get(ref(db, `concerts/${bookingConcertId}`))
       .then((snapshot) => {
         if (!active) return;
-        const raw = snapshot.val();
-        const events = Array.isArray(raw) ? raw : Object.values(raw || {});
-        const currentEvent = events.find((event) => String(event?.id) === String(bookingConcertId));
+        const currentEvent = snapshot.val();
         if (!currentEvent) {
           setEventStatus("unavailable");
           return;
@@ -78,10 +76,8 @@ function Payment() {
   }, [bookingConcertId]);
 
   const verifyConcertBeforePayment = async () => {
-    const snapshot = await get(ref(db, "concerts"));
-    const raw = snapshot.val();
-    const events = Array.isArray(raw) ? raw : Object.values(raw || {});
-    const currentEvent = events.find((event) => String(event?.id) === String(bookingConcertId));
+    const snapshot = await get(ref(db, `concerts/${bookingConcertId}`));
+    const currentEvent = snapshot.val();
     return currentEvent ? canBookConcert(currentEvent.date) : false;
   };
 
@@ -134,6 +130,7 @@ function Payment() {
     date,
     venue,
     zone,
+    zoneName,
     zoneId,
     price,
     seats,
@@ -216,6 +213,10 @@ function Payment() {
 
         id: bookingId,
 
+        ...(currentUser.uid || currentUser.userId || currentUser.id
+          ? { userId: String(currentUser.uid || currentUser.userId || currentUser.id) }
+          : {}),
+
         username:
           currentUser.username ||
           "user",
@@ -239,7 +240,7 @@ function Payment() {
           venue || "",
 
         zone:
-          zone || "",
+          zoneName || zone || "",
 
         zoneId:
           zoneId || "",
@@ -250,6 +251,8 @@ function Payment() {
         seats:
           seats,
 
+        seatDetails: Array.isArray(bookingData.seatDetails) ? bookingData.seatDetails : [],
+
         total:
           Number(total || 0),
 
@@ -257,7 +260,10 @@ function Payment() {
           method,
 
         status:
-          "Paid",
+          "Confirmed",
+
+        paymentStatus:
+          "Demo",
 
         createdAt:
           new Date().toISOString()
@@ -270,13 +276,8 @@ function Payment() {
       const bookingsRef =
         ref(db, "bookings");
 
-      const newBookingRef =
-        push(bookingsRef);
-
-      await set(
-        newBookingRef,
-        booking
-      );
+      const newBookingRef = push(bookingsRef);
+      await set(newBookingRef, booking);
 
       // =========================
       // ALSO SAVE LOCAL STORAGE

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login({ onLogin }) {
@@ -47,7 +47,7 @@ function Login({ onLogin }) {
       <div className="login-card">
 
         <div className="login-logo">
-          Ticket<span>Hub</span>
+          T* TICKETHUB.
         </div>
 
         <p className="login-title">

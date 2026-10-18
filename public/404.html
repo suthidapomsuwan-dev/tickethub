@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TicketHub</title>
+    <script>
+      const base = "/tickethub/";
+      const path = window.location.pathname.startsWith(base)
+        ? window.location.pathname.slice(base.length)
+        : window.location.pathname.replace(/^\/+/, "");
+      const query = encodeURIComponent(window.location.search);
+      const hash = window.location.hash;
+      window.location.replace(`${base}?p=${encodeURIComponent(path)}&q=${query}${hash}`);
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Report({ user, onLogout }) {
@@ -61,22 +61,22 @@ function Report({ user, onLogout }) {
           to="/"
           className="logo"
         >
-          Ticket<span>Hub</span>
+          T* TICKETHUB.
         </Link>
 
 
         <div className="nav-links">
 
           <Link to="/">
-            Concerts
+            EVENTS
           </Link>
 
           <Link to="/booking-history">
-            My Bookings
+            TICKETS
           </Link>
 
           <Link to="/report">
-            Report Problem
+            REPORT ↗
           </Link>
 
         </div>

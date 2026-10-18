@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ref, onValue } from "firebase/database";
 import { db } from "../firebase";
+import { formatConcertDate, getConcertDateKey, getLocalDateKey, isConcertPast } from "../utils/concertDate";
 
 const defaultConcerts = [
   {
@@ -80,6 +81,8 @@ const defaultConcerts = [
 
 function Home({ user, onLogout }) {
   const [concerts, setConcerts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [concertView, setConcertView] = useState("upcoming");
 
   // =========================
   // CALENDAR
@@ -277,8 +280,7 @@ function Home({ user, onLogout }) {
 
     return concerts.some(
       (concert) =>
-        String(concert.date).slice(0, 10) ===
-        dateKey
+        getConcertDateKey(concert.date) === dateKey
     );
   };
 
@@ -329,12 +331,33 @@ function Home({ user, onLogout }) {
     selectedDate
       ? concerts.filter(
           (concert) =>
-            String(concert.date).slice(
-              0,
-              10
-            ) === selectedDate
+            getConcertDateKey(concert.date) === selectedDate
         )
       : [];
+
+  const todayKey = getLocalDateKey();
+  const concertDateKey = (concert) => getConcertDateKey(concert.date);
+
+  const upcomingConcerts = concerts
+    .filter((concert) => concertDateKey(concert) && concertDateKey(concert) >= todayKey)
+    .sort((a, b) => concertDateKey(a).localeCompare(concertDateKey(b)));
+
+  const completedConcerts = concerts
+    .filter((concert) => isConcertPast(concert.date))
+    .sort((a, b) => concertDateKey(b).localeCompare(concertDateKey(a)));
+
+
+  const concertsForView = concertView === "completed"
+    ? completedConcerts
+    : concertView === "upcoming"
+      ? upcomingConcerts
+      : concerts;
+
+  const visibleConcerts = concertsForView
+    .filter((concert) => {
+      const query = searchTerm.trim().toLowerCase();
+      return !query || `${concert.name || ""} ${concert.artist || ""}`.toLowerCase().includes(query);
+    });
 
   // =========================
   // GET STARTING PRICE
@@ -395,21 +418,21 @@ function Home({ user, onLogout }) {
           to="/"
           className="logo"
         >
-          Ticket<span>Hub</span>
+          T* TICKETHUB.
         </Link>
 
         <div className="nav-links">
 
           <Link to="/">
-            Concerts
+            EVENTS
           </Link>
 
           <Link to="/booking-history">
-            My Bookings
+            TICKETS
           </Link>
 
           <Link to="/report">
-            Report Problem
+            REPORT
           </Link>
 
         </div>
@@ -438,34 +461,90 @@ function Home({ user, onLogout }) {
 
       <section className="concert-hero">
 
+        <div className="hero-abstract-art" aria-hidden="true">
+          <span className="hero-orbit hero-orbit--outer" />
+          <span className="hero-orbit hero-orbit--inner" />
+          <span className="hero-grid-mark" />
+          <span className="hero-art-label">LIVE / 01</span>
+        </div>
+
         <div>
 
           <p className="hero-label">
-            TICKETHUB
+            LIVE EVENTS · TICKETHUB
           </p>
 
           <h1>
-            Discover Your
-            <br />
-            Next Experience.
+            LIVE WITHOUT LIMITS.
           </h1>
 
           <p>
-            Find your favorite concerts,
-            choose your seat and book your
-            ticket.
+            YOUR NEXT LIVE EXPERIENCE STARTS HERE.
           </p>
+
+          <Link to="#upcoming-shows" className="hero-cta">
+            EXPLORE EVENTS
+          </Link>
 
         </div>
 
       </section>
+
+      <div className="brand-marquee" aria-label="Music, live, experience, your next show">
+        <div className="brand-marquee-track" aria-hidden="true">
+          <span>MUSIC · LIVE · EXPERIENCE · YOUR NEXT SHOW ·</span>
+          <span>MUSIC · LIVE · EXPERIENCE · YOUR NEXT SHOW ·</span>
+        </div>
+      </div>
 
 
       {/* =========================
           CONCERT SECTION
       ========================= */}
 
-      <section className="concert-section">
+      <section className="concert-section" id="upcoming-shows">
+
+        <div className="concert-discovery-bar">
+          <label className="concert-search">
+            <span aria-hidden="true">⌕</span>
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Search concerts or artists"
+              aria-label="Search concerts or artists"
+            />
+          </label>
+          <div className="concert-view-tabs" role="tablist" aria-label="Concert dates">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={concertView === "all"}
+              className={concertView === "all" ? "active" : ""}
+              onClick={() => setConcertView("all")}
+            >
+              All events <span>{concerts.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={concertView === "upcoming"}
+              className={concertView === "upcoming" ? "active" : ""}
+              onClick={() => setConcertView("upcoming")}
+            >
+              Upcoming <span>{upcomingConcerts.length}</span>
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={concertView === "completed"}
+              className={concertView === "completed" ? "active" : ""}
+              onClick={() => setConcertView("completed")}
+            >
+              Past events <span>{completedConcerts.length}</span>
+            </button>
+          </div>
+        </div>
 
         {/* HEADER + CALENDAR */}
 
@@ -480,13 +559,13 @@ function Home({ user, onLogout }) {
               </p>
 
               <h2>
-                Upcoming Concerts
+                {concertView === "completed" ? "PAST SHOWS" : concertView === "all" ? "ALL SHOWS" : "UPCOMING SHOWS"}
               </h2>
 
             </div>
 
             <span>
-              {concerts.length} concerts
+              {visibleConcerts.length} concerts
             </span>
 
           </div>
@@ -682,8 +761,9 @@ function Home({ user, onLogout }) {
                       </span>
 
                       <small>
-                        📍 {concert.venue}
+                        {concert.venue}
                       </small>
+                      {isConcertPast(concert.date) && <small className="concert-ended-badge">EVENT ENDED</small>}
 
                     </div>
 
@@ -703,14 +783,21 @@ function Home({ user, onLogout }) {
 
           )}
 
+        {selectedDate && selectedConcerts.length === 0 && (
+          <div className="calendar-day-empty">
+            No concerts are listed for this date.
+          </div>
+        )}
+
 
         {/* =========================
             CONCERT CARDS
         ========================= */}
 
+        {visibleConcerts.length > 0 ? (
         <div className="concert-grid">
 
-          {concerts.map(
+          {visibleConcerts.map(
             (concert) => {
 
               /*
@@ -721,11 +808,12 @@ function Home({ user, onLogout }) {
                 getStartingPrice(
                   concert
                 );
+              const ended = isConcertPast(concert.date);
 
               return (
 
                 <div
-                  className="concert-card"
+                  className={`concert-card${ended ? " concert-card--ended" : ""}`}
                   key={concert.id}
                 >
 
@@ -733,14 +821,15 @@ function Home({ user, onLogout }) {
 
                   <div className="concert-image">
 
+                    <div className="concert-image-placeholder" aria-hidden="true">TICKETHUB / LIVE</div>
+
                     {concert.image ? (
 
                       <img
                         src={concert.image}
                         alt={concert.name}
                         onError={(e) => {
-                          e.currentTarget.style.display =
-                            "none";
+                          e.currentTarget.hidden = true;
                         }}
                       />
 
@@ -760,8 +849,10 @@ function Home({ user, onLogout }) {
                   <div className="concert-info">
 
                     <p className="concert-date">
-                      {concert.date}
+                      {formatConcertDate(concert.date)}
                     </p>
+
+                    {ended && <span className="concert-ended-badge">EVENT ENDED</span>}
 
                     <h3>
                       {concert.name}
@@ -779,7 +870,7 @@ function Home({ user, onLogout }) {
 
 
                     <p className="venue">
-                      📍 {concert.venue}
+                      {concert.venue}
                     </p>
 
 
@@ -789,16 +880,14 @@ function Home({ user, onLogout }) {
 
                       <div>
 
-                        <small>
-                          Starting from
-                        </small>
-
-                        <strong>
-                          ฿
-                          {Number(
-                            price
-                          ).toLocaleString()}
-                        </strong>
+                        {ended ? (
+                          <small>Ticket sales closed</small>
+                        ) : (
+                          <>
+                            <small>Starting from</small>
+                            <strong>฿{Number(price).toLocaleString()}</strong>
+                          </>
+                        )}
 
                       </div>
 
@@ -806,7 +895,7 @@ function Home({ user, onLogout }) {
                         to={`/concert/${concert.id}`}
                         className="view-button"
                       >
-                        View
+                        {ended ? "View details" : "View"}
                       </Link>
 
                     </div>
@@ -820,6 +909,12 @@ function Home({ user, onLogout }) {
           )}
 
         </div>
+        ) : (
+          <div className="concert-empty-state">
+            <h3>{searchTerm ? "No concerts match your search" : concertView === "completed" ? "No past concerts yet" : "No upcoming concerts"}</h3>
+            <p>{searchTerm ? "Try another concert name or artist." : "Concert listings will appear here when available."}</p>
+          </div>
+        )}
 
       </section>
 

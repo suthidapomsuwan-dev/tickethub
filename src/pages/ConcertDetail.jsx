@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ref, onValue } from "firebase/database";
 import { db } from "../firebase";
+import { canBookConcert, formatConcertDate, isConcertPast } from "../utils/concertDate";
 
 function ConcertDetail() {
   const { id } = useParams();
@@ -471,6 +472,8 @@ function ConcertDetail() {
     zone,
     seatName
   ) => {
+    if (!canBookConcert(concert?.date)) return;
+
     const zoneId = String(zone.id);
     const seat = String(seatName);
 
@@ -536,6 +539,11 @@ function ConcertDetail() {
   ========================================================= */
 
   const handleBooking = () => {
+    if (!canBookConcert(concert?.date)) {
+      alert(isConcertPast(concert?.date) ? "This concert has ended. Seat booking is closed." : "This concert date is unavailable for booking.");
+      return;
+    }
+
     if (
       selectedSeats.length ===
       0
@@ -821,24 +829,20 @@ function ConcertDetail() {
     );
   }
 
+  const canBook = canBookConcert(concert.date);
+  const eventEnded = isConcertPast(concert.date);
+
   /* =========================================================
      USER
   ========================================================= */
 
-  let currentUser =
-    null;
-
-  try {
-    currentUser =
-      JSON.parse(
-        localStorage.getItem(
-          "ticketHubUser"
-        )
-      );
-  } catch {
-    currentUser =
-      null;
-  }
+  const currentUser = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("ticketHubUser"));
+    } catch {
+      return null;
+    }
+  })();
 
   /* =========================================================
      TOTAL
@@ -896,24 +900,21 @@ function ConcertDetail() {
           to="/"
           className="logo"
         >
-          Ticket
-          <span>
-            Hub
-          </span>
+          T* TICKETHUB.
         </Link>
 
         <div className="nav-links">
 
           <Link to="/">
-            Concerts
+            EVENTS
           </Link>
 
           <Link to="/booking-history">
-            My Bookings
+            TICKETS
           </Link>
 
           <Link to="/report">
-            Report Problem
+            REPORT
           </Link>
 
         </div>
@@ -930,7 +931,7 @@ function ConcertDetail() {
             to="/booking-history"
             className="nav-booking-button"
           >
-            My Bookings
+            TICKETS
           </Link>
 
         </div>
@@ -979,15 +980,9 @@ function ConcertDetail() {
             {concert.artist}
           </h2>
 
-          <p>
-            📅{" "}
-            {concert.date}
-          </p>
+          <p>{formatConcertDate(concert.date)}</p>
 
-          <p>
-            📍{" "}
-            {concert.venue}
-          </p>
+          <p>{concert.venue}</p>
 
           {concert.description && (
             <p className="concert-description">
@@ -1003,7 +998,14 @@ function ConcertDetail() {
           BOOKING
       ===================================================== */}
 
-      <section className="booking-section">
+      <section className={`booking-section${canBook ? "" : " booking-section--closed"}`}>
+
+        {!canBook && (
+          <div className="event-ended-notice" role="status">
+            <strong>{eventEnded ? "EVENT ENDED" : "BOOKING UNAVAILABLE"}</strong>
+            <span>{eventEnded ? "Seat selection and ticket booking are closed for this event." : "A valid event date is required before seats can be booked."}</span>
+          </div>
+        )}
 
         <div className="booking-heading">
 
@@ -1014,7 +1016,7 @@ function ConcertDetail() {
             </p>
 
             <h2>
-              Select Your Seats
+              PICK YOUR SEAT.
             </h2>
 
           </div>
@@ -1039,6 +1041,10 @@ function ConcertDetail() {
           <div className="stage-line"></div>
 
         </div>
+
+        <p className="seat-map-disclaimer">
+          Illustrative seat layout based on the zones and seat counts configured for this event. An official venue seating plan was not provided.
+        </p>
 
         {/* ===================================================
             ZONES
@@ -1193,7 +1199,7 @@ function ConcertDetail() {
                               type="button"
                               key={`${zoneId}-${seat}`}
                               disabled={
-                                isBooked
+                                isBooked || !canBook
                               }
                               title={
                                 isBooked
@@ -1352,11 +1358,10 @@ function ConcertDetail() {
                 handleBooking
               }
               disabled={
-                selectedSeats.length ===
-                0
+                !canBook || selectedSeats.length === 0
               }
             >
-              Continue to Payment →
+              Continue to Payment
             </button>
 
           </div>

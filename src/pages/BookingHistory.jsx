@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ref, onValue, remove } from "firebase/database";
 import { db } from "../firebase";
@@ -64,17 +64,13 @@ function BookingHistory() {
      CURRENT USER
   ========================================================= */
 
-  let currentUser = null;
-
-  try {
-    currentUser = JSON.parse(
-      localStorage.getItem(
-        "ticketHubUser"
-      )
-    );
-  } catch {
-    currentUser = null;
-  }
+  const currentUser = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("ticketHubUser"));
+    } catch {
+      return null;
+    }
+  })();
 
   const username =
     currentUser?.username ||
@@ -339,6 +335,20 @@ function BookingHistory() {
     return "Confirmed";
   };
 
+  const getConcertDateStatus = (booking) => {
+    const dateKey = String(booking?.date || "").slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) return "unknown";
+
+    const now = new Date();
+    const todayKey = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, "0"),
+      String(now.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    return dateKey < todayKey ? "completed" : "upcoming";
+  };
+
   /* =========================================================
      FORMAT DATE
   ========================================================= */
@@ -480,25 +490,24 @@ function BookingHistory() {
           to="/"
           className="logo"
         >
-          Ticket
-          <span>Hub</span>
+          T* TICKETHUB.
         </Link>
 
         <div className="nav-links">
 
           <Link to="/">
-            Concerts
+            EVENTS
           </Link>
 
           <Link
             to="/booking-history"
             className="active"
           >
-            My Bookings
+            TICKETS
           </Link>
 
           <Link to="/report">
-            Report Problem
+            REPORT ↗
           </Link>
 
         </div>
@@ -705,6 +714,14 @@ function BookingHistory() {
                             )}`}
                         >
                           {status}
+                        </span>
+
+                        <span className={`event-date-status ${getConcertDateStatus(booking)}`}>
+                          {getConcertDateStatus(booking) === "completed"
+                            ? "Concert completed"
+                            : getConcertDateStatus(booking) === "upcoming"
+                              ? "Upcoming concert"
+                              : "Event date unavailable"}
                         </span>
 
                       </div>

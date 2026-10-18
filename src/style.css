@@ -337,7 +337,7 @@ a {
   color: #ffffff;
 
   transform: translateY(-1px);
-}  
+}
 /* =========================================================
    HERO — WHITE / BLACK / GRAY / BLUE
 ========================================================= */
@@ -372,6 +372,34 @@ a {
     );
 
   border-bottom: 1px solid #e5e7eb;
+}
+
+.concert-hero > .concert-hero-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.concert-hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
+  opacity: 0.58;
+  mask-image: linear-gradient(90deg, #000 0%, #000 42%, transparent 100%);
+}
+
+.concert-hero::before {
+  z-index: 1;
+  border-color: rgba(213, 193, 172, 0.1);
+  box-shadow:
+    0 0 0 55px rgba(213, 193, 172, 0.025),
+    0 0 0 110px rgba(213, 193, 172, 0.018);
+}
+
+.concert-hero::after {
+  z-index: 1;
 }
 
 .concert-hero::before {
@@ -816,7 +844,7 @@ a {
   .concert-section {
     padding: 55px 6%;
   }
-}  
+}
 /* =========================================================
    QUICK LINKS — WHITE PREMIUM
 ========================================================= */
@@ -1347,7 +1375,7 @@ a {
   }
 }
 
-@media (max-width: 650px) {
+/* media (max-width: 650px) {
   .navbar {
     padding: 0 5%;
   }
@@ -1634,7 +1662,7 @@ a {
 
     gap: 8px;
   }
-}  
+}
 /* =========================================================
    ZONE CARDS — WHITE PREMIUM
 ========================================================= */
@@ -3604,7 +3632,7 @@ a {
   .success-total strong {
     font-size: 20px;
   }
-}  
+}
 /* =========================================================
    DANGER — CLEAN RED
 ========================================================= */
@@ -4353,7 +4381,7 @@ a {
     linear-gradient(
       135deg,
       rgba(99, 140, 255, 0.15),
-      rgba(161, 127, 255, 0.15)
+      rgba(142, 164, 255, 0.15)
     );
 
   box-shadow:
@@ -4978,7 +5006,7 @@ a {
     ),
     radial-gradient(
       circle at bottom right,
-      rgba(161, 127, 255, 0.15),
+      rgba(142, 164, 255, 0.15),
       transparent 35%
     ),
     var(--background);
@@ -5403,7 +5431,7 @@ a {
     linear-gradient(
       135deg,
       rgba(99, 140, 255, 0.16),
-      rgba(161, 127, 255, 0.16)
+      rgba(142, 164, 255, 0.16)
     );
 
   color: var(--primary);
@@ -5637,10 +5665,10 @@ a {
 .danger-button {
   padding: 10px 15px;
 
-  border: 1px solid rgba(255, 102, 126, 0.3);
+  border: 1px solid rgba(180, 35, 45, 0.3);
   border-radius: 12px;
 
-  background: rgba(255, 102, 126, 0.08);
+  background: rgba(180, 35, 45, 0.08);
 
   color: var(--danger);
 
@@ -5650,7 +5678,7 @@ a {
 }
 
 .danger-button:hover {
-  background: rgba(255, 102, 126, 0.15);
+  background: rgba(180, 35, 45, 0.15);
 }
 
 .danger-button.small
@@ -6720,7 +6748,7 @@ a {
     padding: 32px 17px;
   }
 }
-  
+
 /* =========================================
    CONCERT DETAIL - SEAT BOOKING
    FINAL OVERRIDE
@@ -6728,8 +6756,8 @@ a {
 
 .concert-detail-page {
   min-height: 100vh;
-  background: #fffafb;
-  color: #2b2025;
+  background: #F2F3F6;
+  color: #080808;
 }
 
 /* =========================================
@@ -6757,10 +6785,10 @@ a {
   border-radius: 28px;
   overflow: hidden;
 
-  background: #f8e8ee;
+  background: #1947FF;
 
   box-shadow:
-    0 15px 45px rgba(130, 70, 90, 0.12);
+    0 15px 45px rgba(8, 8, 8, 0.12);
 }
 
 .detail-image img
@@ -6798,7 +6826,7 @@ a {
 
   letter-spacing: 2px;
 
-  color: #8e7c83 !important;
+  color: #606065 !important;
 }
 
 /* =========================================
@@ -6831,7 +6859,7 @@ a {
 }
 
 .booking-heading > span {
-  color: #8e7c83;
+  color: #606065;
   font-size: 13px;
 }
 
@@ -6861,22 +6889,22 @@ a {
 
   gap: 9px;
 
-  border: 1px solid #eadde2;
+  border: 1px solid #D5D6DA;
   border-radius: 19px;
 
   background:
     linear-gradient(
       145deg,
       #ffffff,
-      #fff7fa
+      #F2F3F6
     );
 
-  color: #2b2025;
+  color: #080808;
 
   text-align: left;
 
   box-shadow:
-    0 7px 25px rgba(130, 70, 90, 0.08);
+    0 7px 25px rgba(8, 8, 8, 0.08);
 
   cursor: pointer;
 
@@ -6889,42 +6917,42 @@ a {
 .zone-card:hover {
   transform: translateY(-4px);
 
-  border-color: #d88fa5;
+  border-color: #1947FF;
 
   box-shadow:
-    0 13px 35px rgba(216, 143, 165, 0.16);
+    0 13px 35px rgba(25, 71, 255, 0.16);
 }
 
 .zone-card strong {
   font-size: 21px;
-  color: #2b2025;
+  color: #080808;
 }
 
 .zone-card span {
-  color: #c97891;
+  color: #0B35E8;
 
   font-size: 19px;
   font-weight: 800;
 }
 
 .zone-card small {
-  color: #8e7c83;
+  color: #606065;
   font-size: 12px;
 }
 
 .zone-card.selected,
 .zone-card.active {
-  border: 2px solid #d88fa5;
+  border: 2px solid #1947FF;
 
   background:
     linear-gradient(
       135deg,
-      rgba(216, 143, 165, 0.14),
-      rgba(232, 182, 197, 0.12)
+      rgba(25, 71, 255, 0.14),
+      rgba(142, 164, 255, 0.12)
     );
 
   box-shadow:
-    0 15px 40px rgba(216, 143, 165, 0.18);
+    0 15px 40px rgba(25, 71, 255, 0.18);
 }
 
 /* =========================================
@@ -6959,7 +6987,7 @@ a {
 .seat-heading p:not(.section-label) {
   margin: 7px 0 0;
 
-  color: #8e7c83;
+  color: #606065;
 
   font-size: 13px;
 }
@@ -6983,9 +7011,9 @@ a {
   background:
     linear-gradient(
       90deg,
-      #ead0d8,
-      #d88fa5,
-      #ead0d8
+      #0B35E8,
+      #1947FF,
+      #0B35E8
     );
 
   color: white;
@@ -6996,8 +7024,8 @@ a {
   letter-spacing: 5px;
 
   box-shadow:
-    0 10px 30px rgba(130, 70, 90, 0.18),
-    0 0 35px rgba(216, 143, 165, 0.12);
+    0 10px 30px rgba(8, 8, 8, 0.18),
+    0 0 35px rgba(25, 71, 255, 0.12);
 }
 
 /* =========================================
@@ -7023,15 +7051,15 @@ a {
     linear-gradient(
       145deg,
       #ffffff,
-      #fff7fa
+      #F2F3F6
     );
 
-  border: 1px solid #eadde2;
+  border: 1px solid #D5D6DA;
 
   border-radius: 23px;
 
   box-shadow:
-    0 10px 35px rgba(130, 70, 90, 0.08);
+    0 10px 35px rgba(8, 8, 8, 0.08);
 
   overflow-x: auto;
 }
@@ -7040,12 +7068,12 @@ a {
   min-width: 70px;
   height: 50px;
 
-  border: 1px solid #eadde2;
+  border: 1px solid #D5D6DA;
   border-radius: 10px;
 
-  background: #fffafb;
+  background: #F2F3F6;
 
-  color: #8e7c83;
+  color: #606065;
 
   font-size: 11px;
   font-weight: 800;
@@ -7056,11 +7084,11 @@ a {
 }
 
 .seat:hover:not(:disabled) {
-  background: rgba(216, 143, 165, 0.14);
+  background: rgba(25, 71, 255, 0.14);
 
-  border-color: #d88fa5;
+  border-color: #1947FF;
 
-  color: #c97891;
+  color: #0B35E8;
 
   transform: translateY(-2px);
 }
@@ -7069,25 +7097,25 @@ a {
   background:
     linear-gradient(
       135deg,
-      #d88fa5,
-      #c78cae
+      #1947FF,
+      #8EA4FF
     );
 
-  border-color: #d88fa5;
+  border-color: #1947FF;
 
   color: white;
 
   box-shadow:
-    0 6px 17px rgba(216, 143, 165, 0.25);
+    0 6px 17px rgba(25, 71, 255, 0.25);
 }
 
 .seat.booked,
 .seat.sold {
-  background: #eee7ea;
+  background: #E3E4E8;
 
-  border-color: #ddd2d7;
+  border-color: #929298;
 
-  color: #aaa0a5;
+  color: #606065;
 
   cursor: not-allowed;
 
@@ -7109,7 +7137,7 @@ a {
 }
 
 .seat-wrapper .seat-price {
-  color: #9a8a91;
+  color: #071A52;
 
   font-size: 9px;
 
@@ -7117,7 +7145,7 @@ a {
 }
 
 .seat-wrapper .seat.selected + .seat-price {
-  color: #c97891;
+  color: #0B35E8;
 }
 
 /* =========================================
@@ -7136,7 +7164,7 @@ a {
 
   margin: 27px 0;
 
-  color: #8e7c83;
+  color: #606065;
 
   font-size: 13px;
 }
@@ -7151,19 +7179,19 @@ a {
 
   border-radius: 4px;
 
-  background: #fffafb;
+  background: #F2F3F6;
 
-  border: 1px solid #eadde2;
+  border: 1px solid #D5D6DA;
 }
 
 .legend-seat.selected {
-  background: #d88fa5;
-  border-color: #d88fa5;
+  background: #1947FF;
+  border-color: #1947FF;
 }
 
 .legend-seat.booked {
-  background: #ddd5d9;
-  border-color: #ddd5d9;
+  background: #071A52;
+  border-color: #071A52;
 }
 
 /* =========================================
@@ -7179,10 +7207,10 @@ a {
     linear-gradient(
       145deg,
       #ffffff,
-      #fff7fa
+      #F2F3F6
     );
 
-  border: 1px solid #eadde2;
+  border: 1px solid #D5D6DA;
   border-radius: 19px;
 
   display: grid;
@@ -7195,20 +7223,20 @@ a {
   align-items: center;
 
   box-shadow:
-    0 10px 35px rgba(130, 70, 90, 0.08);
+    0 10px 35px rgba(8, 8, 8, 0.08);
 }
 
 .booking-summary > div
 
 .booking-summary span {
-  color: #8e7c83;
+  color: #606065;
   font-size: 12px;
 }
 
 .booking-summary strong
 
 .booking-total {
-  color: #c97891 !important;
+  color: #0B35E8 !important;
   font-size: 23px !important;
 }
 
@@ -7225,8 +7253,8 @@ a {
   background:
     linear-gradient(
       135deg,
-      #d88fa5,
-      #c78cae
+      #1947FF,
+      #8EA4FF
     );
 
   color: white;
@@ -7242,13 +7270,13 @@ a {
   transform: translateY(-2px);
 
   box-shadow:
-    0 9px 27px rgba(216, 143, 165, 0.27);
+    0 9px 27px rgba(25, 71, 255, 0.27);
 }
 
 .primary-button:disabled {
-  background: #ddd5d9;
+  background: #071A52;
 
-  color: #9a8e93;
+  color: #071A52;
 
   cursor: not-allowed;
 }
@@ -7436,2461 +7464,2461 @@ a {
   .seat-map {
     padding: 15px;
   }
-}  
-/* =========================================  
-   ALL ZONES  
-========================================= */  
-  
-.all-zones {  
-  display: flex;  
-  flex-direction: column;  
-  gap: 30px;  
-}  
-  
-/* =========================================  
-   ZONE  
-========================================= */  
-  
-.zone-section {  
-  width: 100%;  
-  background: #ffffff;  
-  border: 1px solid #f0dce3;  
-  border-radius: 28px;  
-  padding: 30px 34px 32px;  
-  box-shadow: 0 12px 35px rgba(120, 70, 90, 0.07);  
-}  
-  
-.zone-header {  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  gap: 20px;  
-  padding-bottom: 22px;  
-  border-bottom: 1px solid #f4e8ec;  
-}  
-  
-.zone-title {  
-  display: flex;  
-  align-items: center;  
-  gap: 12px;  
-  flex-wrap: wrap;  
-}  
-  
-.zone-label {  
-  font-size: 11px;  
-  font-weight: 800;  
-  letter-spacing: 1.5px;  
-  color: #6f85c2;  
-}  
-  
-.zone-title h3 {  
-  margin: 0;  
-  font-size: 27px;  
-}  
-  
-.zone-price {  
-  padding: 7px 13px;  
-  border-radius: 999px;  
-  background: #fff0f5;  
-  color: #787f9a;  
-  font-size: 13px;  
-  font-weight: 700;  
-}  
-  
-.zone-availability {  
-  display: flex;  
-  align-items: baseline;  
-  gap: 5px;  
-  color: #95848b;  
-}  
-  
-.zone-availability strong {  
-  color: #6779bf;  
-  font-size: 22px;  
-}  
-  
-/* =========================================  
-   STAGE  
-========================================= */  
-  
-.stage-wrapper {  
-  width: 100%;  
-  max-width: 850px;  
-  margin: 30px auto 35px;  
-  text-align: center;  
-}  
-  
-.stage {  
-  width: 70%;  
-  margin: 0 auto;  
-  padding: 14px;  
-  border-radius: 0 0 60px 60px;  
-  
-  background: linear-gradient(  
-    180deg,  
-    #f7dbe4,  
-    #fcecf1  
-  );  
-  
-  color: #d8def0;  
-  font-size: 12px;  
-  font-weight: 900;  
-  letter-spacing: 4px;  
-  
-  box-shadow: 0 7px 20px rgba(170, 90, 115, 0.1);  
-}  
-  
-.stage-line {  
-  width: 82%;  
-  height: 2px;  
-  margin: 8px auto 0;  
-  background: #efd4dd;  
-}  
-  
-/* =========================================  
-   SEAT MAP  
-========================================= */  
-  
-.seat-map-wrapper {  
-  width: 100%;  
-  overflow-x: auto;  
-  padding: 5px 0 12px;  
-}  
-  
-.seat-map {  
-  width: max-content;  
-  min-width: 760px;  
-  margin: 0 auto;  
-  
-  display: grid;  
-  grid-template-columns: repeat(  
-    auto-fit,  
-    minmax(64px, 1fr)  
-  );  
-  
-  gap: 12px;  
-  justify-content: center;  
-}  
-  
-/* =========================================  
-   SEAT  
-========================================= */  
-  
-.seat {  
-  width: 64px;  
-  min-height: 58px;  
-  
-  border: 1px solid #ead8df;  
-  border-radius: 12px;  
-  
-  background: #ffffff;  
-  color: #4d3941;  
-  
-  cursor: pointer;  
-  
-  display: flex;  
-  flex-direction: column;  
-  justify-content: center;  
-  align-items: center;  
-  
-  gap: 3px;  
-  
-  transition:  
-    transform 0.15s ease,  
-    border-color 0.15s ease,  
-    box-shadow 0.15s ease,  
-    background 0.15s ease;  
-}  
-  
-.seat:hover:not(:disabled) {  
-  transform: translateY(-3px);  
-  border-color: #d98da5;  
-  box-shadow: 0 7px 15px rgba(190, 100, 130, 0.15);  
-}  
-  
-.seat-name {  
-  font-size: 13px;  
-  font-weight: 800;  
-}  
-  
-.seat-price {  
-  font-size: 9px;  
-  color: #a68b95;  
-}  
-  
-/* SELECTED */  
-  
-.seat.selected {  
-  background: #e98eab;  
-  border-color: #e98eab;  
-  color: white;  
-  box-shadow: 0 7px 17px rgba(210, 100, 135, 0.25);  
-}  
-  
-.seat.selected .seat-price {  
-  color: white;  
-}  
-  
-/* BOOKED */  
-  
-.seat.booked {  
-  background: #eee9eb;  
-  border-color: #e2dcde;  
-  color: #aaa1a5;  
-  cursor: not-allowed;  
-  text-decoration: line-through;  
-}  
-  
-.seat.booked .seat-price {  
-  color: #aaa1a5;  
-}  
-  
-/* =========================================  
-   SELECTED ZONE INFO  
-========================================= */  
-  
-.zone-selected-info {  
-  margin-top: 25px;  
-  padding: 18px 20px;  
-  
-  border-radius: 16px;  
-  background: #fff5f8;  
-  border: 1px solid #f2dce4;  
-  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  gap: 20px;  
-}  
-  
-.zone-selected-info > div > span {  
-  color: #88757d;  
-  font-size: 13px;  
-}  
-  
-.zone-selected-seats {  
-  display: flex;  
-  gap: 7px;  
-  flex-wrap: wrap;  
-  margin-top: 10px;  
-}  
-  
-.zone-selected-seats span {  
-  padding: 5px 9px;  
-  border-radius: 7px;  
-  background: #e98eab;  
-  color: white;  
-  font-size: 11px;  
-  font-weight: 700;  
-}  
-  
-/* =========================================  
-   LEGEND  
-========================================= */  
-  
-.seat-legend {  
-  display: flex;  
-  justify-content: center;  
-  gap: 30px;  
-  margin: 30px 0;  
-  padding: 20px;  
-  
-  border-radius: 18px;  
-  background: #ffffff;  
-  border: 1px solid #f0e2e7;  
-}  
-  
-.seat-legend span {  
-  display: flex;  
-  align-items: center;  
-  gap: 8px;  
-  
-  color: #77666d;  
-  font-size: 13px;  
-}  
-  
-.legend-seat {  
-  width: 16px;  
-  height: 16px;  
-  display: inline-block;  
-  border-radius: 5px;  
-  border: 1px solid #ead8df;  
-  background: white;  
-}  
-  
-.legend-seat.selected {  
-  background: #e98eab;  
-  border-color: #e98eab;  
-}  
-  
-.legend-seat.booked {  
-  background: #eee9eb;  
-  border-color: #e2dcde;  
-}  
-  
-/* =========================================  
-   BOOKING SUMMARY  
-========================================= */  
-  
-.booking-summary {  
-  width: 100%;  
-  
-  display: grid;  
-  grid-template-columns: 1fr auto auto;  
-  align-items: center;  
-  gap: 30px;  
-  
-  padding: 28px 30px;  
-  
-  background: #ffffff;  
-  border: 1px solid #efdde4;  
-  border-radius: 24px;  
-  
-  box-shadow: 0 12px 35px rgba(120, 70, 90, 0.08);  
-}  
-  
-.summary-seats > span,  
-.summary-total > span {  
-  display: block;  
-  margin-bottom: 10px;  
-  
-  color: #8e7d84;  
-  font-size: 12px;  
-  font-weight: 700;  
-  text-transform: uppercase;  
-  letter-spacing: 1px;  
-}  
-  
-.selected-seat-list {  
-  display: flex;  
-  flex-wrap: wrap;  
-  gap: 8px;  
-  max-height: 100px;  
-  overflow-y: auto;  
-}  
-  
-.selected-seat-item {  
-  display: flex;  
-  align-items: center;  
-  gap: 12px;  
-  
-  padding: 8px 12px;  
-  
-  background: #fff4f7;  
-  border-radius: 10px;  
-}  
-  
-.selected-seat-item div {  
-  display: flex;  
-  flex-direction: column;  
-}  
-  
-.selected-seat-item strong {  
-  font-size: 12px;  
-}  
-  
-.selected-seat-item small {  
-  color: #a28e96;  
-  font-size: 9px;  
-}  
-  
-.selected-seat-item > span {  
-  font-size: 11px;  
-  font-weight: 700;  
-  color: #c36783;  
-}  
-  
-.summary-total {  
-  min-width: 160px;  
-  padding-left: 25px;  
-  border-left: 1px solid #eee0e5;  
-}  
-  
-.booking-total {  
-  font-size: 29px;  
-  color: #c45f7d;  
-}  
-  
-/* =========================================  
-   BUTTON  
-========================================= */  
-  
-.booking-actions {  
-  display: flex;  
-  justify-content: flex-end;  
-}  
-  
-.booking-button {  
-  min-width: 220px;  
-  padding: 15px 22px;  
-  
-  border: none;  
-  border-radius: 13px;  
-  
-  background: #d97796;  
-  color: white;  
-  
-  font-size: 14px;  
-  font-weight: 800;  
-  
-  cursor: pointer;  
-  
-  transition:  
-    transform 0.15s ease,  
-    opacity 0.15s ease,  
-    box-shadow 0.15s ease;  
-}  
-  
-.booking-button:hover:not(:disabled) {  
-  transform: translateY(-2px);  
-  box-shadow: 0 8px 20px rgba(200, 90, 125, 0.22);  
-}  
-  
-.booking-button:disabled {  
-  opacity: 0.45;  
-  cursor: not-allowed;  
-}  
-  
-/* =========================================  
-   RESPONSIVE  
-========================================= */  
-  
-@media (max-width: 1000px) {  
-  
-  .concert-detail-container {  
-    grid-template-columns: 1fr;  
-  }  
-  
-  .detail-image {  
-    height: 360px;  
-  }  
-  
-  .booking-summary {  
-    grid-template-columns: 1fr;  
-  }  
-  
-  .summary-total {  
-    border-left: none;  
-    border-top: 1px solid #eee0e5;  
-    padding: 20px 0 0;  
-  }  
-  
-  .booking-actions {  
-    justify-content: stretch;  
-  }  
-  
-  .booking-button {  
-    width: 100%;  
-  }  
-}  
-  
-@media (max-width: 650px) {  
-  
-  .concert-detail-container {  
-    width: 92%;  
-    padding-top: 30px;  
-  }  
-  
-  .detail-image {  
-    height: 280px;  
-    border-radius: 20px;  
-  }  
-  
-  .booking-section {  
-    width: 92%;  
-  }  
-  
-  .booking-heading {  
-    display: block;  
-  }  
-  
-  .booking-heading h2 {  
-    font-size: 28px;  
-  }  
-  
-  .booking-heading > span {  
-    display: block;  
-    margin-top: 8px;  
-  }  
-  
-  .zone-section {  
-    padding: 22px 16px;  
-    border-radius: 20px;  
-  }  
-  
-  .zone-header {  
-    align-items: flex-start;  
-  }  
-  
-  .zone-title h3 {  
-    font-size: 22px;  
-  }  
-  
-  .zone-availability {  
-    font-size: 11px;  
-  }  
-  
-  .seat-map {  
-    min-width: 650px;  
-    gap: 8px;  
-  }  
-  
-  .seat {  
-    width: 55px;  
-    min-height: 52px;  
-  }  
-  
-  .seat-legend {  
-    flex-wrap: wrap;  
-    gap: 15px;  
-  }  
-}  
-  
-/* =========================================================  
-   TICKETHUB BOOKING — ZONE DESIGN FIX  
-========================================================= */  
-  
-.concert-detail-page {  
-  background: #fffafb !important;  
-  color: #30262a;  
-}  
-  
-/* =========================  
-   BOOKING AREA  
-========================= */  
-  
-.concert-detail-page .booking-section {  
-  width: min(1500px, 94%);  
-  margin: 0 auto;  
-  padding: 50px 0 90px;  
-}  
-  
-.concert-detail-page .booking-heading {  
-  margin-bottom: 32px;  
-}  
-  
-.concert-detail-page .booking-heading h2 {  
-  color: #30262a;  
-  font-size: 34px;  
-}  
-  
-.concert-detail-page .booking-heading > span {  
-  color: #927f87;  
-}  
-  
-  
-/* =========================================================  
-   ZONES  
-========================================================= */  
-  
-.concert-detail-page .all-zones {  
-  display: flex;  
-  flex-direction: column;  
-  gap: 28px;  
-}  
-  
-  
-/* =========================  
-   DEFAULT ZONE  
-========================= */  
-  
-.concert-detail-page .zone-section {  
-  width: 100%;  
-  padding: 30px 34px 35px;  
-  
-  background: #ffffff !important;  
-  
-  border: 1px solid #eadde2 !important;  
-  border-radius: 24px;  
-  
-  box-shadow: 0 10px 30px rgba(80, 45, 60, 0.06);  
-  
-  overflow: hidden;  
-}  
-  
-  
-/* =========================  
-   ZONE HEADER  
-========================= */  
-  
-.concert-detail-page .zone-header {  
-  min-height: 62px;  
-  
-  display: flex;  
-  align-items: center;  
-  justify-content: space-between;  
-  
-  gap: 20px;  
-  
-  padding-bottom: 22px;  
-  
-  border-bottom: 1px solid #eee3e7;  
-}  
-  
-.concert-detail-page .zone-title {  
-  display: flex;  
-  align-items: center;  
-  gap: 12px;  
-}  
-  
-.concert-detail-page .zone-label {  
-  color: #ad7a8c;  
-  font-size: 10px;  
-  font-weight: 800;  
-  letter-spacing: 2px;  
-  text-transform: uppercase;  
-}  
-  
-.concert-detail-page .zone-title h3 {  
-  margin: 0;  
-  
-  color: #30262a;  
-  
-  font-size: 25px;  
-  font-weight: 800;  
-}  
-  
-.concert-detail-page .zone-price {  
-  padding: 7px 13px;  
-  
-  border-radius: 999px;  
-  
-  background: #fff1f5;  
-  color: #bd607e;  
-  
-  font-size: 12px;  
-  font-weight: 800;  
-}  
-  
-.concert-detail-page .zone-availability {  
-  color: #8d7d83;  
-  font-size: 12px;  
-}  
-  
-.concert-detail-page .zone-availability strong {  
-  color: #c46683;  
-  font-size: 20px;  
-}  
-  
-  
-/* =========================================================  
-   DIFFERENT ZONE COLORS  
-   Automatically alternate colors  
-========================================================= */  
-  
-/* ZONE 1 — PINK */  
-  
-.concert-detail-page .zone-section:nth-child(1) {  
-  border-top: 5px solid #e98eab !important;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(1) .zone-label {  
-  color: #d56f91;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(1) .zone-price {  
-  background: #fff0f5;  
-  color: #c85f82;  
-}  
-  
-  
-/* ZONE 2 — LAVENDER */  
-  
-.concert-detail-page .zone-section:nth-child(2) {  
-  border-top: 5px solid #a992d8 !important;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(2) .zone-label {  
-  color: #8870bd;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(2) .zone-price {  
-  background: #f4efff;  
-  color: #8065b4;  
-}  
-  
-  
-/* ZONE 3 — BLUE */  
-  
-.concert-detail-page .zone-section:nth-child(3) {  
-  border-top: 5px solid #7fa8d9 !important;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(3) .zone-label {  
-  color: #668ebf;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(3) .zone-price {  
-  background: #eff6ff;  
-  color: #5d83b2;  
-}  
-  
-  
-/* ZONE 4 — PEACH */  
-  
-.concert-detail-page .zone-section:nth-child(4) {  
-  border-top: 5px solid #e3a77e !important;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(4) .zone-label {  
-  color: #c27f59;  
-}  
-  
-.concert-detail-page .zone-section:nth-child(4) .zone-price {  
-  background: #fff5ed;  
-  color: #bb754e;  
-}  
-  
-  
-/* =========================================================  
-   STAGE  
-========================================================= */  
-  
-.concert-detail-page .stage-wrapper {  
-  max-width: 900px;  
-  
-  margin: 32px auto 38px;  
-  
-  text-align: center;  
-}  
-  
-.concert-detail-page .stage {  
-  width: 68%;  
-  
-  padding: 15px;  
-  
-  margin: 0 auto;  
-  
-  border-radius: 0 0 60px 60px;  
-  
-  background: linear-gradient(  
-    180deg,  
-    #f5d7e1,  
-    #fff1f5  
-  ) !important;  
-  
-  color: #a65e76;  
-  
-  font-size: 11px;  
-  font-weight: 900;  
-  
-  letter-spacing: 5px;  
-  
-  box-shadow:  
-    0 8px 22px rgba(170, 90, 115, 0.12);  
-}  
-  
-.concert-detail-page .stage-line {  
-  width: 80%;  
-  height: 2px;  
-  
-  margin: 8px auto 0;  
-  
-  background: #efd5df;  
-}  
-  
-  
-/* =========================================================  
-   SEAT AREA  
-========================================================= */  
-  
-.concert-detail-page .seat-map-wrapper {  
-  width: 100%;  
-  
-  overflow-x: auto;  
-  
-  padding: 8px 5px 18px;  
-}  
-  
-.concert-detail-page .seat-map {  
-  width: max-content;  
-  
-  min-width: 820px;  
-  
-  margin: 0 auto;  
-  
-  display: grid;  
-  
-  grid-template-columns:  
-    repeat(10, 68px);  
-  
-  gap: 12px;  
-}  
-  
-  
-/* =========================================================  
-   SEATS  
-========================================================= */  
-  
-.concert-detail-page .seat {  
-  width: 68px;  
-  height: 58px;  
-  min-height: 58px;  
-  
-  padding: 6px;  
-  
-  display: flex;  
-  flex-direction: column;  
-  align-items: center;  
-  justify-content: center;  
-  
-  gap: 3px;  
-  
-  background: #ffffff !important;  
-  
-  border: 1px solid #e5d8dd !important;  
-  border-radius: 11px;  
-  
-  color: #59464e;  
-  
-  transition: all 0.18s ease;  
-}  
-  
-.concert-detail-page .seat:hover:not(:disabled) {  
-  transform: translateY(-3px);  
-  
-  border-color: #d987a1 !important;  
-  
-  box-shadow:  
-    0 7px 17px rgba(200, 100, 135, 0.16);  
-}  
-  
-.concert-detail-page .seat-name {  
-  font-size: 12px;  
-  font-weight: 800;  
-}  
-  
-.concert-detail-page .seat-price {  
-  color: #aa929b;  
-  
-  font-size: 9px;  
-}  
-  
-  
-/* =========================  
-   SELECTED  
-========================= */  
-  
-.concert-detail-page .seat.selected {  
-  background: #e98eab !important;  
-  
-  border-color: #e98eab !important;  
-  
-  color: white !important;  
-  
-  box-shadow:  
-    0 7px 18px rgba(210, 100, 135, 0.28);  
-}  
-  
-.concert-detail-page .seat.selected .seat-price {  
-  color: white !important;  
-}  
-  
-  
-/* =========================  
-   BOOKED  
-========================= */  
-  
-.concert-detail-page .seat.booked,  
-.concert-detail-page .seat.sold {  
-  background: #eee9eb !important;  
-  
-  border-color: #dfd7da !important;  
-  
-  color: #aaa1a5 !important;  
-  
-  cursor: not-allowed;  
-  
-  text-decoration: line-through;  
-}  
-  
-.concert-detail-page .seat.booked .seat-price,  
-.concert-detail-page .seat.sold .seat-price {  
-  color: #aaa1a5 !important;  
-}  
-  
-  
-/* =========================================================  
-   ZONE SELECTED INFO  
-========================================================= */  
-  
-.concert-detail-page .zone-selected-info {  
-  margin-top: 24px;  
-  
-  padding: 17px 20px;  
-  
-  background: #fff7f9;  
-  
-  border: 1px solid #f1dfe5;  
-  
-  border-radius: 14px;  
-}  
-  
-.concert-detail-page .zone-selected-info > div > span {  
-  color: #88757d;  
-  font-size: 12px;  
-}  
-  
-.concert-detail-page .zone-selected-seats {  
-  display: flex;  
-  flex-wrap: wrap;  
-  
-  gap: 7px;  
-  
-  margin-top: 10px;  
-}  
-  
-.concert-detail-page .zone-selected-seats span {  
-  padding: 5px 9px;  
-  
-  background: #e98eab;  
-  
-  color: white;  
-  
-  border-radius: 7px;  
-  
-  font-size: 10px;  
-  font-weight: 800;  
-}  
-  
-  
-/* =========================================================  
-   LEGEND  
-========================================================= */  
-  
-.concert-detail-page .seat-legend {  
-  display: flex;  
-  justify-content: center;  
-  align-items: center;  
-  
-  gap: 28px;  
-  
-  margin: 28px auto;  
-  
-  padding: 18px 25px;  
-  
-  background: white;  
-  
-  border: 1px solid #eee0e5;  
-  
-  border-radius: 16px;  
-  
-  color: #77666d;  
-}  
-  
-.concert-detail-page .seat-legend span {  
-  display: flex;  
-  align-items: center;  
-  gap: 7px;  
-  
-  font-size: 12px;  
-}  
-  
-.concert-detail-page .legend-seat {  
-  width: 16px;  
-  height: 16px;  
-  
-  border-radius: 5px;  
-  
-  background: white;  
-  
-  border: 1px solid #dfd2d8;  
-}  
-  
-.concert-detail-page .legend-seat.selected {  
-  background: #e98eab;  
-  
-  border-color: #e98eab;  
-}  
-  
-.concert-detail-page .legend-seat.booked {  
-  background: #eee9eb;  
-  
-  border-color: #ddd5d8;  
-}  
-  
-  
-/* =========================================================  
-   BOOKING SUMMARY  
-========================================================= */  
-  
-.concert-detail-page .booking-summary {  
-  width: 100%;  
-  
-  display: grid;  
-  
-  grid-template-columns: 1fr auto auto;  
-  
-  align-items: center;  
-  
-  gap: 30px;  
-  
-  margin-top: 30px;  
-  
-  padding: 26px 30px;  
-  
-  background: white !important;  
-  
-  border: 1px solid #eddde3 !important;  
-  
-  border-radius: 20px;  
-  
-  box-shadow:  
-    0 10px 30px rgba(100, 60, 75, 0.07);  
-}  
-  
-.concert-detail-page .summary-seats > span,  
-.concert-detail-page .summary-total > span {  
-  display: block;  
-  
-  margin-bottom: 9px;  
-  
-  color: #927f87;  
-  
-  font-size: 11px;  
-  
-  font-weight: 800;  
-  
-  letter-spacing: 1px;  
-  
-  text-transform: uppercase;  
-}  
-  
-.concert-detail-page .selected-seat-list {  
-  display: flex;  
-  
-  flex-wrap: wrap;  
-  
-  gap: 7px;  
-  
-  max-height: 100px;  
-  
-  overflow-y: auto;  
-}  
-  
-.concert-detail-page .selected-seat-item {  
-  display: flex;  
-  
-  align-items: center;  
-  
-  gap: 10px;  
-  
-  padding: 8px 11px;  
-  
-  background: #fff3f6;  
-  
-  border-radius: 9px;  
-}  
-  
-.concert-detail-page .selected-seat-item strong {  
-  color: #49363e;  
-  
-  font-size: 11px;  
-}  
-  
-.concert-detail-page .selected-seat-item small {  
-  color: #a38e97;  
-  
-  font-size: 9px;  
-}  
-  
-.concert-detail-page .selected-seat-item > span {  
-  color: #c46683;  
-  
-  font-size: 10px;  
-  
-  font-weight: 800;  
-}  
-  
-.concert-detail-page .summary-total {  
-  min-width: 160px;  
-  
-  padding-left: 25px;  
-  
-  border-left: 1px solid #eee0e5;  
-}  
-  
-.concert-detail-page .booking-total {  
-  color: #c45f7d !important;  
-  
-  font-size: 28px !important;  
-}  
-  
-  
-/* =========================================================  
-   BOOK BUTTON  
-========================================================= */  
-  
-.concert-detail-page .booking-actions {  
-  display: flex;  
-  
-  justify-content: flex-end;  
-}  
-  
-.concert-detail-page .booking-button {  
-  min-width: 210px;  
-  
-  padding: 15px 24px;  
-  
-  border: none;  
-  
-  border-radius: 12px;  
-  
-  background:  
-    linear-gradient(  
-      135deg,  
-      #d97796,  
-      #c96787  
-    );  
-  
-  color: white;  
-  
-  font-size: 13px;  
-  font-weight: 800;  
-  
-  transition: 0.18s ease;  
-}  
-  
-.concert-detail-page .booking-button:hover:not(:disabled) {  
-  transform: translateY(-2px);  
-  
-  box-shadow:  
-    0 9px 22px rgba(200, 90, 125, 0.25);  
-}  
-  
-  
-/* =========================================================  
-   RESPONSIVE  
-========================================================= */  
-  
-@media (max-width: 1000px) {  
-  
-  .concert-detail-page .concert-detail-container {  
-    grid-template-columns: 1fr;  
-  }  
-  
-  .concert-detail-page .detail-image {  
-    height: 360px;  
-  }  
-  
-  .concert-detail-page .booking-summary {  
-    grid-template-columns: 1fr;  
-  }  
-  
-  .concert-detail-page .summary-total {  
-    border-left: none;  
-  
-    border-top: 1px solid #eee0e5;  
-  
-    padding: 20px 0 0;  
-  }  
-  
-  .concert-detail-page .booking-actions {  
-    justify-content: stretch;  
-  }  
-  
-  .concert-detail-page .booking-button {  
-    width: 100%;  
-  }  
-}  
-  
-  
-@media (max-width: 700px) {  
-  
-  .concert-detail-page .zone-section {  
-    padding: 23px 17px 27px;  
-  }  
-  
-  .concert-detail-page .zone-header {  
-    align-items: flex-start;  
-    flex-direction: column;  
-  }  
-  
-  .concert-detail-page .zone-availability {  
-    width: 100%;  
-  }  
-  
-  .concert-detail-page .stage {  
-    width: 85%;  
-  }  
-  
-  .concert-detail-page .seat-map {  
-    grid-template-columns:  
-      repeat(10, 58px);  
-  
-    min-width: 700px;  
-  
-    gap: 8px;  
-  }  
-  
-  .concert-detail-page .seat {  
-    width: 58px;  
-    height: 52px;  
-    min-height: 52px;  
-  }  
-  
-  .concert-detail-page .seat-legend {  
-    flex-wrap: wrap;  
-    gap: 15px;  
-  }  
-}  
-  
-  
-@media (max-width: 500px) {  
-  
-  .concert-detail-page .booking-section {  
-    width: 92%;  
-  }  
-  
-  .concert-detail-page .booking-heading h2 {  
-    font-size: 28px;  
-  }  
-  
-  .concert-detail-page .zone-title h3 {  
-    font-size: 21px;  
-  }  
-  
-  .concert-detail-page .zone-section {  
-    border-radius: 18px;  
-  }  
-}  
-/* =========================================================  
-TICKETHUB - BOOKING / SEAT SELECTION  
-========================================================= */  
-  
-.booking-section {  
-width: min(1400px, calc(100% - 48px));  
-margin: 60px auto 100px;  
-}  
-  
-.booking-heading {  
-display: flex;  
-align-items: flex-end;  
-justify-content: space-between;  
-gap: 30px;  
-margin-bottom: 32px;  
-}  
-  
-.booking-heading h2 {  
-margin: 6px 0 0;  
-font-size: 32px;  
-font-weight: 700;  
-color: #29252a;  
-}  
-  
-.booking-heading > span {  
-color: #8d858a;  
-font-size: 14px;  
-padding-bottom: 5px;  
-}  
-  
-.section-label {  
-margin: 0;  
-font-size: 11px;  
-font-weight: 700;  
-letter-spacing: 2px;  
-color: #b68a9c;  
-}  
-  
-/* =========================================================  
-ALL ZONES  
-========================================================= */  
-  
-.all-zones {  
-display: flex;  
-flex-direction: column;  
-gap: 28px;  
-}  
-  
-/* แต่ละ Zone แยกเป็น Card */  
-.zone-section {  
-position: relative;  
-overflow: hidden;  
-background: #fff;  
-border: 1px solid #eee5e9;  
-border-radius: 24px;  
-padding: 28px 30px 30px;  
-box-shadow: 0 8px 30px rgba(70, 50, 60, 0.06);  
-}  
-  
-/* เส้นสีด้านบนของแต่ละ Zone */  
-.zone-section::before {  
-content: "";  
-position: absolute;  
-top: 0;  
-left: 0;  
-right: 0;  
-height: 5px;  
-background: linear-gradient(  
-90deg,  
-#c58fa7,  
-#e8c6d3  
-);  
-}  
-  
-/* Zone ที่ 2 */  
-.zone-section:nth-child(2)::before {  
-background: linear-gradient(  
-90deg,  
-#9ba9c9,  
-#d2d9e9  
-);  
-}  
-  
-/* Zone ที่ 3 */  
-.zone-section:nth-child(3)::before {  
-background: linear-gradient(  
-90deg,  
-#9eb7a5,  
-#d5e4d8  
-);  
-}  
-  
-/* Zone ที่ 4 */  
-.zone-section:nth-child(4)::before {  
-background: linear-gradient(  
-90deg,  
-#c7ae87,  
-#eadfcb  
-);  
-}  
-  
-/* =========================================================  
-ZONE HEADER  
-========================================================= */  
-  
-.zone-header {  
-display: flex;  
-justify-content: space-between;  
-align-items: center;  
-gap: 20px;  
-margin-bottom: 25px;  
-}  
-  
-.zone-title  
-  
-.zone-label {  
-display: inline-flex;  
-align-items: center;  
-height: 26px;  
-padding: 0 10px;  
-border-radius: 8px;  
-background: #f8edf2;  
-color: #a66d85;  
-font-size: 10px;  
-font-weight: 700;  
-letter-spacing: 1.5px;  
-}  
-  
-.zone-section:nth-child(2) .zone-label {  
-background: #edf0f7;  
-color: #71809f;  
-}  
-  
-.zone-section:nth-child(3) .zone-label {  
-background: #edf5ef;  
-color: #718d79;  
-}  
-  
-.zone-section:nth-child(4) .zone-label {  
-background: #f7f1e7;  
-color: #9b8158;  
-}  
-  
-.zone-title h3 {  
-margin: 0;  
-font-size: 23px;  
-color: #29252a;  
-font-weight: 700;  
-}  
-  
-.zone-price {  
-padding-left: 4px;  
-color: #85787e;  
-font-size: 13px;  
-}  
-  
-.zone-availability {  
-display: flex;  
-align-items: baseline;  
-gap: 5px;  
-white-space: nowrap;  
-}  
-  
-.zone-availability strong {  
-color: #3e393c;  
-font-size: 20px;  
-}  
-  
-.zone-availability span {  
-color: #999095;  
-font-size: 13px;  
-}  
-  
-/* =========================================================  
-STAGE  
-========================================================= */  
-  
-.stage-wrapper {  
-width: min(700px, 80%);  
-margin: 0 auto 28px;  
-text-align: center;  
-}  
-  
-.stage {  
-height: 42px;  
-display: flex;  
-align-items: center;  
-justify-content: center;  
-border-radius: 0 0 50% 50%;  
-background: linear-gradient(  
-180deg,  
-#eee9ec,  
-#e4dfe2  
-);  
-color: #777075;  
-font-size: 11px;  
-font-weight: 700;  
-letter-spacing: 4px;  
-box-shadow: 0 5px 15px rgba(60, 50, 55, 0.08);  
-}  
-  
-.stage-line {  
-width: 70%;  
-height: 2px;  
-margin: 7px auto 0;  
-background: #ded6da;  
-}  
-  
-/* =========================================================  
-SEAT MAP  
-========================================================= */  
-  
-.seat-map-wrapper {  
-width: 100%;  
-overflow-x: auto;  
-padding: 8px 4px 14px;  
-}  
-  
-.seat-map {  
-display: grid;  
-grid-template-columns: repeat(  
-auto-fit,  
-minmax(62px, 1fr)  
-);  
-gap: 10px;  
-width: min(900px, 100%);  
-margin: auto;  
-}  
-  
-/* =========================================================  
-SEAT  
-========================================================= */  
-  
-.seat {  
-position: relative;  
-min-height: 58px;  
-padding: 8px 5px;  
-border: 1px solid #e4dce0;  
-border-radius: 12px;  
-background: #faf8f9;  
-color: #5f585d;  
-cursor: pointer;  
-  
-display: flex;  
-flex-direction: column;  
-align-items: center;  
-justify-content: center;  
-  
-transition:  
-transform 0.15s ease,  
-border-color 0.15s ease,  
-background 0.15s ease,  
-box-shadow 0.15s ease;  
-}  
-  
-.seat:hover:not(:disabled) {  
-transform: translateY(-2px);  
-border-color: #c493a8;  
-background: #fff8fb;  
-box-shadow: 0 5px 15px rgba(150, 100, 120, 0.12);  
-}  
-  
-.seat-name {  
-font-size: 13px;  
-font-weight: 700;  
-line-height: 1;  
-}  
-  
-.seat-price {  
-margin-top: 5px;  
-font-size: 10px;  
-color: #9a8d93;  
-}  
-  
-/* =========================================================  
-SELECTED  
-========================================================= */  
-  
-.seat.selected {  
-border-color: #b47b95;  
-background: #ead1dc;  
-color: #694456;  
-box-shadow:  
-0 5px 15px rgba(180, 123, 149, 0.22);  
-}  
-  
-.seat.selected .seat-price {  
-color: #795366;  
-}  
-  
-/* =========================================================  
-BOOKED  
-========================================================= */  
-  
-.seat.booked {  
-border-color: #e3dfe1;  
-background: #ebe9ea;  
-color: #aaa4a8;  
-cursor: not-allowed;  
-opacity: 0.8;  
-}  
-  
-.seat.booked .seat-price {  
-color: #aaa4a8;  
-}  
-  
-/* =========================================================  
-ZONE COLORS  
-ทำให้ Seat ของแต่ละ Zone มีโทนต่างกัน  
-========================================================= */  
-  
-/* Zone 1 - Pink */  
-.zone-section:nth-child(1) .seat:not(.selected):not(.booked) {  
-background: #fff8fb;  
-border-color: #ecdce4;  
-}  
-  
-.zone-section:nth-child(1) .seat:hover:not(:disabled) {  
-border-color: #c58fa7;  
-}  
-  
-/* Zone 2 - Blue */  
-.zone-section:nth-child(2) .seat:not(.selected):not(.booked) {  
-background: #f7f9fd;  
-border-color: #dce2ee;  
-}  
-  
-.zone-section:nth-child(2) .seat.selected {  
-background: #d9e0ef;  
-border-color: #8998b8;  
-color: #4f5e7b;  
-}  
-  
-.zone-section:nth-child(2) .seat:hover:not(:disabled) {  
-border-color: #9aa8c4;  
-}  
-  
-/* Zone 3 - Green */  
-.zone-section:nth-child(3) .seat:not(.selected):not(.booked) {  
-background: #f7fbf8;  
-border-color: #dce9df;  
-}  
-  
-.zone-section:nth-child(3) .seat.selected {  
-background: #dce9df;  
-border-color: #91aa98;  
-color: #506956;  
-}  
-  
-.zone-section:nth-child(3) .seat:hover:not(:disabled) {  
-border-color: #9eb7a5;  
-}  
-  
-/* Zone 4 - Beige */  
-.zone-section:nth-child(4) .seat:not(.selected):not(.booked) {  
-background: #fcfaf6;  
-border-color: #ece4d6;  
-}  
-  
-.zone-section:nth-child(4) .seat.selected {  
-background: #ece3d2;  
-border-color: #bca37c;  
-color: #725f42;  
-}  
-  
-.zone-section:nth-child(4) .seat:hover:not(:disabled) {  
-border-color: #c7ae87;  
-}  
-  
-/* =========================================================  
-SELECTED ZONE INFO  
-========================================================= */  
-  
-.zone-selected-info {  
-margin-top: 25px;  
-padding: 16px 18px;  
-display: flex;  
-align-items: center;  
-justify-content: space-between;  
-gap: 20px;  
-  
-border-radius: 14px;  
-background: #faf7f8;  
-border: 1px solid #eee3e7;  
-}  
-  
-.zone-selected-info > div > span {  
-color: #81777c;  
-font-size: 13px;  
-}  
-  
-.zone-selected-info strong {  
-color: #5c4d53;  
-}  
-  
-.zone-selected-seats {  
-display: flex;  
-flex-wrap: wrap;  
-gap: 6px;  
-margin-top: 9px;  
-}  
-  
-.zone-selected-seats span {  
-min-width: 34px;  
-padding: 5px 8px;  
-border-radius: 7px;  
-background: #ead1dc;  
-color: #694456;  
-text-align: center;  
-font-size: 11px;  
-font-weight: 700;  
-}  
-  
-/* =========================================================  
-LEGEND  
-========================================================= */  
-  
-.seat-legend {  
-display: flex;  
-justify-content: center;  
-align-items: center;  
-gap: 28px;  
-margin: 28px 0;  
-color: #777075;  
-font-size: 13px;  
-}  
-  
-.seat-legend span {  
-display: inline-flex;  
-align-items: center;  
-gap: 8px;  
-}  
-  
-.legend-seat {  
-width: 17px;  
-height: 17px;  
-display: inline-block;  
-border-radius: 5px;  
-background: #faf8f9;  
-border: 1px solid #e4dce0;  
-}  
-  
-.legend-seat.selected {  
-background: #ead1dc;  
-border-color: #b47b95;  
-}  
-  
-.legend-seat.booked {  
-background: #ebe9ea;  
-border-color: #e3dfe1;  
-}  
-  
-/* =========================================================  
-BOOKING SUMMARY  
-========================================================= */  
-  
-.booking-summary {  
-display: grid;  
-grid-template-columns: 1fr auto auto;  
-align-items: center;  
-gap: 30px;  
-  
-padding: 24px 28px;  
-margin-top: 25px;  
-  
-background: #fff;  
-border: 1px solid #eee5e9;  
-border-radius: 22px;  
-box-shadow: 0 8px 30px rgba(70, 50, 60, 0.07);  
-}  
-  
-.summary-seats > span,  
-.summary-total > span {  
-display: block;  
-margin-bottom: 10px;  
-color: #8b8186;  
-font-size: 12px;  
-font-weight: 600;  
-}  
-  
-.summary-seats > strong {  
-color: #555055;  
-}  
-  
-.selected-seat-list {  
-display: flex;  
-flex-wrap: wrap;  
-gap: 8px;  
-}  
-  
-.selected-seat-item {  
-display: flex;  
-align-items: center;  
-gap: 12px;  
-  
-padding: 8px 11px;  
-border-radius: 10px;  
-background: #faf7f8;  
-border: 1px solid #eee3e7;  
-}  
-  
-.selected-seat-item > div {  
-display: flex;  
-flex-direction: column;  
-}  
-  
-.selected-seat-item strong {  
-font-size: 12px;  
-color: #4e474b;  
-}  
-  
-.selected-seat-item small {  
-margin-top: 2px;  
-font-size: 9px;  
-color: #958b90;  
-}  
-  
-.selected-seat-item > span {  
-font-size: 11px;  
-font-weight: 700;  
-color: #80606e;  
-}  
-  
-.summary-total {  
-min-width: 150px;  
-padding-left: 28px;  
-border-left: 1px solid #eee5e9;  
-}  
-  
-.booking-total {  
-font-size: 26px;  
-color: #694456;  
-}  
-  
-.booking-actions {  
-display: flex;  
-justify-content: flex-end;  
-}  
-  
-.booking-button {  
-min-width: 210px;  
-min-height: 50px;  
-}  
-  
-/* =========================================================  
-RESPONSIVE  
-========================================================= */  
-  
-@media (max-width: 900px) {  
-.booking-section {  
-width: min(100% - 28px, 700px);  
-}  
-  
-.booking-heading {  
-align-items: flex-start;  
-flex-direction: column;  
-gap: 5px;  
-}  
-  
-.zone-header {  
-align-items: flex-start;  
-flex-direction: column;  
-}  
-  
-.zone-availability {  
-margin-left: 0;  
-}  
-  
-.seat-map {  
-grid-template-columns: repeat(  
-auto-fit,  
-minmax(58px, 1fr)  
-);  
-}  
-  
-.booking-summary {  
-grid-template-columns: 1fr;  
-}  
-  
-.summary-total {  
-padding-left: 0;  
-padding-top: 20px;  
-border-left: none;  
-border-top: 1px solid #eee5e9;  
-}  
-  
-.booking-actions {  
-justify-content: stretch;  
-}  
-  
-.booking-button {  
-width: 100%;  
-}  
-}  
-  
-@media (max-width: 600px) {  
-.booking-section {  
-width: calc(100% - 20px);  
-margin-top: 35px;  
-}  
-  
-.zone-section {  
-padding: 23px 15px;  
-border-radius: 18px;  
-}  
-  
-.zone-title h3 {  
-font-size: 20px;  
-}  
-  
-.seat-map {  
-grid-template-columns: repeat(  
-4,  
-minmax(55px, 1fr)  
-);  
-gap: 7px;  
-}  
-  
-.seat {  
-min-height: 54px;  
-border-radius: 9px;  
-}  
-  
-.seat-legend {  
-flex-wrap: wrap;  
-gap: 14px;  
-}  
-  
-.stage-wrapper {  
-width: 95%;  
-}  
-}  
-/* =========================================================  
-   BOOKING HISTORY  
-========================================================= */  
-  
-.booking-history-page {  
-  min-height: 100vh;  
-  background: #fff8fa;  
-  color: #3d3035;  
-}  
-  
-/* =========================================================  
-   NAVBAR  
-========================================================= */  
-  
-.booking-history-page .navbar {  
-  width: 100%;  
-  height: 72px;  
-  padding: 0 7%;  
-  display: flex;  
-  align-items: center;  
-  justify-content: space-between;  
-  background: #ffffff;  
-  border-bottom: 1px solid #f4e4e9;  
-  box-sizing: border-box;  
-}  
-  
-.booking-history-page .logo {  
-  text-decoration: none;  
-  font-size: 25px;  
-  font-weight: 800;  
-  letter-spacing: -0.8px;  
-  color: #292126;  
-}  
-  
-.booking-history-page .logo span {  
-  color: #e88da8;  
-}  
-  
-.booking-history-page .nav-links {  
-  display: flex;  
-  align-items: center;  
-  gap: 34px;  
-}  
-  
-.booking-history-page .nav-links a {  
-  text-decoration: none;  
-  color: #76666c;  
-  font-size: 14px;  
-  font-weight: 600;  
-  transition: 0.2s ease;  
-}  
-  
-.booking-history-page .nav-links a:hover,  
-.booking-history-page .nav-links a.active {  
-  color: #df7898;  
-}  
-  
-.booking-history-page .nav-user {  
-  display: flex;  
-  align-items: center;  
-  gap: 14px;  
-}  
-  
-.booking-history-page .username {  
-  color: #65565c;  
-  font-size: 14px;  
-  font-weight: 600;  
-}  
-  
-/* =========================================================  
-   MAIN CONTAINER  
-========================================================= */  
-  
-.booking-history-container {  
-  width: min(1180px, 90%);  
-  margin: 0 auto;  
-  padding: 55px 0 80px;  
-}  
-  
-/* =========================================================  
-   HEADER  
-========================================================= */  
-  
-.booking-history-header {  
-  display: flex;  
-  align-items: flex-end;  
-  justify-content: space-between;  
-  gap: 30px;  
-  margin-bottom: 35px;  
-}  
-  
-.booking-history-header .section-label {  
-  margin: 0 0 8px;  
-  color: #df7898;  
-  font-size: 11px;  
-  font-weight: 800;  
-  letter-spacing: 2px;  
-}  
-  
-.booking-history-header h1 {  
-  margin: 0;  
-  color: #30272b;  
-  font-size: clamp(34px, 4vw, 48px);  
-  line-height: 1.1;  
-  letter-spacing: -1.5px;  
-}  
-  
-.booking-history-header p:not(.section-label) {  
-  margin: 12px 0 0;  
-  color: #8b7a81;  
-  font-size: 15px;  
-}  
-  
-.back-to-concerts {  
-  flex-shrink: 0;  
-  padding: 12px 20px;  
-  border: 1px solid #f0d9e1;  
-  border-radius: 12px;  
-  background: #ffffff;  
-  color: #c96786;  
-  text-decoration: none;  
-  font-size: 13px;  
-  font-weight: 700;  
-  transition: 0.2s ease;  
-}  
-  
-.back-to-concerts:hover {  
-  background: #fff0f4;  
-  border-color: #e9b4c4;  
-}  
-  
-/* =========================================================  
-   EMPTY  
-========================================================= */  
-  
-.empty-bookings {  
-  min-height: 360px;  
-  padding: 50px 25px;  
-  display: flex;  
-  flex-direction: column;  
-  align-items: center;  
-  justify-content: center;  
-  text-align: center;  
-  background: #ffffff;  
-  border: 1px solid #f1dfe5;  
-  border-radius: 22px;  
-  box-shadow: 0 10px 30px rgba(120, 70, 90, 0.05);  
-}  
-  
-.empty-icon {  
-  width: 70px;  
-  height: 70px;  
-  margin-bottom: 18px;  
-  display: flex;  
-  align-items: center;  
-  justify-content: center;  
-  border-radius: 20px;  
-  background: #fff0f4;  
-  font-size: 30px;  
-}  
-  
-.empty-bookings h2 {  
-  margin: 0;  
-  color: #3d3035;  
-  font-size: 23px;  
-}  
-  
-.empty-bookings p {  
-  margin: 10px 0 24px;  
-  color: #918087;  
-  font-size: 14px;  
-}  
-  
-.booking-history-page .primary-button {  
-  border: 0;  
-  border-radius: 12px;  
-  padding: 13px 22px;  
-  background: #e98eaa;  
-  color: #ffffff;  
-  text-decoration: none;  
-  font-size: 14px;  
-  font-weight: 700;  
-  cursor: pointer;  
-  transition: 0.2s ease;  
-}  
-  
-.booking-history-page .primary-button:hover {  
-  background: #dd7899;  
-  transform: translateY(-1px);  
-}  
-  
-/* =========================================================  
-   BOOKING LIST  
-========================================================= */  
-  
-.booking-list {  
-  display: flex;  
-  flex-direction: column;  
-  gap: 22px;  
-}  
-  
-/* =========================================================  
-   BOOKING CARD  
-========================================================= */  
-  
-.booking-card {  
-  display: grid;  
-  grid-template-columns: 280px 1fr;  
-  min-height: 285px;  
-  overflow: hidden;  
-  background: #ffffff;  
-  border: 1px solid #f0dce3;  
-  border-radius: 22px;  
-  box-shadow: 0 10px 35px rgba(120, 70, 90, 0.055);  
-  transition: 0.25s ease;  
-}  
-  
-.booking-card:hover {  
-  transform: translateY(-2px);  
-  box-shadow: 0 15px 40px rgba(120, 70, 90, 0.09);  
-}  
-  
-/* =========================================================  
-   IMAGE  
-========================================================= */  
-  
-.booking-card-image {  
-  min-height: 285px;  
-  background: #f8e8ed;  
-  overflow: hidden;  
-}  
-  
-.booking-card-image img {  
-  width: 100%;  
-  height: 100%;  
-  min-height: 285px;  
-  display: block;  
-  object-fit: cover;  
-}  
-  
-.booking-no-image {  
-  width: 100%;  
-  height: 100%;  
-  min-height: 285px;  
-  display: flex;  
-  align-items: center;  
-  justify-content: center;  
-  background: linear-gradient(  
-    135deg,  
-    #fce8ef,  
-    #f8d9e3  
-  );  
-  color: #c77891;  
-  font-size: 14px;  
-  font-weight: 800;  
-  letter-spacing: 2px;  
-}  
-  
-/* =========================================================  
-   CONTENT  
-========================================================= */  
-  
-.booking-card-content {  
-  min-width: 0;  
-  padding: 28px 30px;  
-  display: flex;  
-  flex-direction: column;  
-}  
-  
-.booking-card-top {  
-  display: flex;  
-  align-items: flex-start;  
-  justify-content: space-between;  
-  gap: 20px;  
-}  
-  
-.booking-label {  
-  margin: 0 0 7px;  
-  color: #df7898;  
-  font-size: 10px;  
-  font-weight: 800;  
-  letter-spacing: 1.8px;  
-}  
-  
-.booking-card-top h2 {  
-  margin: 0;  
-  color: #33292e;  
-  font-size: 24px;  
-  line-height: 1.2;  
-  letter-spacing: -0.5px;  
-}  
-  
-.booking-card-top h3 {  
-  margin: 6px 0 0;  
-  color: #9a7f89;  
-  font-size: 14px;  
-  font-weight: 600;  
-}  
-  
-/* =========================================================  
-   STATUS  
-========================================================= */  
-  
-.booking-status {  
-  flex-shrink: 0;  
-  padding: 7px 12px;  
-  border-radius: 999px;  
-  background: #eaf8ef;  
-  color: #4d9a68;  
-  font-size: 11px;  
-  font-weight: 800;  
-  text-transform: capitalize;  
-}  
-  
-.booking-status.pending {  
-  background: #fff5df;  
-  color: #bd8a32;  
-}  
-  
-.booking-status.cancelled,  
-.booking-status.canceled {  
-  background: #fff0f1;  
-  color: #c76b76;  
-}  
-  
-/* =========================================================  
-   DETAILS  
-========================================================= */  
-  
-.booking-details {  
-  display: grid;  
-  grid-template-columns: repeat(2, minmax(0, 1fr));  
-  gap: 18px 35px;  
-  margin-top: 27px;  
-  padding: 20px 0;  
-  border-top: 1px solid #f4e7eb;  
-  border-bottom: 1px solid #f4e7eb;  
-}  
-  
-.booking-detail {  
-  min-width: 0;  
-  display: flex;  
-  flex-direction: column;  
-  gap: 5px;  
-}  
-  
-.booking-detail span {  
-  color: #a08f96;  
-  font-size: 11px;  
-  font-weight: 600;  
-}  
-  
-.booking-detail strong {  
-  overflow: hidden;  
-  color: #514248;  
-  font-size: 13px;  
-  font-weight: 700;  
-  text-overflow: ellipsis;  
-  white-space: nowrap;  
-}  
-  
-/* =========================================================  
-   BOTTOM PRICE  
-========================================================= */  
-  
-.booking-card-bottom {  
-  margin-top: auto;  
-  padding-top: 20px;  
-  display: flex;  
-  align-items: flex-end;  
-  justify-content: space-between;  
-  gap: 25px;  
-}  
-  
-.booking-price-info,  
-.booking-total-info {  
-  display: flex;  
-  flex-direction: column;  
-  gap: 4px;  
-}  
-  
-.booking-price-info span,  
-.booking-total-info span {  
-  color: #9c8b92;  
-  font-size: 11px;  
-}  
-  
-.booking-price-info strong {  
-  color: #62535a;  
-  font-size: 14px;  
-}  
-  
-.booking-total-info {  
-  text-align: right;  
-}  
-  
-.booking-total-info strong {  
-  color: #d96f91;  
-  font-size: 25px;  
-  font-weight: 800;  
-}  
-  
-/* =========================================================  
-   LOADING  
-========================================================= */  
-  
-.booking-loading {  
-  min-height: 400px;  
-  display: flex;  
-  align-items: center;  
-  justify-content: center;  
-  background: #ffffff;  
-  border: 1px solid #f1dfe5;  
-  border-radius: 22px;  
-}  
-  
-.booking-loading h2 {  
-  color: #b18e9a;  
-  font-size: 18px;  
-  font-weight: 600;  
-}  
-  
-/* =========================================================  
-   RESPONSIVE  
-========================================================= */  
-  
-@media (max-width: 900px) {  
-  .booking-history-page .navbar {  
-    padding: 0 5%;  
-  }  
-  
-  .booking-history-page .nav-links {  
-    gap: 18px;  
-  }  
-  
-  .booking-history-container {  
-    width: 92%;  
-  }  
-  
-  .booking-card {  
-    grid-template-columns: 220px 1fr;  
-  }  
-  
-  .booking-card-image,  
-  .booking-card-image img,  
-  .booking-no-image {  
-    min-height: 270px;  
-  }  
-}  
-  
-@media (max-width: 700px) {  
-  .booking-history-page .navbar {  
-    height: auto;  
-    min-height: 70px;  
-    padding: 18px 5%;  
-    flex-wrap: wrap;  
-    gap: 15px;  
-  }  
-  
-  .booking-history-page .nav-links {  
-    order: 3;  
-    width: 100%;  
-    justify-content: center;  
-    padding-top: 5px;  
-  }  
-  
-  .booking-history-page .nav-user {  
-    margin-left: auto;  
-  }  
-  
-  .booking-history-container {  
-    padding-top: 35px;  
-  }  
-  
-  .booking-history-header {  
-    align-items: flex-start;  
-    flex-direction: column;  
-  }  
-  
-  .back-to-concerts {  
-    width: 100%;  
-    text-align: center;  
-    box-sizing: border-box;  
-  }  
-  
-  .booking-card {  
-    grid-template-columns: 1fr;  
-  }  
-  
-  .booking-card-image {  
-    height: 220px;  
-    min-height: 220px;  
-  }  
-  
-  .booking-card-image img,  
-  .booking-no-image {  
-    height: 220px;  
-    min-height: 220px;  
-  }  
-  
-  .booking-card-content {  
-    padding: 24px 22px;  
-  }  
-  
-  .booking-card-top h2 {  
-    font-size: 21px;  
-  }  
-}  
-  
-@media (max-width: 480px) {  
-  .booking-history-page .logo {  
-    font-size: 22px;  
-  }  
-  
-  .booking-history-page .username {  
-    display: none;  
-  }  
-  
-  .booking-history-page .nav-links {  
-    gap: 14px;  
-  }  
-  
-  .booking-history-page .nav-links a {  
-    font-size: 12px;  
-  }  
-  
-  .booking-history-header h1 {  
-    font-size: 34px;  
-  }  
-  
-  .booking-details {  
-    grid-template-columns: 1fr;  
-    gap: 14px;  
-  }  
-  
-  .booking-card-bottom {  
-    align-items: flex-start;  
-    flex-direction: column;  
-  }  
-  
-  .booking-total-info {  
-    width: 100%;  
-    text-align: left;  
-  }  
-}  
-/* =========================================================  
-   BOOKING ACTIONS  
-========================================================= */  
-  
-.booking-card-actions {  
-  display: flex;  
-  justify-content: flex-end;  
-  align-items: center;  
-  margin-top: 22px;  
-  padding-top: 18px;  
-  border-top: 1px solid #f1e4e8;  
-}  
-  
-.cancel-booking-button {  
-  border: 1px solid #e7b8c5;  
-  background: #ffffff;  
-  color: #c65d78;  
-  padding: 11px 20px;  
-  border-radius: 10px;  
-  font-size: 14px;  
-  font-weight: 700;  
-  cursor: pointer;  
-  transition: all 0.2s ease;  
-}  
-  
-.cancel-booking-button:hover {  
-  background: #fff1f4;  
-  border-color: #d98a9e;  
-  transform: translateY(-1px);  
-}  
-  
-.cancel-booking-button:active {  
-  transform: translateY(0);  
-}  
-  
-.cancel-booking-button:disabled {  
-  opacity: 0.55;  
-  cursor: not-allowed;  
-  transform: none;  
-}  
-  
-/* CANCELLED STATUS */  
-  
-.booking-status.cancelled,  
-.booking-status.canceled {  
-  background: #f3f3f3;  
-  color: #888888;  
-}  
-  
-/* MOBILE */  
-  
-@media (max-width: 768px) {  
-  .booking-card-actions {  
-    justify-content: stretch;  
-  }  
-  
-  .cancel-booking-button {  
-    width: 100%;  
-  }  
-}  
+}
+/* =========================================
+   ALL ZONES
+========================================= */
+
+.all-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* =========================================
+   ZONE
+========================================= */
+
+.zone-section {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #071A52;
+  border-radius: 28px;
+  padding: 30px 34px 32px;
+  box-shadow: 0 12px 35px rgba(8, 8, 8, 0.07);
+}
+
+.zone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid #071A52;
+}
+
+.zone-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.zone-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #6f85c2;
+}
+
+.zone-title h3 {
+  margin: 0;
+  font-size: 27px;
+}
+
+.zone-price {
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: #E8EDFF;
+  color: #787f9a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.zone-availability {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  color: #071A52;
+}
+
+.zone-availability strong {
+  color: #6779bf;
+  font-size: 22px;
+}
+
+/* =========================================
+   STAGE
+========================================= */
+
+.stage-wrapper {
+  width: 100%;
+  max-width: 850px;
+  margin: 30px auto 35px;
+  text-align: center;
+}
+
+.stage {
+  width: 70%;
+  margin: 0 auto;
+  padding: 14px;
+  border-radius: 0 0 60px 60px;
+
+  background: linear-gradient(
+    180deg,
+    #1947FF,
+    #1947FF
+  );
+
+  color: #d8def0;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 4px;
+
+  box-shadow: 0 7px 20px rgba(8, 8, 8, 0.1);
+}
+
+.stage-line {
+  width: 82%;
+  height: 2px;
+  margin: 8px auto 0;
+  background: #1947FF;
+}
+
+/* =========================================
+   SEAT MAP
+========================================= */
+
+.seat-map-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 5px 0 12px;
+}
+
+.seat-map {
+  width: max-content;
+  min-width: 760px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(64px, 1fr)
+  );
+
+  gap: 12px;
+  justify-content: center;
+}
+
+/* =========================================
+   SEAT
+========================================= */
+
+.seat {
+  width: 64px;
+  min-height: 58px;
+
+  border: 1px solid #071A52;
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: #071A52;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 3px;
+
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.seat:hover:not(:disabled) {
+  transform: translateY(-3px);
+  border-color: #1947FF;
+  box-shadow: 0 7px 15px rgba(8, 8, 8, 0.15);
+}
+
+.seat-name {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.seat-price {
+  font-size: 9px;
+  color: #071A52;
+}
+
+/* SELECTED */
+
+.seat.selected {
+  background: #1947FF;
+  border-color: #1947FF;
+  color: white;
+  box-shadow: 0 7px 17px rgba(8, 8, 8, 0.25);
+}
+
+.seat.selected .seat-price {
+  color: white;
+}
+
+/* BOOKED */
+
+.seat.booked {
+  background: #071A52;
+  border-color: #071A52;
+  color: #071A52;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.seat.booked .seat-price {
+  color: #071A52;
+}
+
+/* =========================================
+   SELECTED ZONE INFO
+========================================= */
+
+.zone-selected-info {
+  margin-top: 25px;
+  padding: 18px 20px;
+
+  border-radius: 16px;
+  background: #E8EDFF;
+  border: 1px solid #1947FF;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.zone-selected-info > div > span {
+  color: #071A52;
+  font-size: 13px;
+}
+
+.zone-selected-seats {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.zone-selected-seats span {
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: #1947FF;
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =========================================
+   LEGEND
+========================================= */
+
+.seat-legend {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin: 30px 0;
+  padding: 20px;
+
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid #071A52;
+}
+
+.seat-legend span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: #071A52;
+  font-size: 13px;
+}
+
+.legend-seat {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  border-radius: 5px;
+  border: 1px solid #071A52;
+  background: white;
+}
+
+.legend-seat.selected {
+  background: #1947FF;
+  border-color: #1947FF;
+}
+
+.legend-seat.booked {
+  background: #071A52;
+  border-color: #071A52;
+}
+
+/* =========================================
+   BOOKING SUMMARY
+========================================= */
+
+.booking-summary {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 30px;
+
+  padding: 28px 30px;
+
+  background: #ffffff;
+  border: 1px solid #071A52;
+  border-radius: 24px;
+
+  box-shadow: 0 12px 35px rgba(8, 8, 8, 0.08);
+}
+
+.summary-seats > span,
+.summary-total > span {
+  display: block;
+  margin-bottom: 10px;
+
+  color: #071A52;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.selected-seat-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.selected-seat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 8px 12px;
+
+  background: #E8EDFF;
+  border-radius: 10px;
+}
+
+.selected-seat-item div {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-seat-item strong {
+  font-size: 12px;
+}
+
+.selected-seat-item small {
+  color: #071A52;
+  font-size: 9px;
+}
+
+.selected-seat-item > span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1947FF;
+}
+
+.summary-total {
+  min-width: 160px;
+  padding-left: 25px;
+  border-left: 1px solid #071A52;
+}
+
+.booking-total {
+  font-size: 29px;
+  color: #1947FF;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.booking-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.booking-button {
+  min-width: 220px;
+  padding: 15px 22px;
+
+  border: none;
+  border-radius: 13px;
+
+  background: #1947FF;
+  color: white;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.booking-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(8, 8, 8, 0.22);
+}
+
+.booking-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .concert-detail-container {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-image {
+    height: 360px;
+  }
+
+  .booking-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-total {
+    border-left: none;
+    border-top: 1px solid #071A52;
+    padding: 20px 0 0;
+  }
+
+  .booking-actions {
+    justify-content: stretch;
+  }
+
+  .booking-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 650px) {
+
+  .concert-detail-container {
+    width: 92%;
+    padding-top: 30px;
+  }
+
+  .detail-image {
+    height: 280px;
+    border-radius: 20px;
+  }
+
+  .booking-section {
+    width: 92%;
+  }
+
+  .booking-heading {
+    display: block;
+  }
+
+  .booking-heading h2 {
+    font-size: 28px;
+  }
+
+  .booking-heading > span {
+    display: block;
+    margin-top: 8px;
+  }
+
+  .zone-section {
+    padding: 22px 16px;
+    border-radius: 20px;
+  }
+
+  .zone-header {
+    align-items: flex-start;
+  }
+
+  .zone-title h3 {
+    font-size: 22px;
+  }
+
+  .zone-availability {
+    font-size: 11px;
+  }
+
+  .seat-map {
+    min-width: 650px;
+    gap: 8px;
+  }
+
+  .seat {
+    width: 55px;
+    min-height: 52px;
+  }
+
+  .seat-legend {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
+
+/* =========================================================
+   TICKETHUB BOOKING — ZONE DESIGN FIX
+========================================================= */
+
+.concert-detail-page {
+  background: #F2F3F6 !important;
+  color: #071A52;
+}
+
+/* =========================
+   BOOKING AREA
+========================= */
+
+.concert-detail-page .booking-section {
+  width: min(1500px, 94%);
+  margin: 0 auto;
+  padding: 50px 0 90px;
+}
+
+.concert-detail-page .booking-heading {
+  margin-bottom: 32px;
+}
+
+.concert-detail-page .booking-heading h2 {
+  color: #071A52;
+  font-size: 34px;
+}
+
+.concert-detail-page .booking-heading > span {
+  color: #071A52;
+}
+
+
+/* =========================================================
+   ZONES
+========================================================= */
+
+.concert-detail-page .all-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+
+/* =========================
+   DEFAULT ZONE
+========================= */
+
+.concert-detail-page .zone-section {
+  width: 100%;
+  padding: 30px 34px 35px;
+
+  background: #ffffff !important;
+
+  border: 1px solid #D5D6DA !important;
+  border-radius: 24px;
+
+  box-shadow: 0 10px 30px rgba(8, 8, 8, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* =========================
+   ZONE HEADER
+========================= */
+
+.concert-detail-page .zone-header {
+  min-height: 62px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding-bottom: 22px;
+
+  border-bottom: 1px solid #071A52;
+}
+
+.concert-detail-page .zone-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.concert-detail-page .zone-label {
+  color: #071A52;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.concert-detail-page .zone-title h3 {
+  margin: 0;
+
+  color: #071A52;
+
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.concert-detail-page .zone-price {
+  padding: 7px 13px;
+
+  border-radius: 999px;
+
+  background: #E8EDFF;
+  color: #1947FF;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.concert-detail-page .zone-availability {
+  color: #071A52;
+  font-size: 12px;
+}
+
+.concert-detail-page .zone-availability strong {
+  color: #1947FF;
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   DIFFERENT ZONE COLORS
+   Automatically alternate colors
+========================================================= */
+
+/* ZONE 1 — ELECTRIC BLUE */
+
+.concert-detail-page .zone-section:nth-child(1) {
+  border-top: 5px solid #1947FF !important;
+}
+
+.concert-detail-page .zone-section:nth-child(1) .zone-label {
+  color: #1947FF;
+}
+
+.concert-detail-page .zone-section:nth-child(1) .zone-price {
+  background: #E8EDFF;
+  color: #1947FF;
+}
+
+
+/* ZONE 2 — LAVENDER */
+
+.concert-detail-page .zone-section:nth-child(2) {
+  border-top: 5px solid #a992d8 !important;
+}
+
+.concert-detail-page .zone-section:nth-child(2) .zone-label {
+  color: #8870bd;
+}
+
+.concert-detail-page .zone-section:nth-child(2) .zone-price {
+  background: #f4efff;
+  color: #8065b4;
+}
+
+
+/* ZONE 3 — BLUE */
+
+.concert-detail-page .zone-section:nth-child(3) {
+  border-top: 5px solid #7fa8d9 !important;
+}
+
+.concert-detail-page .zone-section:nth-child(3) .zone-label {
+  color: #668ebf;
+}
+
+.concert-detail-page .zone-section:nth-child(3) .zone-price {
+  background: #eff6ff;
+  color: #5d83b2;
+}
+
+
+/* ZONE 4 — PEACH */
+
+.concert-detail-page .zone-section:nth-child(4) {
+  border-top: 5px solid #e3a77e !important;
+}
+
+.concert-detail-page .zone-section:nth-child(4) .zone-label {
+  color: #c27f59;
+}
+
+.concert-detail-page .zone-section:nth-child(4) .zone-price {
+  background: #fff5ed;
+  color: #bb754e;
+}
+
+
+/* =========================================================
+   STAGE
+========================================================= */
+
+.concert-detail-page .stage-wrapper {
+  max-width: 900px;
+
+  margin: 32px auto 38px;
+
+  text-align: center;
+}
+
+.concert-detail-page .stage {
+  width: 68%;
+
+  padding: 15px;
+
+  margin: 0 auto;
+
+  border-radius: 0 0 60px 60px;
+
+  background: linear-gradient(
+    180deg,
+    #1947FF,
+    #E8EDFF
+  ) !important;
+
+  color: #071A52;
+
+  font-size: 11px;
+  font-weight: 900;
+
+  letter-spacing: 5px;
+
+  box-shadow:
+    0 8px 22px rgba(8, 8, 8, 0.12);
+}
+
+.concert-detail-page .stage-line {
+  width: 80%;
+  height: 2px;
+
+  margin: 8px auto 0;
+
+  background: #1947FF;
+}
+
+
+/* =========================================================
+   SEAT AREA
+========================================================= */
+
+.concert-detail-page .seat-map-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  padding: 8px 5px 18px;
+}
+
+.concert-detail-page .seat-map {
+  width: max-content;
+
+  min-width: 820px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(10, 68px);
+
+  gap: 12px;
+}
+
+
+/* =========================================================
+   SEATS
+========================================================= */
+
+.concert-detail-page .seat {
+  width: 68px;
+  height: 58px;
+  min-height: 58px;
+
+  padding: 6px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 3px;
+
+  background: #ffffff !important;
+
+  border: 1px solid #071A52 !important;
+  border-radius: 11px;
+
+  color: #071A52;
+
+  transition: all 0.18s ease;
+}
+
+.concert-detail-page .seat:hover:not(:disabled) {
+  transform: translateY(-3px);
+
+  border-color: #1947FF !important;
+
+  box-shadow:
+    0 7px 17px rgba(8, 8, 8, 0.16);
+}
+
+.concert-detail-page .seat-name {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.concert-detail-page .seat-price {
+  color: #071A52;
+
+  font-size: 9px;
+}
+
+
+/* =========================
+   SELECTED
+========================= */
+
+.concert-detail-page .seat.selected {
+  background: #1947FF !important;
+
+  border-color: #1947FF !important;
+
+  color: white !important;
+
+  box-shadow:
+    0 7px 18px rgba(8, 8, 8, 0.28);
+}
+
+.concert-detail-page .seat.selected .seat-price {
+  color: white !important;
+}
+
+
+/* =========================
+   BOOKED
+========================= */
+
+.concert-detail-page .seat.booked,
+.concert-detail-page .seat.sold {
+  background: #071A52 !important;
+
+  border-color: #071A52 !important;
+
+  color: #071A52 !important;
+
+  cursor: not-allowed;
+
+  text-decoration: line-through;
+}
+
+.concert-detail-page .seat.booked .seat-price,
+.concert-detail-page .seat.sold .seat-price {
+  color: #071A52 !important;
+}
+
+
+/* =========================================================
+   ZONE SELECTED INFO
+========================================================= */
+
+.concert-detail-page .zone-selected-info {
+  margin-top: 24px;
+
+  padding: 17px 20px;
+
+  background: #E8EDFF;
+
+  border: 1px solid #071A52;
+
+  border-radius: 14px;
+}
+
+.concert-detail-page .zone-selected-info > div > span {
+  color: #071A52;
+  font-size: 12px;
+}
+
+.concert-detail-page .zone-selected-seats {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 10px;
+}
+
+.concert-detail-page .zone-selected-seats span {
+  padding: 5px 9px;
+
+  background: #1947FF;
+
+  color: white;
+
+  border-radius: 7px;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+
+/* =========================================================
+   LEGEND
+========================================================= */
+
+.concert-detail-page .seat-legend {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 28px;
+
+  margin: 28px auto;
+
+  padding: 18px 25px;
+
+  background: white;
+
+  border: 1px solid #071A52;
+
+  border-radius: 16px;
+
+  color: #071A52;
+}
+
+.concert-detail-page .seat-legend span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 12px;
+}
+
+.concert-detail-page .legend-seat {
+  width: 16px;
+  height: 16px;
+
+  border-radius: 5px;
+
+  background: white;
+
+  border: 1px solid #071A52;
+}
+
+.concert-detail-page .legend-seat.selected {
+  background: #1947FF;
+
+  border-color: #1947FF;
+}
+
+.concert-detail-page .legend-seat.booked {
+  background: #071A52;
+
+  border-color: #071A52;
+}
+
+
+/* =========================================================
+   BOOKING SUMMARY
+========================================================= */
+
+.concert-detail-page .booking-summary {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 1fr auto auto;
+
+  align-items: center;
+
+  gap: 30px;
+
+  margin-top: 30px;
+
+  padding: 26px 30px;
+
+  background: white !important;
+
+  border: 1px solid #071A52 !important;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 10px 30px rgba(8, 8, 8, 0.07);
+}
+
+.concert-detail-page .summary-seats > span,
+.concert-detail-page .summary-total > span {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #071A52;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+.concert-detail-page .selected-seat-list {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  max-height: 100px;
+
+  overflow-y: auto;
+}
+
+.concert-detail-page .selected-seat-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 8px 11px;
+
+  background: #E8EDFF;
+
+  border-radius: 9px;
+}
+
+.concert-detail-page .selected-seat-item strong {
+  color: #071A52;
+
+  font-size: 11px;
+}
+
+.concert-detail-page .selected-seat-item small {
+  color: #071A52;
+
+  font-size: 9px;
+}
+
+.concert-detail-page .selected-seat-item > span {
+  color: #1947FF;
+
+  font-size: 10px;
+
+  font-weight: 800;
+}
+
+.concert-detail-page .summary-total {
+  min-width: 160px;
+
+  padding-left: 25px;
+
+  border-left: 1px solid #071A52;
+}
+
+.concert-detail-page .booking-total {
+  color: #1947FF !important;
+
+  font-size: 28px !important;
+}
+
+
+/* =========================================================
+   BOOK BUTTON
+========================================================= */
+
+.concert-detail-page .booking-actions {
+  display: flex;
+
+  justify-content: flex-end;
+}
+
+.concert-detail-page .booking-button {
+  min-width: 210px;
+
+  padding: 15px 24px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1947FF,
+      #1947FF
+    );
+
+  color: white;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  transition: 0.18s ease;
+}
+
+.concert-detail-page .booking-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 9px 22px rgba(8, 8, 8, 0.25);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .concert-detail-page .concert-detail-container {
+    grid-template-columns: 1fr;
+  }
+
+  .concert-detail-page .detail-image {
+    height: 360px;
+  }
+
+  .concert-detail-page .booking-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .concert-detail-page .summary-total {
+    border-left: none;
+
+    border-top: 1px solid #071A52;
+
+    padding: 20px 0 0;
+  }
+
+  .concert-detail-page .booking-actions {
+    justify-content: stretch;
+  }
+
+  .concert-detail-page .booking-button {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 700px) {
+
+  .concert-detail-page .zone-section {
+    padding: 23px 17px 27px;
+  }
+
+  .concert-detail-page .zone-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .concert-detail-page .zone-availability {
+    width: 100%;
+  }
+
+  .concert-detail-page .stage {
+    width: 85%;
+  }
+
+  .concert-detail-page .seat-map {
+    grid-template-columns:
+      repeat(10, 58px);
+
+    min-width: 700px;
+
+    gap: 8px;
+  }
+
+  .concert-detail-page .seat {
+    width: 58px;
+    height: 52px;
+    min-height: 52px;
+  }
+
+  .concert-detail-page .seat-legend {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .concert-detail-page .booking-section {
+    width: 92%;
+  }
+
+  .concert-detail-page .booking-heading h2 {
+    font-size: 28px;
+  }
+
+  .concert-detail-page .zone-title h3 {
+    font-size: 21px;
+  }
+
+  .concert-detail-page .zone-section {
+    border-radius: 18px;
+  }
+}
+/* =========================================================
+TICKETHUB - BOOKING / SEAT SELECTION
+========================================================= */
+
+.booking-section {
+width: min(1400px, calc(100% - 48px));
+margin: 60px auto 100px;
+}
+
+.booking-heading {
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+gap: 30px;
+margin-bottom: 32px;
+}
+
+.booking-heading h2 {
+margin: 6px 0 0;
+font-size: 32px;
+font-weight: 700;
+color: #29252a;
+}
+
+.booking-heading > span {
+color: #071A52;
+font-size: 14px;
+padding-bottom: 5px;
+}
+
+.section-label {
+margin: 0;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 2px;
+color: #071A52;
+}
+
+/* =========================================================
+ALL ZONES
+========================================================= */
+
+.all-zones {
+display: flex;
+flex-direction: column;
+gap: 28px;
+}
+
+/* แต่ละ Zone แยกเป็น Card */
+.zone-section {
+position: relative;
+overflow: hidden;
+background: #fff;
+border: 1px solid #071A52;
+border-radius: 24px;
+padding: 28px 30px 30px;
+box-shadow: 0 8px 30px rgba(8, 8, 8, 0.06);
+}
+
+/* เส้นสีด้านบนของแต่ละ Zone */
+.zone-section::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+height: 5px;
+background: linear-gradient(
+90deg,
+#071A52,
+#1947FF
+);
+}
+
+/* Zone ที่ 2 */
+.zone-section:nth-child(2)::before {
+background: linear-gradient(
+90deg,
+#9ba9c9,
+#d2d9e9
+);
+}
+
+/* Zone ที่ 3 */
+.zone-section:nth-child(3)::before {
+background: linear-gradient(
+90deg,
+#9eb7a5,
+#d5e4d8
+);
+}
+
+/* Zone ที่ 4 */
+.zone-section:nth-child(4)::before {
+background: linear-gradient(
+90deg,
+#c7ae87,
+#eadfcb
+);
+}
+
+/* =========================================================
+ZONE HEADER
+========================================================= */
+
+.zone-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 20px;
+margin-bottom: 25px;
+}
+
+.zone-title
+
+.zone-label {
+display: inline-flex;
+align-items: center;
+height: 26px;
+padding: 0 10px;
+border-radius: 8px;
+background: #1947FF;
+color: #071A52;
+font-size: 10px;
+font-weight: 700;
+letter-spacing: 1.5px;
+}
+
+.zone-section:nth-child(2) .zone-label {
+background: #edf0f7;
+color: #71809f;
+}
+
+.zone-section:nth-child(3) .zone-label {
+background: #edf5ef;
+color: #718d79;
+}
+
+.zone-section:nth-child(4) .zone-label {
+background: #f7f1e7;
+color: #9b8158;
+}
+
+.zone-title h3 {
+margin: 0;
+font-size: 23px;
+color: #29252a;
+font-weight: 700;
+}
+
+.zone-price {
+padding-left: 4px;
+color: #071A52;
+font-size: 13px;
+}
+
+.zone-availability {
+display: flex;
+align-items: baseline;
+gap: 5px;
+white-space: nowrap;
+}
+
+.zone-availability strong {
+color: #071A52;
+font-size: 20px;
+}
+
+.zone-availability span {
+color: #071A52;
+font-size: 13px;
+}
+
+/* =========================================================
+STAGE
+========================================================= */
+
+.stage-wrapper {
+width: min(700px, 80%);
+margin: 0 auto 28px;
+text-align: center;
+}
+
+.stage {
+height: 42px;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 0 0 50% 50%;
+background: linear-gradient(
+180deg,
+#071A52,
+#071A52
+);
+color: #071A52;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 4px;
+box-shadow: 0 5px 15px rgba(60, 50, 55, 0.08);
+}
+
+.stage-line {
+width: 70%;
+height: 2px;
+margin: 7px auto 0;
+background: #071A52;
+}
+
+/* =========================================================
+SEAT MAP
+========================================================= */
+
+.seat-map-wrapper {
+width: 100%;
+overflow-x: auto;
+padding: 8px 4px 14px;
+}
+
+.seat-map {
+display: grid;
+grid-template-columns: repeat(
+auto-fit,
+minmax(62px, 1fr)
+);
+gap: 10px;
+width: min(900px, 100%);
+margin: auto;
+}
+
+/* =========================================================
+SEAT
+========================================================= */
+
+.seat {
+position: relative;
+min-height: 58px;
+padding: 8px 5px;
+border: 1px solid #071A52;
+border-radius: 12px;
+background: #071A52;
+color: #071A52;
+cursor: pointer;
+
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+
+transition:
+transform 0.15s ease,
+border-color 0.15s ease,
+background 0.15s ease,
+box-shadow 0.15s ease;
+}
+
+.seat:hover:not(:disabled) {
+transform: translateY(-2px);
+border-color: #071A52;
+background: #E8EDFF;
+box-shadow: 0 5px 15px rgba(8, 8, 8, 0.12);
+}
+
+.seat-name {
+font-size: 13px;
+font-weight: 700;
+line-height: 1;
+}
+
+.seat-price {
+margin-top: 5px;
+font-size: 10px;
+color: #071A52;
+}
+
+/* =========================================================
+SELECTED
+========================================================= */
+
+.seat.selected {
+border-color: #071A52;
+background: #071A52;
+color: #071A52;
+box-shadow:
+0 5px 15px rgba(8, 8, 8, 0.22);
+}
+
+.seat.selected .seat-price {
+color: #071A52;
+}
+
+/* =========================================================
+BOOKED
+========================================================= */
+
+.seat.booked {
+border-color: #071A52;
+background: #071A52;
+color: #071A52;
+cursor: not-allowed;
+opacity: 0.8;
+}
+
+.seat.booked .seat-price {
+color: #071A52;
+}
+
+/* =========================================================
+ZONE COLORS
+ทำให้ Seat ของแต่ละ Zone มีโทนต่างกัน
+========================================================= */
+
+/* Zone 1 - Electric Blue */
+.zone-section:nth-child(1) .seat:not(.selected):not(.booked) {
+background: #E8EDFF;
+border-color: #071A52;
+}
+
+.zone-section:nth-child(1) .seat:hover:not(:disabled) {
+border-color: #071A52;
+}
+
+/* Zone 2 - Blue */
+.zone-section:nth-child(2) .seat:not(.selected):not(.booked) {
+background: #f7f9fd;
+border-color: #dce2ee;
+}
+
+.zone-section:nth-child(2) .seat.selected {
+background: #d9e0ef;
+border-color: #8998b8;
+color: #4f5e7b;
+}
+
+.zone-section:nth-child(2) .seat:hover:not(:disabled) {
+border-color: #9aa8c4;
+}
+
+/* Zone 3 - Green */
+.zone-section:nth-child(3) .seat:not(.selected):not(.booked) {
+background: #f7fbf8;
+border-color: #dce9df;
+}
+
+.zone-section:nth-child(3) .seat.selected {
+background: #dce9df;
+border-color: #91aa98;
+color: #506956;
+}
+
+.zone-section:nth-child(3) .seat:hover:not(:disabled) {
+border-color: #9eb7a5;
+}
+
+/* Zone 4 - Beige */
+.zone-section:nth-child(4) .seat:not(.selected):not(.booked) {
+background: #fcfaf6;
+border-color: #ece4d6;
+}
+
+.zone-section:nth-child(4) .seat.selected {
+background: #ece3d2;
+border-color: #bca37c;
+color: #725f42;
+}
+
+.zone-section:nth-child(4) .seat:hover:not(:disabled) {
+border-color: #c7ae87;
+}
+
+/* =========================================================
+SELECTED ZONE INFO
+========================================================= */
+
+.zone-selected-info {
+margin-top: 25px;
+padding: 16px 18px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 20px;
+
+border-radius: 14px;
+background: #071A52;
+border: 1px solid #071A52;
+}
+
+.zone-selected-info > div > span {
+color: #071A52;
+font-size: 13px;
+}
+
+.zone-selected-info strong {
+color: #071A52;
+}
+
+.zone-selected-seats {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+margin-top: 9px;
+}
+
+.zone-selected-seats span {
+min-width: 34px;
+padding: 5px 8px;
+border-radius: 7px;
+background: #071A52;
+color: #071A52;
+text-align: center;
+font-size: 11px;
+font-weight: 700;
+}
+
+/* =========================================================
+LEGEND
+========================================================= */
+
+.seat-legend {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 28px;
+margin: 28px 0;
+color: #071A52;
+font-size: 13px;
+}
+
+.seat-legend span {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+}
+
+.legend-seat {
+width: 17px;
+height: 17px;
+display: inline-block;
+border-radius: 5px;
+background: #071A52;
+border: 1px solid #071A52;
+}
+
+.legend-seat.selected {
+background: #071A52;
+border-color: #071A52;
+}
+
+.legend-seat.booked {
+background: #071A52;
+border-color: #071A52;
+}
+
+/* =========================================================
+BOOKING SUMMARY
+========================================================= */
+
+.booking-summary {
+display: grid;
+grid-template-columns: 1fr auto auto;
+align-items: center;
+gap: 30px;
+
+padding: 24px 28px;
+margin-top: 25px;
+
+background: #fff;
+border: 1px solid #071A52;
+border-radius: 22px;
+box-shadow: 0 8px 30px rgba(8, 8, 8, 0.07);
+}
+
+.summary-seats > span,
+.summary-total > span {
+display: block;
+margin-bottom: 10px;
+color: #071A52;
+font-size: 12px;
+font-weight: 600;
+}
+
+.summary-seats > strong {
+color: #071A52;
+}
+
+.selected-seat-list {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+}
+
+.selected-seat-item {
+display: flex;
+align-items: center;
+gap: 12px;
+
+padding: 8px 11px;
+border-radius: 10px;
+background: #071A52;
+border: 1px solid #071A52;
+}
+
+.selected-seat-item > div {
+display: flex;
+flex-direction: column;
+}
+
+.selected-seat-item strong {
+font-size: 12px;
+color: #071A52;
+}
+
+.selected-seat-item small {
+margin-top: 2px;
+font-size: 9px;
+color: #071A52;
+}
+
+.selected-seat-item > span {
+font-size: 11px;
+font-weight: 700;
+color: #071A52;
+}
+
+.summary-total {
+min-width: 150px;
+padding-left: 28px;
+border-left: 1px solid #071A52;
+}
+
+.booking-total {
+font-size: 26px;
+color: #071A52;
+}
+
+.booking-actions {
+display: flex;
+justify-content: flex-end;
+}
+
+.booking-button {
+min-width: 210px;
+min-height: 50px;
+}
+
+/* =========================================================
+RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+.booking-section {
+width: min(100% - 28px, 700px);
+}
+
+.booking-heading {
+align-items: flex-start;
+flex-direction: column;
+gap: 5px;
+}
+
+.zone-header {
+align-items: flex-start;
+flex-direction: column;
+}
+
+.zone-availability {
+margin-left: 0;
+}
+
+.seat-map {
+grid-template-columns: repeat(
+auto-fit,
+minmax(58px, 1fr)
+);
+}
+
+.booking-summary {
+grid-template-columns: 1fr;
+}
+
+.summary-total {
+padding-left: 0;
+padding-top: 20px;
+border-left: none;
+border-top: 1px solid #071A52;
+}
+
+.booking-actions {
+justify-content: stretch;
+}
+
+.booking-button {
+width: 100%;
+}
+}
+
+@media (max-width: 600px) {
+.booking-section {
+width: calc(100% - 20px);
+margin-top: 35px;
+}
+
+.zone-section {
+padding: 23px 15px;
+border-radius: 18px;
+}
+
+.zone-title h3 {
+font-size: 20px;
+}
+
+.seat-map {
+grid-template-columns: repeat(
+4,
+minmax(55px, 1fr)
+);
+gap: 7px;
+}
+
+.seat {
+min-height: 54px;
+border-radius: 9px;
+}
+
+.seat-legend {
+flex-wrap: wrap;
+gap: 14px;
+}
+
+.stage-wrapper {
+width: 95%;
+}
+}
+/* =========================================================
+   BOOKING HISTORY
+========================================================= */
+
+.booking-history-page {
+  min-height: 100vh;
+  background: #E8EDFF;
+  color: #071A52;
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.booking-history-page .navbar {
+  width: 100%;
+  height: 72px;
+  padding: 0 7%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-bottom: 1px solid #1947FF;
+  box-sizing: border-box;
+}
+
+.booking-history-page .logo {
+  text-decoration: none;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  color: #292126;
+}
+
+.booking-history-page .logo span {
+  color: #1947FF;
+}
+
+.booking-history-page .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+}
+
+.booking-history-page .nav-links a {
+  text-decoration: none;
+  color: #071A52;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.booking-history-page .nav-links a:hover,
+.booking-history-page .nav-links a.active {
+  color: #1947FF;
+}
+
+.booking-history-page .nav-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.booking-history-page .username {
+  color: #071A52;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.booking-history-container {
+  width: min(1180px, 90%);
+  margin: 0 auto;
+  padding: 55px 0 80px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.booking-history-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 35px;
+}
+
+.booking-history-header .section-label {
+  margin: 0 0 8px;
+  color: #1947FF;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.booking-history-header h1 {
+  margin: 0;
+  color: #071A52;
+  font-size: clamp(34px, 4vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.booking-history-header p:not(.section-label) {
+  margin: 12px 0 0;
+  color: #071A52;
+  font-size: 15px;
+}
+
+.back-to-concerts {
+  flex-shrink: 0;
+  padding: 12px 20px;
+  border: 1px solid #1947FF;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #1947FF;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: 0.2s ease;
+}
+
+.back-to-concerts:hover {
+  background: #E8EDFF;
+  border-color: #1947FF;
+}
+
+/* =========================================================
+   EMPTY
+========================================================= */
+
+.empty-bookings {
+  min-height: 360px;
+  padding: 50px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #071A52;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(8, 8, 8, 0.05);
+}
+
+.empty-icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: #E8EDFF;
+  font-size: 30px;
+}
+
+.empty-bookings h2 {
+  margin: 0;
+  color: #071A52;
+  font-size: 23px;
+}
+
+.empty-bookings p {
+  margin: 10px 0 24px;
+  color: #071A52;
+  font-size: 14px;
+}
+
+.booking-history-page .primary-button {
+  border: 0;
+  border-radius: 12px;
+  padding: 13px 22px;
+  background: #1947FF;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.booking-history-page .primary-button:hover {
+  background: #1947FF;
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   BOOKING LIST
+========================================================= */
+
+.booking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* =========================================================
+   BOOKING CARD
+========================================================= */
+
+.booking-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 285px;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #071A52;
+  border-radius: 22px;
+  box-shadow: 0 10px 35px rgba(8, 8, 8, 0.055);
+  transition: 0.25s ease;
+}
+
+.booking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(8, 8, 8, 0.09);
+}
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.booking-card-image {
+  min-height: 285px;
+  background: #1947FF;
+  overflow: hidden;
+}
+
+.booking-card-image img {
+  width: 100%;
+  height: 100%;
+  min-height: 285px;
+  display: block;
+  object-fit: cover;
+}
+
+.booking-no-image {
+  width: 100%;
+  height: 100%;
+  min-height: 285px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    #1947FF,
+    #1947FF
+  );
+  color: #1947FF;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.booking-card-content {
+  min-width: 0;
+  padding: 28px 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.booking-label {
+  margin: 0 0 7px;
+  color: #1947FF;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.booking-card-top h2 {
+  margin: 0;
+  color: #071A52;
+  font-size: 24px;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.booking-card-top h3 {
+  margin: 6px 0 0;
+  color: #071A52;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.booking-status {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #eaf8ef;
+  color: #4d9a68;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: capitalize;
+}
+
+.booking-status.pending {
+  background: #fff5df;
+  color: #bd8a32;
+}
+
+.booking-status.cancelled,
+.booking-status.canceled {
+  background: #E8EDFF;
+  color: #1947FF;
+}
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+.booking-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 35px;
+  margin-top: 27px;
+  padding: 20px 0;
+  border-top: 1px solid #071A52;
+  border-bottom: 1px solid #071A52;
+}
+
+.booking-detail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.booking-detail span {
+  color: #071A52;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.booking-detail strong {
+  overflow: hidden;
+  color: #071A52;
+  font-size: 13px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   BOTTOM PRICE
+========================================================= */
+
+.booking-card-bottom {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.booking-price-info,
+.booking-total-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.booking-price-info span,
+.booking-total-info span {
+  color: #071A52;
+  font-size: 11px;
+}
+
+.booking-price-info strong {
+  color: #071A52;
+  font-size: 14px;
+}
+
+.booking-total-info {
+  text-align: right;
+}
+
+.booking-total-info strong {
+  color: #1947FF;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   LOADING
+========================================================= */
+
+.booking-loading {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #071A52;
+  border-radius: 22px;
+}
+
+.booking-loading h2 {
+  color: #071A52;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .booking-history-page .navbar {
+    padding: 0 5%;
+  }
+
+  .booking-history-page .nav-links {
+    gap: 18px;
+  }
+
+  .booking-history-container {
+    width: 92%;
+  }
+
+  .booking-card {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .booking-card-image,
+  .booking-card-image img,
+  .booking-no-image {
+    min-height: 270px;
+  }
+}
+
+@media (max-width: 700px) {
+  .booking-history-page .navbar {
+    height: auto;
+    min-height: 70px;
+    padding: 18px 5%;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .booking-history-page .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    padding-top: 5px;
+  }
+
+  .booking-history-page .nav-user {
+    margin-left: auto;
+  }
+
+  .booking-history-container {
+    padding-top: 35px;
+  }
+
+  .booking-history-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .back-to-concerts {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .booking-card {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-card-image {
+    height: 220px;
+    min-height: 220px;
+  }
+
+  .booking-card-image img,
+  .booking-no-image {
+    height: 220px;
+    min-height: 220px;
+  }
+
+  .booking-card-content {
+    padding: 24px 22px;
+  }
+
+  .booking-card-top h2 {
+    font-size: 21px;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-history-page .logo {
+    font-size: 22px;
+  }
+
+  .booking-history-page .username {
+    display: none;
+  }
+
+  .booking-history-page .nav-links {
+    gap: 14px;
+  }
+
+  .booking-history-page .nav-links a {
+    font-size: 12px;
+  }
+
+  .booking-history-header h1 {
+    font-size: 34px;
+  }
+
+  .booking-details {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .booking-card-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .booking-total-info {
+    width: 100%;
+    text-align: left;
+  }
+}
+/* =========================================================
+   BOOKING ACTIONS
+========================================================= */
+
+.booking-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #071A52;
+}
+
+.cancel-booking-button {
+  border: 1px solid #1947FF;
+  background: #ffffff;
+  color: #1947FF;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-booking-button:hover {
+  background: #E8EDFF;
+  border-color: #1947FF;
+  transform: translateY(-1px);
+}
+
+.cancel-booking-button:active {
+  transform: translateY(0);
+}
+
+.cancel-booking-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* CANCELLED STATUS */
+
+.booking-status.cancelled,
+.booking-status.canceled {
+  background: #f3f3f3;
+  color: #888888;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .booking-card-actions {
+    justify-content: stretch;
+  }
+
+  .cancel-booking-button {
+    width: 100%;
+  }
+}
 :root {
   --background: #0b0f14;
   --background-light: #121821;
@@ -11402,4 +11430,416 @@ width: 95%;
   .cancel-booking-button {
     width: 100%;
   }
+}
+
+/* =========================================================
+   P/* =========================================================
+   TICKETHUB — EDITORIAL GRID / BRUTALIST SYSTEM
+========================================================= */
+
+:root {
+  --ink: #080808;
+  --electric: #1947FF;
+  --electric-hover: #0B35E8;
+  --paper: #FFFFFF;
+  --surface: #F2F3F6;
+  --muted: #606065;
+  --line: #929298;
+  --border: #D5D6DA;
+  --primary: var(--electric);
+  --primary-dark: var(--electric-hover);
+  --background: var(--paper);
+  --text: var(--ink);
+  --text-muted: var(--muted);
+  --success: #176B3A;
+  --warning: #A65F00;
+  --danger: #B4232D;
+  --radius-small: 0;
+  --radius-medium: 0;
+  --radius-large: 0;
+  --shadow: 8px 8px 0 rgba(8, 8, 8, 0.12);
+}
+
+body { background: var(--paper); color: var(--ink); }
+::selection { background: var(--electric); color: var(--paper); }
+.home-page, .concert-detail-page, .payment-page, .booking-history-page,
+.report-page, .success-page, .admin-layout {
+  color: var(--ink);
+  background: var(--paper);
+}
+
+/* Navigation and brand */
+.navbar, .booking-history-page .navbar {
+  min-height: 78px;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.logo, .admin-logo, .login-logo {
+  color: var(--ink);
+  font-family: var(--font-main);
+  font-weight: 800;
+  letter-spacing: -0.07em;
+  text-transform: uppercase;
+}
+.logo span, .admin-logo span, .login-logo span { color: var(--electric); }
+.nav-links a, .nav-user, .username, .admin-user { color: var(--ink); }
+.nav-links a { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.nav-links a:hover, .nav-links a.active,
+.booking-history-page .nav-links a:hover,
+.booking-history-page .nav-links a.active { color: var(--electric); }
+
+/* Home hero and editorial poster grid */
+.concert-hero {
+  min-height: min(690px, 78vh);
+  padding: clamp(36px, 7vw, 104px) clamp(22px, 7vw, 112px);
+  color: var(--paper);
+  background: var(--gradient-hero);
+  border: 0;
+  border-bottom: 2px solid var(--ink);
+  box-shadow: none;
+}
+.concert-hero::before { inset: 20px auto 20px 20px; width: 1px; height: auto; border: 0; border-radius: 0; background: var(--electric); box-shadow: none; }
+.concert-hero::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; display: block; pointer-events: none;
+  background: radial-gradient(ellipse at 74% 48%, rgba(25,71,255,.22), transparent 38%), linear-gradient(90deg, rgba(8,8,8,.2), transparent 70%);
+}
+.concert-hero > * { position: relative; z-index: 2; }
+.concert-hero > div:not(.hero-abstract-art) { width: min(900px, 100%); min-width: 0; }
+.concert-hero h1 {
+  max-width: 100%; margin: 18px 0; color: var(--paper);
+  font-size: clamp(56px, 10vw, 142px); font-weight: 800; line-height: .88;
+  letter-spacing: -.085em; text-transform: uppercase;
+}
+.concert-hero p:not(.hero-label) { max-width: 490px; color: #E1E2E6; font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+.hero-label, .section-label, .booking-label, .admin-label {
+  color: var(--electric); font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+}
+.concert-hero .hero-label { color: #8EA4FF; }
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 22px; margin-top: 12px; padding: 15px 18px;
+  color: var(--paper); background: var(--gradient-blue); border: 2px solid var(--electric);
+  font-size: 11px; font-weight: 800; letter-spacing: .12em; text-decoration: none; text-transform: uppercase;
+  transition: background .3s ease, color .3s ease, transform .3s ease;
+}
+.hero-cta:hover { color: var(--paper); background: var(--gradient-blue-hover); transform: translate(3px, -3px); }
+.brand-marquee { overflow: hidden; color: var(--paper); background: var(--gradient-blue); border-bottom: 2px solid var(--ink); }
+.brand-marquee-track { display: flex; width: max-content; animation: ticketHubMarquee 25s linear infinite; }
+.brand-marquee-track span { padding: 13px 22px; font-size: 12px; font-weight: 800; letter-spacing: .13em; white-space: nowrap; }
+@keyframes ticketHubMarquee { to { transform: translateX(-50%); } }
+.concert-section { width: min(1440px, 100%); margin-inline: auto; padding: clamp(26px, 5vw, 72px); background: radial-gradient(ellipse at 4% 0%, rgba(25,71,255,.055), transparent 30%); }
+.concert-discovery-bar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 0 0 24px; }
+.concert-search { display: flex; align-items: center; gap: 10px; width: min(430px, 100%); min-height: 48px; padding: 0 12px; background: var(--paper); border: 1px solid var(--ink); border-radius: 0; }
+.concert-search > span { color: var(--electric); font-size: 22px; }
+.concert-search input { width: 100%; min-width: 0; padding: 12px 0; color: var(--ink); background: transparent; border: 0; outline: 0; box-shadow: none; }
+.concert-search input:focus { border: 0; outline: 0; box-shadow: none; }
+.concert-view-tabs { display: flex; flex-wrap: wrap; gap: 0; padding: 0; background: var(--paper); border: 1px solid var(--ink); border-radius: 0; }
+.concert-view-tabs button { display: inline-flex; gap: 9px; padding: 10px 13px; color: var(--ink); background: var(--paper); border: 0; border-right: 1px solid var(--ink); border-radius: 0; font: inherit; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+.concert-view-tabs button:last-child { border-right: 0; }
+.concert-view-tabs button.active { color: var(--paper); background: var(--gradient-blue); }
+.concert-view-tabs button span { color: var(--muted); font-size: 10px; }
+.concert-view-tabs button.active span { color: var(--paper); }
+.section-heading h2, .concert-detail-page h1, .booking-history-header h1,
+.report-header h1, .admin-main h1 { color: var(--ink); font-size: clamp(30px, 5vw, 58px); font-weight: 800; letter-spacing: -.06em; text-transform: uppercase; }
+.concert-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 16px; }
+.concert-card {
+  grid-column: span 4; overflow: hidden; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 var(--ink); transition: transform .16s ease, box-shadow .16s ease;
+}
+.concert-card:nth-child(5n + 1) { grid-column: span 7; }
+.concert-card:nth-child(5n + 2) { grid-column: span 5; }
+.concert-card:hover { transform: translate(3px, -3px); box-shadow: 7px 7px 0 var(--electric); }
+.concert-image { position: relative; height: clamp(220px, 28vw, 390px); overflow: hidden; background: var(--surface); border-bottom: 1px solid var(--ink); }
+.concert-image::after { content: ""; position: absolute; inset: 55% 0 0; pointer-events: none; background: linear-gradient(180deg, transparent, rgba(8,8,8,.26)); }
+.concert-card:nth-child(5n + 1) .concert-image { height: clamp(280px, 35vw, 470px); }
+.concert-image img { width: 100%; height: 100%; object-fit: cover; }
+.concert-info { padding: 18px; }
+.concert-info h3 { color: var(--ink); font-size: clamp(19px, 2vw, 28px); font-weight: 800; line-height: 1.05; letter-spacing: -.04em; text-transform: uppercase; }
+.concert-description, .venue, .artist, .booking-detail, .booking-details, .order-info, .success-text, .report-user-info { color: var(--muted); }
+.concert-date, .zone-price, .booking-total, .summary-total strong, .order-total strong, .success-total strong { color: var(--electric); }
+.concert-empty-state, .calendar-day-empty { padding: 38px 24px; color: var(--ink); background: var(--surface); border: 1px solid var(--ink); border-radius: 0; text-align: center; }
+.concert-empty-state > span { color: var(--electric); font-size: 32px; }
+.concert-empty-state h3 { color: var(--ink); text-transform: uppercase; }
+.concert-empty-state p { color: var(--muted); }
+
+/* Shared controls and cards */
+.primary-button, .view-button, .nav-booking-button, .logout-button, .report-submit {
+  color: var(--paper); background: var(--gradient-blue); border: 2px solid var(--ink); border-radius: 0;
+  box-shadow: 3px 3px 0 var(--ink); font-weight: 800; text-transform: uppercase; transition: background .3s ease, transform .3s ease, box-shadow .3s ease;
+}
+.primary-button:hover:not(:disabled), .view-button:hover, .nav-booking-button:hover, .logout-button:hover, .report-submit:hover {
+  color: var(--paper); background: var(--gradient-blue-hover); box-shadow: 5px 5px 0 var(--ink); transform: translate(-2px, -2px);
+}
+.secondary-button, .back-button, .calendar-view-button, .back-to-concerts {
+  color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; font-weight: 800; text-transform: uppercase;
+}
+.secondary-button:hover, .back-button:hover, .calendar-view-button:hover, .back-to-concerts:hover { color: var(--paper); background: var(--ink); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--electric); outline-offset: 3px;
+}
+input, textarea, select, .search-input, .filter-select {
+  color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0;
+}
+input::placeholder, textarea::placeholder { color: #74747A; }
+input:focus, textarea:focus, select:focus { border-color: var(--electric); outline: 2px solid rgba(25,71,255,.18); }
+.concert-card, .booking-card, .booking-summary, .payment-card, .order-summary, .success-card,
+.report-form, .admin-stat-card, .admin-table-section, .admin-concert-card, .concert-modal, .zone-section {
+  color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 rgba(8,8,8,.12);
+}
+
+/* Calendar, detail and seat map */
+.mini-calendar, .selected-date-panel, .selected-concert-list, .empty-bookings,
+.booking-loading, .table-empty, .page.empty-page, .not-found-page {
+  color: var(--ink); background: var(--surface); border: 1px solid var(--ink); border-radius: 0;
+}
+.mini-calendar-header, .mini-calendar-weekdays, .calendar-hint { color: var(--muted); }
+.mini-calendar-day { color: var(--ink); background: var(--paper); border: 1px solid transparent; border-radius: 0; }
+.mini-calendar-day.concert-day { color: var(--electric); background: #E8EDFF; border: 1px solid var(--electric); }
+.mini-calendar-day.selected { color: var(--paper); background: var(--gradient-blue); border-color: var(--ink); }
+.concert-detail-container { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); gap: clamp(24px, 5vw, 72px); align-items: center; width: min(1440px, 100%); padding: clamp(24px, 6vw, 86px); }
+.detail-image { border: 1px solid var(--ink); box-shadow: 8px 8px 0 var(--electric); }
+.detail-image img { display: block; width: 100%; max-height: 680px; object-fit: cover; }
+.detail-info h1 { font-size: clamp(38px, 6vw, 82px); line-height: .94; text-transform: uppercase; }
+.detail-info h2 { color: var(--electric); font-size: clamp(18px, 2vw, 28px); text-transform: uppercase; }
+.concert-detail-page .booking-section { width: min(1440px, calc(100% - 48px)); margin: 0 auto 72px; padding: clamp(18px, 4vw, 46px); background: var(--surface); border: 1px solid var(--ink); border-radius: 0; }
+.concert-detail-page .booking-heading h2 { color: var(--ink); font-size: clamp(32px, 5vw, 60px); font-weight: 800; letter-spacing: -.06em; }
+.concert-detail-page .zone-section { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 rgba(8,8,8,.14); }
+.concert-detail-page .zone-header, .concert-detail-page .zone-label, .concert-detail-page .zone-availability, .seat-legend { color: var(--ink); }
+.concert-detail-page .stage { color: var(--paper); background: var(--ink); border: 0; border-radius: 0; letter-spacing: .2em; }
+.concert-detail-page .stage-line { background: var(--electric); }
+.concert-detail-page .seat-map-wrapper { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-color: var(--electric) var(--surface); }
+.concert-detail-page .seat-map { min-width: max-content; }
+.concert-detail-page .seat { color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; }
+.concert-detail-page .seat:hover:not(:disabled), .concert-detail-page .seat.selected,
+.concert-detail-page .legend-seat.selected { color: var(--paper); background: var(--electric); border-color: var(--ink); }
+.concert-detail-page .seat.booked, .concert-detail-page .seat.sold, .concert-detail-page .legend-seat.booked { color: #777; background: #D7D8DC; border-color: #929298; }
+
+/* Checkout, history, success and report */
+.payment-header h1, .payment-card h2, .order-summary h2, .success-card h1 { color: var(--ink); text-transform: uppercase; }
+.payment-card, .order-summary, .success-card, .report-form { background: var(--paper); border: 1px solid var(--ink); border-radius: 0; box-shadow: 6px 6px 0 var(--ink); }
+.payment-method { color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; }
+.payment-method.active { background: #E8EDFF; border-color: var(--electric); box-shadow: inset 5px 0 var(--electric); }
+.demo-payment-note { width: fit-content; max-width: 100%; margin: 14px auto 0; padding: 8px 12px; color: var(--ink); background: #E8EDFF; border: 1px solid var(--electric); border-radius: 0; font-size: 11px; font-weight: 700; text-align: center; }
+.qr-box { display: grid; place-items: center; color: var(--electric); background: var(--surface); border: 1px dashed var(--ink); border-radius: 0; font-weight: 800; letter-spacing: .12em; }
+.success-icon { color: var(--paper); background: var(--electric); border-radius: 0; }
+.booking-number, .success-info, .success-total { border-color: var(--ink); }
+.booking-history-page .booking-card, .booking-history-page .empty-bookings { background: var(--paper); }
+.booking-card-top h2, .booking-card-top h3 { color: var(--ink); text-transform: uppercase; }
+.booking-status, .event-date-status { border-radius: 0; }
+.event-date-status { margin: 0; color: var(--ink); background: var(--surface); border: 1px solid var(--ink); }
+.event-date-status.completed { color: var(--muted); background: #E8E8EA; border-color: var(--line); }
+.event-date-status.unknown { color: var(--ink); background: #FFF2D8; }
+.report-success { color: var(--ink); background: var(--surface); border: 1px solid var(--ink); border-radius: 0; }
+
+/* Admin: clear, high-contrast management tools */
+.admin-layout { background: var(--paper); }
+.admin-sidebar { color: var(--paper); background: var(--ink); border-right: 2px solid var(--ink); }
+.admin-sidebar .admin-logo { color: var(--paper); }
+.admin-sidebar .admin-logo span { color: #91A7FF; }
+.admin-menu { color: #E3E3E6; border-radius: 0; }
+.admin-menu:hover, .admin-menu.active { color: var(--paper); background: var(--electric); border-color: var(--electric); }
+.admin-header, .admin-toolbar, .admin-table-section, .admin-stat-card, .admin-concert-card {
+  color: var(--ink); background: var(--paper); border-color: var(--ink); border-radius: 0; box-shadow: 3px 3px 0 rgba(8,8,8,.12);
+}
+.admin-table-section { max-width: 100%; overflow-x: auto; }
+.admin-table, .table-header, .table-row, .admin-table th, .admin-table td { color: var(--ink); border-color: #B9BAC0; }
+.table-header { background: var(--surface); }
+.admin-status-filter { min-height: 44px; padding: 0 13px; color: var(--ink); background: var(--paper); border: 1px solid var(--ink); border-radius: 0; }
+.concert-id { color: var(--muted); }
+.concert-date-status, .event-date-status { display: inline-flex; align-items: center; width: fit-content; margin: 7px 8px 0 0; padding: 4px 8px; color: var(--electric); background: #E8EDFF; border: 1px solid var(--electric); border-radius: 0; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+.concert-date-status.completed, .event-date-status.completed { color: var(--muted); background: #E8E8EA; border-color: var(--line); }
+.concert-date-status.unknown, .event-date-status.unknown { color: var(--ink); background: #FFF2D8; border-color: #A65F00; }
+.modal-backdrop { background: rgba(8,8,8,.76); backdrop-filter: blur(3px); }
+.concert-modal { background: var(--paper); }
+.modal-header, .modal-footer, .zone-edit-card { border-color: var(--ink); }
+.status-paid { color: #145B32; background: #DDF2E5; border-radius: 0; }
+.status-pending { color: #825000; background: #FFF0D1; border-radius: 0; }
+
+@media (max-width: 900px) {
+  .concert-hero h1 { font-size: clamp(48px, 8vw, 82px); overflow-wrap: anywhere; }
+  .concert-detail-container { grid-template-columns: 1fr; }
+  .concert-card, .concert-card:nth-child(5n + 1), .concert-card:nth-child(5n + 2) { grid-column: span 6; }
+  .concert-card:nth-child(5n + 1) .concert-image, .concert-image { height: 300px; }
+  .concert-discovery-bar { align-items: stretch; flex-direction: column; }
+  .concert-search { width: 100%; }
+  .concert-view-tabs { width: fit-content; max-width: 100%; }
+}
+@media (max-width: 600px) {
+  .navbar, .booking-history-page .navbar { min-height: 64px; }
+  .concert-hero { min-height: 580px; padding: 36px 22px; }
+  .concert-hero h1 { font-size: clamp(52px, 15vw, 84px); }
+  .concert-section { padding: 28px 18px; }
+  .concert-card, .concert-card:nth-child(5n + 1), .concert-card:nth-child(5n + 2) { grid-column: 1 / -1; }
+  .concert-card:nth-child(5n + 1) .concert-image, .concert-image { height: 280px; }
+  .concert-view-tabs { display: grid; grid-template-columns: 1fr; width: 100%; }
+  .concert-view-tabs button { justify-content: space-between; border-right: 0; border-bottom: 1px solid var(--ink); }
+  .concert-view-tabs button:last-child { border-bottom: 0; }
+  .admin-toolbar { align-items: stretch; flex-direction: column; }
+  .admin-toolbar > input, .admin-status-filter, .toolbar-buttons { width: 100%; }
+  .demo-payment-note { border-radius: 0; }
+  .booking-history-page .booking-card { width: 100%; grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+  .booking-history-page .booking-card-image { width: 100%; height: 220px; min-height: 0; }
+  .booking-history-page .booking-card-image img, .booking-history-page .booking-no-image { width: 100%; height: 100%; min-height: 0; object-fit: cover; }
+  .booking-history-page .booking-card-content { width: 100%; min-width: 0; padding: 20px; }
+  .booking-history-page .booking-details { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto; transition-duration: .01ms; }
+  .brand-marquee-track { animation: none; }
+}
+
+
+.login-page {
+  background-color: var(--paper);
+  background-image: linear-gradient(rgba(8,8,8,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(8,8,8,.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.login-card {
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  box-shadow: 9px 9px 0 var(--electric);
+}
+.login-logo { color: var(--ink); font-size: 28px; font-weight: 900; }
+.login-title { color: var(--ink); font-weight: 800; letter-spacing: -.04em; text-transform: uppercase; }
+.login-subtitle, .login-card label { color: var(--muted); }
+.login-card input { border: 1px solid var(--ink); border-radius: 0; }
+.demo-account { color: var(--ink); background: var(--surface); border: 1px solid var(--ink); border-radius: 0; }
+
+.concert-detail-page .booking-heading h2 { text-transform: uppercase; }
+.booking-history-header, .report-header { border-bottom: 2px solid var(--ink); }
+.report-form { padding: clamp(20px, 4vw, 42px); }
+.report-form label, .form-group label { color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.report-form input, .report-form textarea, .form-group input, .form-group textarea, .form-group select { border: 1px solid var(--ink); border-radius: 0; }
+
+@media (max-width: 600px) {
+  .login-card { padding: 28px 22px; }
+}
+
+/* Concert cards, calendar separation and ended-event states */
+.section-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 350px);
+  align-items: start;
+  gap: 24px 40px;
+  margin-bottom: 24px;
+}
+.section-top .section-heading { margin: 0; }
+.section-top .mini-calendar { width: 100%; margin: 0; justify-self: stretch; }
+.selected-date-panel { margin: 0 0 18px; }
+.selected-concert-list, .calendar-day-empty { margin: 0 0 24px; }
+.concert-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 16px;
+}
+.concert-grid > .concert-card:nth-child(n) {
+  display: flex;
+  flex-direction: column;
+  grid-column: auto;
+  height: 100%;
+  min-width: 0;
+}
+.concert-grid > .concert-card:nth-child(n) .concert-image {
+  height: clamp(220px, 24vw, 340px);
+  flex: 0 0 auto;
+}
+.concert-grid > .concert-card:nth-child(n) .concert-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+.concert-grid > .concert-card:nth-child(n) .concert-description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+.concert-grid > .concert-card:nth-child(n) .concert-bottom { margin-top: auto; }
+.concert-ended-badge {
+  display: inline-flex;
+  width: fit-content;
+  margin: 4px 0 10px;
+  padding: 4px 8px;
+  color: #606065;
+  background: #E8E8EA;
+  border: 1px solid #929298;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  line-height: 1.3;
+}
+.concert-card--ended { filter: saturate(.72); }
+.event-ended-notice {
+  display: grid;
+  gap: 8px;
+  padding: 22px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+}
+.event-ended-notice strong { color: var(--muted); font-size: clamp(22px, 4vw, 36px); }
+.booking-section--closed > :not(.event-ended-notice) { display: none; }
+.payment-event-unavailable { max-width: 720px; margin: 48px auto; padding: 32px; }
+
+@media (max-width: 900px) {
+  .section-top { grid-template-columns: minmax(0, 1fr) minmax(240px, 320px); gap: 24px; }
+  .concert-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .section-top { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-bottom: 24px; }
+  .concert-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; margin-top: 16px; }
+  .concert-grid > .concert-card:nth-child(n) .concert-image { height: 250px; }
+  .selected-concert-list, .calendar-day-empty { margin-bottom: 20px; }
+}
+
+/* Hero art is CSS geometry only; concert photography stays in event cards. */
+.concert-hero { position: relative; isolation: isolate; overflow: hidden; }
+.concert-hero > .hero-abstract-art { position: absolute; inset: 0; z-index: 0; width: 100%; pointer-events: none; }
+.concert-hero > div:not(.hero-abstract-art) { position: relative; z-index: 2; width: min(900px, 100%); }
+.concert-hero::after { z-index: 1; background: radial-gradient(ellipse at 76% 48%, rgba(25,71,255,.26), transparent 40%); }
+.hero-abstract-art .hero-orbit { position: absolute; top: 50%; left: 75%; display: block; aspect-ratio: 1; border: 1px solid rgba(142,164,255,.72); border-radius: 50%; transform: translate(-50%,-50%); }
+.hero-orbit--outer { width: clamp(270px, 39vw, 560px); box-shadow: 0 0 90px rgba(25,71,255,.16); }
+.hero-orbit--inner { width: clamp(170px, 25vw, 350px); border-color: rgba(255,255,255,.4) !important; }
+.hero-abstract-art .hero-grid-mark { position: absolute; top: 50%; left: 75%; width: clamp(95px, 14vw, 190px); aspect-ratio: 1; display: block; background: linear-gradient(135deg, rgba(25,71,255,.88), rgba(7,26,82,.32)); border: 1px solid rgba(255,255,255,.72); transform: translate(-50%,-50%) rotate(45deg); }
+.hero-art-label { position: absolute; right: clamp(24px, 7vw, 112px); bottom: 32px; color: #A9B9FF; font-size: 10px; font-weight: 800; letter-spacing: .2em; }
+
+/* Consistent concert image frames and card layout at every breakpoint. */
+.concert-grid > .concert-card:nth-child(n) .concert-image { height: auto; aspect-ratio: 16 / 9; background: var(--gradient-hero); }
+.concert-image-placeholder { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(255,255,255,.76); background: radial-gradient(circle at 70% 35%, rgba(25,71,255,.5), transparent 38%), var(--gradient-hero); font-size: 11px; font-weight: 800; letter-spacing: .2em; }
+.concert-image img { position: relative; z-index: 1; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .35s ease; }
+.concert-card:hover .concert-image img { transform: scale(1.035); }
+.concert-grid > .concert-card:nth-child(n) .concert-info { padding: clamp(16px, 2vw, 24px); }
+.concert-grid > .concert-card:nth-child(n) .concert-info h3 { margin-bottom: 8px; }
+.concert-grid > .concert-card:nth-child(n) .concert-info .artist { margin-bottom: 8px; color: var(--electric); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.concert-card--ended { filter: none; }
+
+/* Seat map uses only configured zone and seat counts; it is illustrative when no official plan exists. */
+.seat-map-disclaimer { max-width: 760px; margin: -14px auto 24px; color: var(--muted); font-size: 12px; line-height: 1.6; text-align: center; }
+.concert-detail-page .stage { width: min(760px, 100%); border-radius: 50% / 100%; background: var(--gradient-blue); }
+.concert-detail-page .stage-wrapper { max-width: 960px; margin-inline: auto; }
+.concert-detail-page .all-zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: clamp(16px, 2vw, 28px); align-items: start; }
+.concert-detail-page .zone-section { min-width: 0; padding: clamp(14px, 2vw, 24px); background: var(--paper); border: 1px solid var(--ink); box-shadow: 4px 4px 0 rgba(8,8,8,.12); }
+.concert-detail-page .zone-header { display: flex; align-items: start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.concert-detail-page .zone-title { min-width: 0; }
+.concert-detail-page .zone-title h3 { overflow-wrap: anywhere; }
+.concert-detail-page .zone-seat-area { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; padding: 8px 2px 14px; }
+.concert-detail-page .seat-map.zone-seat-map { display: grid; width: max-content; min-width: 0; max-width: none; margin: 0 auto; padding: 12px; gap: 8px; overflow: visible; background: linear-gradient(180deg, #F2F3F6, #FFFFFF); border: 1px solid #D5D6DA; border-radius: 0; box-shadow: none; }
+.concert-detail-page .seat { min-width: 64px; min-height: 48px; height: auto; border-radius: 0; }
+.concert-detail-page .seat.selected { background: var(--gradient-blue); }
+.concert-detail-page .seat:disabled:not(.booked) { color: #606065; background: #E8E8EA; border-color: #929298; cursor: not-allowed; }
+.concert-detail-page .booking-section--closed .event-ended-notice { display: grid; }
+
+@media (max-width: 600px) {
+  .concert-hero > .hero-abstract-art { opacity: .6; }
+  .hero-abstract-art .hero-orbit, .hero-abstract-art .hero-grid-mark { left: 72%; }
+  .hero-art-label { bottom: 18px; }
+  .concert-grid > .concert-card:nth-child(n) .concert-image { height: auto; aspect-ratio: 16 / 9; }
+  .concert-detail-page .booking-section { width: calc(100% - 24px); }
+  .concert-detail-page .zone-header { flex-wrap: wrap; }
 }

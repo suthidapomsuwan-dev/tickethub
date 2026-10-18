@@ -1,17 +1,17 @@
 :root {
-  --primary: #7a90f0;
-  --primary-dark: #000000;
+  --primary: #1947ff;
+  --primary-dark: #071a52;
 
-  --background: #a9abcc;
-  --secondary: #d9f1f8;
+  --background: #ffffff;
+  --secondary: #8ea4ff;
   --surface: #ffffff;
 
   --text: #222222;
   --text-muted: #777777;
 
-  --border: #e5e2df;
+  --border: #d5d6da;
 
-  --success: #d6b1ca;
+  --success: #176b3a;
 
   --radius-small: 8px;
   --radius-medium: 12px;

@@ -1,29 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
 
 :root {
+  --ink: #080808;
+  --electric: #1947FF;
+  --electric-hover: #0B35E8;
+  --navy: #071A52;
+  --light-blue: #8EA4FF;
+  --gradient-hero: linear-gradient(115deg, #080808 0%, #071A52 58%, #1947FF 135%);
+  --gradient-blue: linear-gradient(120deg, #1947FF 0%, #0B35E8 100%);
+  --gradient-blue-hover: linear-gradient(120deg, #0B35E8 0%, #071A52 100%);
+  --gradient-glow: radial-gradient(circle, rgba(25, 71, 255, 0.24) 0%, rgba(25, 71, 255, 0) 72%);
+  --gradient-border: linear-gradient(135deg, #1947FF, #071A52);
+  --paper: #FFFFFF;
+  --surface: #F2F3F6;
+  --muted: #606065;
+  --line: #929298;
+  --border: #D5D6DA;
 
-  --primary: #427299;
-  --primary-dark: #0b2342;
-  --secondary: #ffd6e3;
-
-  --background: #fff8fa;
-  --surface: #ffffff;
-
-  --text: #242424;
-  --text-muted: #777777;
-
-  --border: #eeeeee;
-
-  --success: #45b97c;
-  --danger: #ef5350;
-  --warning: #f5a623;
+  --primary: var(--electric);
+  --primary-dark: var(--electric-hover);
+  --background: var(--paper);
+  --text: var(--ink);
+  --text-muted: var(--muted);
+  --success: #176B3A;
+  --warning: #A65F00;
+  --danger: #B4232D;
 
   --font-main: "Prompt", sans-serif;
-
-  --radius-small: 8px;
-  --radius-medium: 14px;
-  --radius-large: 20px;
-
-  --shadow:
-    0 8px 30px rgba(0, 0, 0, 0.08);
+  --font-size-small: 0.75rem;
+  --font-size-body: 1rem;
+  --font-size-heading: clamp(2rem, 5vw, 4.5rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --border-width: 1px;
+  --radius-small: 0;
+  --radius-medium: 0;
+  --radius-large: 0;
+  --shadow: 8px 8px 0 rgba(8, 8, 8, 0.12);
 }

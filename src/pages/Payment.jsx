@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useLocation,
   useNavigate
@@ -7,10 +7,12 @@ import {
 import {
   ref,
   push,
-  set
+  set,
+  get
 } from "firebase/database";
 
 import { db } from "../firebase";
+import { canBookConcert, isConcertPast } from "../utils/concertDate";
 
 function Payment() {
   const location = useLocation();
@@ -24,6 +26,8 @@ function Payment() {
 
   const [isProcessing, setIsProcessing] =
     useState(false);
+
+  const [eventStatus, setEventStatus] = useState("checking");
 
   // =========================
   // GET BOOKING DATA
@@ -42,6 +46,44 @@ function Payment() {
       bookingData = null;
     }
   }
+
+  const bookingConcertId = bookingData?.concertId;
+  const bookingDate = bookingData?.date;
+
+  useEffect(() => {
+    let active = true;
+
+    if (!bookingConcertId) {
+      return () => { active = false; };
+    }
+
+    get(ref(db, "concerts"))
+      .then((snapshot) => {
+        if (!active) return;
+        const raw = snapshot.val();
+        const events = Array.isArray(raw) ? raw : Object.values(raw || {});
+        const currentEvent = events.find((event) => String(event?.id) === String(bookingConcertId));
+        if (!currentEvent) {
+          setEventStatus("unavailable");
+          return;
+        }
+        setEventStatus(canBookConcert(currentEvent.date) ? "available" : "ended");
+      })
+      .catch((error) => {
+        console.error("Unable to verify concert date:", error);
+        if (active) setEventStatus("unavailable");
+      });
+
+    return () => { active = false; };
+  }, [bookingConcertId]);
+
+  const verifyConcertBeforePayment = async () => {
+    const snapshot = await get(ref(db, "concerts"));
+    const raw = snapshot.val();
+    const events = Array.isArray(raw) ? raw : Object.values(raw || {});
+    const currentEvent = events.find((event) => String(event?.id) === String(bookingConcertId));
+    return currentEvent ? canBookConcert(currentEvent.date) : false;
+  };
 
   // =========================
   // NO BOOKING DATA
@@ -65,6 +107,21 @@ function Payment() {
           Back to Concerts
         </button>
 
+      </div>
+    );
+  }
+
+  if (eventStatus !== "available") {
+    const statusMessage = eventStatus === "checking"
+      ? "Checking event availability..."
+      : eventStatus === "ended" || isConcertPast(bookingDate)
+        ? "EVENT ENDED — ticket booking is closed."
+        : "Event date could not be verified. Booking is unavailable.";
+
+    return (
+      <div className="page empty-page payment-event-unavailable" role="status">
+        <h2>{statusMessage}</h2>
+        <button type="button" className="primary-button" onClick={() => navigate("/")}>Back to Concerts</button>
       </div>
     );
   }
@@ -105,6 +162,22 @@ function Payment() {
     }
 
     setIsProcessing(true);
+
+    try {
+      const concertIsBookable = await verifyConcertBeforePayment();
+      if (!concertIsBookable) {
+        setEventStatus("ended");
+        setIsProcessing(false);
+        alert("This concert has ended or its date could not be verified. No booking was saved.");
+        return;
+      }
+    } catch (error) {
+      console.error("Unable to verify concert before booking:", error);
+      setEventStatus("unavailable");
+      setIsProcessing(false);
+      alert("Unable to verify the concert date. No booking was saved.");
+      return;
+    }
 
     try {
 
@@ -304,6 +377,10 @@ function Payment() {
           Complete your booking
         </p>
 
+          <div className="demo-payment-note" role="note">
+            Demo payment only · No real charge will be made
+          </div>
+
       </div>
 
 
@@ -409,12 +486,11 @@ function Payment() {
               <div className="qr-payment">
 
                 <div className="qr-box">
-                  QR
+                  DEMO
                 </div>
 
                 <p>
-                  Scan this QR code
-                  to complete payment
+                  QR payment is not connected in this demo.
                 </p>
 
               </div>
@@ -487,15 +563,15 @@ function Payment() {
             onClick={handlePayment}
             disabled={
               isPaid ||
-              isProcessing
+              isProcessing || eventStatus !== "available"
             }
           >
 
             {isPaid
-              ? "Payment Successful"
+              ? "Demo Booking Saved"
               : isProcessing
               ? "Processing..."
-              : `Pay ฿${Number(
+              : `Confirm Demo Booking · ฿${Number(
                   total || 0
                 ).toLocaleString()}`
             }

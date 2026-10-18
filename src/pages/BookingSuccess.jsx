@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 function BookingSuccess() {
@@ -29,7 +28,7 @@ function BookingSuccess() {
         </div>
 
         <p className="success-label">
-          PAYMENT SUCCESSFUL
+          DEMO BOOKING CONFIRMED
         </p>
 
         <h1>
@@ -37,7 +36,7 @@ function BookingSuccess() {
         </h1>
 
         <p className="success-text">
-          Your ticket has been successfully booked.
+          Your demo booking was saved. No real payment was processed.
         </p>
 
 
@@ -92,7 +91,7 @@ function BookingSuccess() {
         <div className="success-total">
 
           <span>
-            Total Paid
+            Demo Total
           </span>
 
           <strong>

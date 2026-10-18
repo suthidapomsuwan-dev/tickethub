@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ref, onValue, set, remove } from "firebase/database";
 import { db } from "../firebase";
@@ -76,11 +76,21 @@ function AdminDashboard({ user, onLogout }) {
   const [concerts, setConcerts] =
     useState(defaultConcerts);
 
-  const [bookings, setBookings] =
-    useState([]);
+  const [bookings] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("ticketHubBookings")) || [];
+    } catch {
+      return [];
+    }
+  });
 
-  const [reports, setReports] =
-    useState([]);
+  const [reports] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("ticketHubReports")) || [];
+    } catch {
+      return [];
+    }
+  });
 
   const [showModal, setShowModal] =
     useState(false);
@@ -90,6 +100,9 @@ function AdminDashboard({ user, onLogout }) {
 
   const [search, setSearch] =
     useState("");
+
+  const [statusFilter, setStatusFilter] =
+    useState("all");
 
   const csvInputRef =
     useRef(null);
@@ -177,62 +190,6 @@ function AdminDashboard({ user, onLogout }) {
   // =========================
   // LOAD BOOKINGS
   // =========================
-
-  useEffect(() => {
-
-    const saved =
-      localStorage.getItem(
-        "ticketHubBookings"
-      );
-
-    if (saved) {
-
-      try {
-
-        setBookings(
-          JSON.parse(saved)
-        );
-
-      } catch {
-
-        setBookings([]);
-
-      }
-
-    }
-
-  }, []);
-
-
-  // =========================
-  // LOAD REPORTS
-  // =========================
-
-  useEffect(() => {
-
-    const saved =
-      localStorage.getItem(
-        "ticketHubReports"
-      );
-
-    if (saved) {
-
-      try {
-
-        setReports(
-          JSON.parse(saved)
-        );
-
-      } catch {
-
-        setReports([]);
-
-      }
-
-    }
-
-  }, []);
-
 
   // =========================
   // ADD CONCERT
@@ -780,6 +737,21 @@ function AdminDashboard({ user, onLogout }) {
   // FILTER
   // =========================
 
+  const getConcertDateStatus = (concert) => {
+    const dateKey = String(concert?.date || "").slice(0, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateKey)) return "unknown";
+
+    const now = new Date();
+    const todayKey = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, "0"),
+      String(now.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    // The current records have no start/end times, so Ongoing cannot be inferred.
+    return dateKey < todayKey ? "completed" : "upcoming";
+  };
+
   const filteredConcerts =
     concerts.filter(
       (concert) => {
@@ -787,7 +759,7 @@ function AdminDashboard({ user, onLogout }) {
         const keyword =
           search.toLowerCase();
 
-        return (
+        const matchesSearch = Boolean(
 
           concert.name
             ?.toLowerCase()
@@ -800,6 +772,11 @@ function AdminDashboard({ user, onLogout }) {
             .includes(keyword)
 
         );
+
+        const status = getConcertDateStatus(concert);
+        const matchesStatus = statusFilter === "all" || status === statusFilter;
+
+        return matchesSearch && matchesStatus;
 
       }
     );
@@ -819,7 +796,7 @@ function AdminDashboard({ user, onLogout }) {
           to="/admin"
           className="admin-logo"
         >
-          Ticket<span>Hub</span>
+          T* TICKETHUB.
         </Link>
 
         <p className="admin-label">
@@ -963,6 +940,18 @@ function AdminDashboard({ user, onLogout }) {
                 }
               />
 
+              <select
+                className="admin-status-filter"
+                value={statusFilter}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                aria-label="Filter concerts by date status"
+              >
+                <option value="all">All date statuses</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="completed">Completed</option>
+                <option value="unknown">Date unavailable</option>
+              </select>
+
 
               <div className="toolbar-buttons">
 
@@ -1095,6 +1084,14 @@ function AdminDashboard({ user, onLogout }) {
 
                           <span className="concert-id">
                             {concert.id}
+                          </span>
+
+                          <span className={`concert-date-status ${getConcertDateStatus(concert)}`}>
+                            {getConcertDateStatus(concert) === "completed"
+                              ? "Completed"
+                              : getConcertDateStatus(concert) === "upcoming"
+                                ? "Upcoming"
+                                : "Date unavailable"}
                           </span>
 
                           <h2>

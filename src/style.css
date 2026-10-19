@@ -11852,3 +11852,20 @@ input:focus, textarea:focus, select:focus { border-color: var(--electric); outli
   .concert-detail-page .booking-section { width: calc(100% - 24px); }
   .concert-detail-page .zone-header { flex-wrap: wrap; }
 }
+
+/* Fix Admin Logout visibility on mobile and tablet */
+@media (max-width: 800px) {
+  .admin-sidebar-bottom {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    box-sizing: border-box;
+  }
+
+  .admin-sidebar-bottom button {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+}
